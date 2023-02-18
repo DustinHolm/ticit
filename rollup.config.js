@@ -8,6 +8,7 @@ import livereload from "rollup-plugin-livereload";
 import serve from "rollup-plugin-serve";
 import svelte from "rollup-plugin-svelte";
 import { swc } from "rollup-plugin-swc3";
+import sveltePreprocess from "svelte-preprocess";
 
 const isDev = process.env.NODE_ENV === "development";
 const isTauri = process.env.MODE === "tauri";
@@ -15,8 +16,8 @@ const isTauri = process.env.MODE === "tauri";
 export default {
     input: "src/main.js",
     output: {
-        name: "TicToc",
-        file: "target/tictoc.js",
+        name: "Ticit",
+        file: "target/ticit.js",
         format: "iife",
     },
     watch: {
@@ -36,7 +37,11 @@ export default {
                 "process.env.MODE": JSON.stringify(process.env.MODE),
             },
         }),
-        svelte({ emitCss: true, include: "src/**/*.svelte" }),
+        svelte({
+            emitCss: true,
+            include: "src/**/*.svelte",
+            preprocess: sveltePreprocess(),
+        }),
         swc({ minify: !isDev }),
         isDev && serve({ open: !isTauri, contentBase: "target", port: "3000" }),
         isDev && livereload({ watch: "target", verbose: true }),

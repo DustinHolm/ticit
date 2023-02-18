@@ -1,6 +1,9 @@
 # Build related
 node_modules
-target/
+target
+
+# Test related
+coverage
 
 # Logs
 logs

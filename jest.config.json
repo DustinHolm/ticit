@@ -1,0 +1,12 @@
+{
+    "moduleFileExtensions": ["js", "svelte"],
+    "resetMocks": true,
+    "roots": ["<rootDir>/src/", "<rootDir>/tests/"],
+    "setupFilesAfterEnv": ["@testing-library/jest-dom/extend-expect", "<rootDir>/jest-setup.js"],
+    "testEnvironment": "@happy-dom/jest-environment",
+    "testMatch": ["**/tests/**/*.test.js"],
+    "transform": {
+        "^.+\\.(t|j)sx?$": "@swc/jest",
+        "^.+\\.svelte$": ["svelte-jester", { "preprocess": true }]
+    }
+}
