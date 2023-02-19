@@ -3,14 +3,12 @@
     import { sortedIds } from "../stores/entries";
 </script>
 
-<div class="a">
-    <ul>
-        <li><Entry createOnly={true} /></li>
-        {#each $sortedIds as id (id)}
-            <li><Entry {id} /></li>
-        {/each}
-    </ul>
-</div>
+<ul class="a">
+    {#each $sortedIds as id (id)}
+        <Entry {id} />
+    {/each}
+    <Entry newEntry={true} />
+</ul>
 
 <style lang="sass">
     .a

@@ -1,11 +1,15 @@
 import { derived, writable } from "svelte/store";
 
+const initial = [];
+
 const createEntries = () => {
-    const { subscribe, set, update } = writable([]);
+    const { subscribe, set, update } = writable(initial);
 
     const setEntry = (entry) => update((old) => [...old.filter((e) => e.id !== entry.id), entry]);
 
-    return { subscribe, setEntry, set };
+    const reset = () => set(initial);
+
+    return { subscribe, setEntry, reset };
 };
 
 export const entries = createEntries();

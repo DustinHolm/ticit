@@ -3,7 +3,15 @@ import { derived, writable } from "svelte/store";
 const createEntries = () => {
     const { subscribe, update } = writable([]);
 
-    const setEntry = (entry) => update((old) => [...old.filter((e) => e.id !== entry.id), entry]);
+    const setEntry = (entry) =>
+        update((old) => {
+            const oldEntries = [...old.filter((e) => e.id !== entry.id)];
+            const newId = Number.isInteger(entry.id)
+                ? entry.id
+                : Math.max(-1, ...oldEntries.map((e) => e.id)) + 1;
+            const newEntry = { ...entry, id: newId };
+            return [...old.filter((e) => e.id !== entry.id), newEntry];
+        });
 
     return { subscribe, setEntry };
 };
