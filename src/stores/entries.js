@@ -13,7 +13,11 @@ const createEntries = () => {
             return [...old.filter((e) => e.id !== entry.id), newEntry];
         });
 
-    return { subscribe, setEntry };
+    const deleteEntry = (id) => {
+        update((old) => [...old.filter((e) => e.id !== id)]);
+    };
+
+    return { subscribe, setEntry, deleteEntry };
 };
 
 export const entries = createEntries();

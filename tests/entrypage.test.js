@@ -83,13 +83,78 @@ describe("EntryPage tests", () => {
     });
 
     describe("User edits entry", () => {
-        test("Can open edit mode via button", () => {});
-        test("On confirm, entry can change name", () => {});
-        test("On confirm, entry can change description", () => {});
-        test("On confirm, entry can change time", () => {});
-        test("On confirm with changed time, entry changes position", () => {});
-        test("On cancel, changes get reverted", () => {});
-        test("On delete, entry disappears", () => {});
+        const entry0 = TestUtils.generateEvent({ id: 0, name: "Entry 0", time: "01:00" });
+        const entry1 = TestUtils.generateEvent({ id: 1, name: "Entry 1", time: "02:00" });
+        const entry2 = TestUtils.generateEvent({ id: 2, name: "Entry 2", time: "03:00" });
+
+        beforeEach(() => {
+            given.existingEntries([entry0, entry1, entry2]);
+        });
+
+        test("Can open edit mode via button", async () => {
+            when.rendered();
+            await when.entry("latest").startEdit();
+            then.editableEntriesExist(1);
+        });
+        test("Can close edit mode via button", async () => {
+            when.rendered();
+            await when.entry("latest").startEdit();
+            await when.entry("latest").editConfirmed();
+            then.editableEntriesExist(0);
+        });
+        test("On confirm, entry can change name", async () => {
+            when.rendered();
+            const entry = util.getEntry(entry0.name);
+            await when.entry(entry).startEdit();
+            await when.entry(entry).nameEdited("{Backspace}4");
+            await when.entry(entry).editConfirmed();
+            then.entry(entry).hasName("Entry 4");
+        });
+        test("On confirm, entry can change description", async () => {
+            when.rendered();
+            const entry = util.getEntry(entry0.name);
+            await when.entry(entry).startEdit();
+            await when.entry(entry).descriptionEdited("Dizzy");
+            await when.entry(entry).editConfirmed();
+            then.entry(entry).hasDescription("Dizzy");
+        });
+        test("On confirm, entry can change time", async () => {
+            when.rendered();
+            const entry = util.getEntry(entry0.name);
+            await when.entry(entry).startEdit();
+            await when.entry(entry).timeEdited("{Control>}a{/Control}{Backspace}420");
+            await when.entry(entry).editConfirmed();
+            then.entry(entry).hasTime("04:20");
+        });
+        test("On confirm with changed time, entry changes position", async () => {
+            when.rendered();
+            const entry = util.getEntry(entry0.name);
+            await when.entry(entry).startEdit();
+            await when.entry(entry).timeEdited("{Control>}a{/Control}{Backspace}230");
+            await when.entry(entry).editConfirmed();
+            then.entry(0).hasName("Entry 1");
+            then.entry(1).hasName("Entry 2");
+            then.entry(2).hasName("Entry 0");
+        });
+        test("On cancel, changes get reverted", async () => {
+            when.rendered();
+            const entry = util.getEntry(entry0.name);
+            await when.entry(entry).startEdit();
+            await when.entry(entry).nameEdited("{Backspace}4");
+            await when.entry(entry).descriptionEdited("Dizzy");
+            await when.entry(entry).timeEdited("{Control>}a{/Control}{Backspace}230");
+            await when.entry(entry).editCancelled();
+            then.entry(entry).hasName("Entry 0");
+            then.entry(entry).hasDescription("Entry 0");
+            then.entry(entry).hasName("Entry 0");
+        });
+        test("On delete, entry disappears", async () => {
+            when.rendered();
+            const entry = util.getEntry(entry0.name);
+            await when.entry(entry).startEdit();
+            await when.entry(entry).deleted();
+            then.totalEntriesExist(3);
+        });
     });
 });
 
@@ -118,25 +183,53 @@ const when = {
         const selectedEntry = util.getEntry(searchParam);
 
         return {
+            startEdit: async () => {
+                const button = within(selectedEntry).getByRole("button", {
+                    name: "Edit",
+                });
+                await userEvent.click(button);
+            },
+
             editConfirmed: async () => {
                 const button = within(selectedEntry).getByRole("button", {
-                    name: "confirm",
+                    name: "Confirm",
+                });
+                await userEvent.click(button);
+            },
+
+            editCancelled: async () => {
+                const button = within(selectedEntry).getByRole("button", {
+                    name: "Cancel",
                 });
                 await userEvent.click(button);
             },
 
             nameEdited: async (edit) => {
                 const field = within(selectedEntry).getByRole("textbox", {
-                    name: "entry name",
+                    name: "Name",
                 });
                 await userEvent.type(field, edit);
             },
 
             descriptionEdited: async (edit) => {
                 const field = within(selectedEntry).getByRole("textbox", {
-                    name: "entry description",
+                    name: "Description",
                 });
                 await userEvent.type(field, edit);
+            },
+
+            timeEdited: async (edit) => {
+                const field = within(selectedEntry).getByRole("textbox", {
+                    name: "Time",
+                });
+                await userEvent.type(field, edit);
+            },
+
+            deleted: async () => {
+                const button = within(selectedEntry).getByRole("button", {
+                    name: "Delete",
+                });
+                await userEvent.click(button);
             },
         };
     },
@@ -157,6 +250,10 @@ const then = {
         expect(screen.queryAllByRole("listitem", { name: "entry" })).toHaveLength(expected);
     },
 
+    totalEntriesExist: (expected) => {
+        expect(screen.queryAllByRole("listitem")).toHaveLength(expected);
+    },
+
     entry: (searchParam) => {
         const selectedEntry = util.getEntry(searchParam);
 
@@ -164,23 +261,27 @@ const then = {
             hasName: (expected) => {
                 expect(
                     within(selectedEntry).getByText(expected, {
-                        name: "entry name",
+                        name: "Name",
                     })
                 ).toBeInTheDocument();
             },
             hasDescription: (expected) => {
                 expect(
                     within(selectedEntry).getByText(expected, {
-                        name: "entry description",
+                        name: "Description",
                     })
                 ).toBeInTheDocument();
             },
             hasTime: (expected) => {
                 expect(
                     within(selectedEntry).getByText(expected, {
-                        name: "entry time",
+                        name: "Time",
                     })
                 ).toBeInTheDocument();
+            },
+            hasNoDescription: () => {
+                // eslint-disable-next-line jest-dom/prefer-to-have-text-content
+                expect(within(selectedEntry).getByLabelText("Description").textContent).toBe("");
             },
         };
     },
@@ -191,13 +292,18 @@ const then = {
 
 const util = {
     getEntry: (searchParam) => {
-        if (searchParam === "new") {
+        if (typeof searchParam === "object") {
+            return searchParam;
+        } else if (searchParam === "new") {
             return screen.getByRole("listitem", { name: "new entry" });
         } else if (searchParam === "latest") {
             const all = screen.getAllByRole("listitem");
             return all[all.length - 2]; // -1 due to offset, -1 due to "new entry" being found
-        } else if (Number.isInteger(searchParam)) {
+        } else if (typeof searchParam === "number") {
             return screen.getAllByRole("listitem")[searchParam];
+        } else {
+            const all = screen.getAllByRole("listitem");
+            return all.find((element) => element.textContent.includes(searchParam));
         }
     },
 };

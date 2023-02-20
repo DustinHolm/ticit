@@ -9,7 +9,7 @@
 
     let editable = newEntry;
     let entry = { name: null, time: null };
-    let label = newEntry ? "new entry" : editable ? "editable entry" : "entry";
+    $: label = newEntry ? "new entry" : editable ? "editable entry" : "entry";
 
     const unsubscribe = entries.subscribe((all) => {
         const found = all.find((e) => e.id === id);
@@ -21,14 +21,18 @@
     $: time =
         entry.time || $now.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
 
+    const onEdit = (newState) => {
+        editable = newState;
+    };
+
     onDestroy(unsubscribe);
 </script>
 
 <li class="a" aria-label={label}>
     {#if editable}
-        <EntryWrite {id} name={entry.name} description={entry.description} {time} />
+        <EntryWrite {id} name={entry.name} description={entry.description} {time} {onEdit} />
     {:else}
-        <EntryRead {id} name={entry.name} description={entry.description} {time} />
+        <EntryRead {id} name={entry.name} description={entry.description} {time} {onEdit} />
     {/if}
 </li>
 

@@ -3,6 +3,7 @@
     export let time;
     export let name;
     export let description;
+    export let onEdit;
 </script>
 
 <span aria-label="entry time">{time}</span>
@@ -10,5 +11,5 @@
 {#if description}
     <span aria-label="entry description">{description}</span>
 {/if}
-<button>Edit</button>
+<button on:click={() => onEdit(true)}>Edit</button>
 <button>Restart Task</button>
