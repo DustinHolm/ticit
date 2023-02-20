@@ -20,6 +20,7 @@ describe("EntryPage tests", () => {
             when.rendered();
             then.newEntryExists();
         });
+
         test.each([0, 1, 2, 99])("Contains fields for every existing entry: Case %s", (number) => {
             const entries = TestUtils.generate(number, (i) =>
                 TestUtils.generateEvent({
@@ -32,6 +33,7 @@ describe("EntryPage tests", () => {
             when.rendered();
             then.readOnlyEntriesExist(number);
         });
+
         test("Shows current day by default", () => {
             given.currentDate("2000-12-24");
             when.rendered();
@@ -47,17 +49,20 @@ describe("EntryPage tests", () => {
             screen.debug();
             then.entry("latest").hasTime("04:20");
         });
+
         test("On confirm, entry without name is displayed with placeholder name", async () => {
             when.rendered();
             await when.entry("new").editConfirmed();
             then.entry("latest").hasName("<undefined>");
         });
+
         test("Can set name", async () => {
             when.rendered();
             await when.entry("new").nameEdited("New name");
             await when.entry("new").editConfirmed();
             then.entry("latest").hasName("New name");
         });
+
         test("On confirm, entry gets added to top", async () => {
             const entries = TestUtils.generate(5, (i) =>
                 TestUtils.generateEvent({
@@ -74,11 +79,25 @@ describe("EntryPage tests", () => {
             await when.entry("new").editConfirmed();
             then.entry("latest").hasName("relevant");
         });
+
         test("Can set description", async () => {
             when.rendered();
             await when.entry("new").descriptionEdited("nice description");
             await when.entry("new").editConfirmed();
             then.entry("latest").hasDescription("nice description");
+        });
+
+        test("Existing task can be started again", async () => {
+            const entry0 = TestUtils.generateEvent({ id: 0, name: "Entry 0", time: "01:00" });
+            given.existingEntries([entry0]);
+            given.currentTime("02:00");
+            when.rendered();
+            await when.entry(entry0.name).restarted();
+            then.readOnlyEntriesExist(2);
+            then.entry(0).hasName("Entry 0");
+            then.entry(0).hasTime("01:00");
+            then.entry(1).hasName("Entry 0");
+            then.entry(1).hasTime("02:00");
         });
     });
 
@@ -96,12 +115,14 @@ describe("EntryPage tests", () => {
             await when.entry("latest").startEdit();
             then.editableEntriesExist(1);
         });
+
         test("Can close edit mode via button", async () => {
             when.rendered();
             await when.entry("latest").startEdit();
             await when.entry("latest").editConfirmed();
             then.editableEntriesExist(0);
         });
+
         test("On confirm, entry can change name", async () => {
             when.rendered();
             const entry = util.getEntry(entry0.name);
@@ -110,6 +131,7 @@ describe("EntryPage tests", () => {
             await when.entry(entry).editConfirmed();
             then.entry(entry).hasName("Entry 4");
         });
+
         test("On confirm, entry can change description", async () => {
             when.rendered();
             const entry = util.getEntry(entry0.name);
@@ -118,6 +140,7 @@ describe("EntryPage tests", () => {
             await when.entry(entry).editConfirmed();
             then.entry(entry).hasDescription("Dizzy");
         });
+
         test("On confirm, entry can change time", async () => {
             when.rendered();
             const entry = util.getEntry(entry0.name);
@@ -126,6 +149,7 @@ describe("EntryPage tests", () => {
             await when.entry(entry).editConfirmed();
             then.entry(entry).hasTime("04:20");
         });
+
         test("On confirm with changed time, entry changes position", async () => {
             when.rendered();
             const entry = util.getEntry(entry0.name);
@@ -136,6 +160,7 @@ describe("EntryPage tests", () => {
             then.entry(1).hasName("Entry 2");
             then.entry(2).hasName("Entry 0");
         });
+
         test("On cancel, changes get reverted", async () => {
             when.rendered();
             const entry = util.getEntry(entry0.name);
@@ -148,6 +173,7 @@ describe("EntryPage tests", () => {
             then.entry(entry).hasDescription("Entry 0");
             then.entry(entry).hasName("Entry 0");
         });
+
         test("On delete, entry disappears", async () => {
             when.rendered();
             const entry = util.getEntry(entry0.name);
@@ -231,6 +257,13 @@ const when = {
                 });
                 await userEvent.click(button);
             },
+
+            restarted: async () => {
+                const button = within(selectedEntry).getByRole("button", {
+                    name: "Restart Task",
+                });
+                await userEvent.click(button);
+            },
         };
     },
 };
@@ -265,6 +298,7 @@ const then = {
                     })
                 ).toBeInTheDocument();
             },
+
             hasDescription: (expected) => {
                 expect(
                     within(selectedEntry).getByText(expected, {
@@ -272,6 +306,7 @@ const then = {
                     })
                 ).toBeInTheDocument();
             },
+
             hasTime: (expected) => {
                 expect(
                     within(selectedEntry).getByText(expected, {
@@ -279,6 +314,7 @@ const then = {
                     })
                 ).toBeInTheDocument();
             },
+
             hasNoDescription: () => {
                 // eslint-disable-next-line jest-dom/prefer-to-have-text-content
                 expect(within(selectedEntry).getByLabelText("Description").textContent).toBe("");

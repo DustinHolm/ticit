@@ -7,7 +7,7 @@
     {#each $sortedIds as id (id)}
         <Entry {id} />
     {/each}
-    <Entry newEntry={true} />
+    <Entry isNewEntry={true} />
 </ul>
 
 <style lang="sass">
