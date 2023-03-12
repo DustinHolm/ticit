@@ -1,5 +1,5 @@
 <script>
-    import { entrySumByName } from "../stores/entries";
+    import { workEntriesSummaries } from "../stores/entries";
     import { secondsAsDurationString } from "../util/time";
 </script>
 
@@ -12,7 +12,7 @@
         </tr>
     </thead>
     <tbody>
-        {#each $entrySumByName as entry}
+        {#each $workEntriesSummaries as entry}
             <tr>
                 <td>{entry.name ? entry.name : "-"}</td>
                 <td>{entry.description ? entry.description : "-"}</td>

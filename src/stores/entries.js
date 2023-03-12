@@ -9,30 +9,31 @@ const createEntries = () => {
 
     const init = async () => {
         const entries = await invoke("all_entries_for_day", { day: dateAsIsoString(currentDate) });
+        console.log("entries", entries);
         const parsedEntries = entries.map(parseEntry);
         internalStore.set(parsedEntries);
     };
 
     const create = async (entry) => {
-        const formattedEntry = formatWorkEntry(entry, currentDate);
+        const formattedEntry = formatEntry(entry, currentDate);
         await invoke("new_entry", { entry: formattedEntry });
         await init();
     };
 
     const edit = async (entry) => {
-        const formattedEntry = formatWorkEntry(entry, currentDate);
+        const formattedEntry = formatEntry(entry, currentDate);
         await invoke("edit_entry", { entry: formattedEntry });
         await init();
     };
 
     const remove = async (entry) => {
-        const formattedEntry = formatWorkEntry(entry, currentDate);
+        const formattedEntry = formatEntry(entry, currentDate);
         await invoke("delete_entry", { entry: formattedEntry });
         await init();
     };
 
-    const toggleBreak = async (time) => {
-        await invoke("toggle_break", { time: dateTimeAsString(dateWithTime(currentDate, time)) });
+    const takeBreak = async (time) => {
+        await invoke("take_break", { time: dateTimeAsString(dateWithTime(currentDate, time)) });
         await init();
     };
 
@@ -54,25 +55,25 @@ const createEntries = () => {
         };
     };
 
-    return { init, subscribe, create, edit, remove, toggleBreak, endDay };
+    return { init, subscribe, create, edit, remove, takeBreak, endDay };
 };
 
-const formatWorkEntry = (entry, date) => {
-    const id = entry.id ? entry.id : null;
-    const name = entry.name ? entry.name : null;
-    const description = entry.description ? entry.description : null;
+const formatEntry = (entry, date) => {
+    const id = entry.id !== undefined ? entry.id : null;
+    const name = entry.name !== undefined ? entry.name : null;
+    const description = entry.description !== undefined ? entry.description : null;
     const time = date
         ? dateTimeAsString(dateWithTime(date, entry.time))
         : dateTimeAsString(entry.time);
-    const entry_type = "Work";
+    const entry_type = entry.entryType ? entry.entryType : "Work";
 
     return { id, name, description, time, entry_type };
 };
 
 const parseEntry = (entry) => {
-    const id = entry.id ? entry.id : null;
-    const name = entry.name ? entry.name : null;
-    const description = entry.description ? entry.description : null;
+    const id = entry.id !== undefined ? entry.id : null;
+    const name = entry.name !== undefined ? entry.name : null;
+    const description = entry.description !== undefined ? entry.description : null;
     const time = dateTimeFromString(entry.time);
     const entryType = entry.entry_type;
 
@@ -81,28 +82,35 @@ const parseEntry = (entry) => {
 
 export const entries = createEntries();
 
-export const entrySumByName = derived(
+const entriesSummaries = derived(
     [date, entries],
     async ([$date], set) => {
-        const result = await invoke("durations_for_day", { day: dateAsIsoString($date) });
+        let result = await invoke("durations_for_day", { day: dateAsIsoString($date) });
+        result = result.map((r) => ({ ...r, duration: Number.parseFloat(r.duration) }));
+        console.log("summaries", result);
         set(result);
     },
     []
 );
 
-export const possibleEntryTypes = derived(entries, ($entries) => {
-    const isBreak =
-        $entries.length > 1 &&
-        $entries.at(-1).entryType === "Break" &&
-        $entries.at(-2).entryType !== "Break";
+export const workEntriesSummaries = derived(entriesSummaries, (summaries) =>
+    summaries.filter((s) => s.daily_summary_type === "Work")
+);
 
-    const justFinishedBreak =
-        $entries.length > 1 &&
-        $entries.at(-1).entryType === "Break" &&
-        $entries.at(-2).entryType === "Break";
+export const breakEntry = derived(entriesSummaries, (summaries) =>
+    summaries.find((s) => s.daily_summary_type === "Break")
+);
+
+export const totalTime = derived(workEntriesSummaries, (summaries) =>
+    summaries.map((s) => s.duration).reduce((prev, current) => prev + current, 0)
+);
+
+export const possibleEntryTypes = derived(entries, ($entries) => {
+    const isBreak = $entries.length > 0 && $entries.at(-1).entryType === "Break";
+    const dayEnded = $entries.length > 0 && $entries.at(-1).entryType === "EndOfDay";
 
     if ($entries.length < 1) return ["Work"];
-    if (isBreak) return ["Break"];
-    if (!isBreak && justFinishedBreak) return ["Work"];
+    if (dayEnded) return [];
+    if (isBreak) return ["Work"];
     return ["Break", "EndOfDay", "Work"];
 });

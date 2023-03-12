@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use time::{format_description::parse, OffsetDateTime};
 
 #[derive(Serialize, Deserialize)]
-enum EntryType {
+pub enum EntryType {
     Break,
     EndOfDay,
     Work,
@@ -42,7 +42,7 @@ pub struct ExistingEntry {
     pub name: Option<String>,
     pub description: Option<String>,
     pub time: OffsetDateTime,
-    entry_type: EntryType,
+    pub entry_type: EntryType,
 }
 
 impl ExistingEntry {

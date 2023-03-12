@@ -27,7 +27,7 @@ impl Database {
         Ok(())
     }
 
-    pub fn read_all_for_day(&self, path: &str, day: Date) -> Result<Vec<ExistingEntry>, String> {
+    pub fn read_all_for_day(&self, path: &str, day: &Date) -> Result<Vec<ExistingEntry>, String> {
         self.open(path)?;
         let lock = self.db.lock().map_err(|err| err.to_string())?;
         let db = lock.as_ref().ok_or("Db should be initialized")?;

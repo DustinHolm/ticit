@@ -33,11 +33,7 @@ pub fn delete_entry(
 }
 
 #[tauri::command]
-pub fn toggle_break(
-    time: OffsetDateTime,
-    app: AppHandle,
-    db: State<Database>,
-) -> Result<(), String> {
+pub fn take_break(time: OffsetDateTime, app: AppHandle, db: State<Database>) -> Result<(), String> {
     let path = get_path(&app)?;
     let entry = NewEntry::new_break(&time);
 
@@ -60,7 +56,7 @@ pub fn all_entries_for_day(
 ) -> Result<Vec<ExistingEntry>, String> {
     let path = get_path(&app)?;
 
-    db.read_all_for_day(&path, day)
+    db.read_all_for_day(&path, &day)
 }
 
 #[tauri::command]
@@ -70,7 +66,7 @@ pub fn durations_for_day(
     db: State<Database>,
 ) -> Result<Vec<DailySummary>, String> {
     let path = get_path(&app)?;
-    let mut entries = db.read_all_for_day(&path, day)?;
+    let mut entries = db.read_all_for_day(&path, &day)?;
 
     DailySummary::from_entries(&mut entries)
 }

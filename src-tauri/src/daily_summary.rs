@@ -1,13 +1,20 @@
 use serde::Serialize;
 use time::Duration;
 
-use crate::entry::ExistingEntry;
+use crate::entry::{EntryType, ExistingEntry};
+
+#[derive(Serialize, PartialEq, Eq)]
+enum DailySummaryType {
+    Break,
+    Work,
+}
 
 #[derive(Serialize)]
 pub struct DailySummary {
     name: Option<String>,
     description: Option<String>,
     duration: Duration,
+    daily_summary_type: DailySummaryType,
 }
 
 impl DailySummary {
@@ -21,11 +28,9 @@ impl DailySummary {
         while j < entries.len() {
             let new = DailySummary::from_entry_pair(&entries[i], &entries[j]);
 
-            if let Some((i, _)) = results
-                .iter()
-                .enumerate()
-                .find(|(_, result)| result.name == new.name)
-            {
+            if let Some((i, _)) = results.iter().enumerate().find(|(_, result)| {
+                result.name == new.name && result.daily_summary_type == new.daily_summary_type
+            }) {
                 results
                     .get_mut(i)
                     .ok_or("Failed iteration at DailySummery")?
@@ -57,6 +62,10 @@ impl DailySummary {
             name: a.name.clone(),
             description: a.description.clone(),
             duration: b.time - a.time,
+            daily_summary_type: match a.entry_type {
+                EntryType::Break => DailySummaryType::Break,
+                _ => DailySummaryType::Work,
+            },
         }
     }
 }
