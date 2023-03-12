@@ -5,10 +5,6 @@
         "devPath": "http://localhost:3000",
         "distDir": "../target"
     },
-    "package": {
-        "productName": "ticit",
-        "version": "0.1.0"
-    },
     "tauri": {
         "allowlist": {
             "all": false
@@ -28,7 +24,7 @@
                 "icons/icon.icns",
                 "icons/icon.ico"
             ],
-            "identifier": "com.tauri.dev",
+            "identifier": "Ticit",
             "longDescription": "",
             "macOS": {
                 "entitlements": null,

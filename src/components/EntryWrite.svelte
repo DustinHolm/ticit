@@ -1,5 +1,6 @@
 <script>
     import { entries } from "../stores/entries";
+    import { timeAsString, timeFromString } from "../util/time";
 
     export let id;
     export let time;
@@ -7,38 +8,39 @@
     export let description;
     export let onEdit;
 
-    let editInProgress = true;
-    $: oldTime = editInProgress ? time : oldTime;
-    $: oldName = editInProgress ? name : oldName;
-    $: oldDescription = editInProgress ? description : oldDescription;
+    let newTime = timeAsString(time);
+    let newName = name;
+    let newDescription = description;
 
     const onConfirm = () => {
-        editInProgress = false;
-        entries.setEntry({ id, name, description, time });
+        entries.edit({
+            id,
+            name: newName,
+            description: newDescription,
+            time: timeFromString(newTime),
+        });
         onEdit(false);
     };
 
     const onCancel = () => {
-        editInProgress = false;
-        time = oldTime;
-        name = oldName;
-        description = oldDescription;
+        newTime = timeAsString(time);
+        newName = name;
+        newDescription = description;
         onEdit(false);
     };
 
     const onDelete = () => {
-        editInProgress = false;
-        entries.deleteEntry(id);
+        entries.remove({ id, name, description, time });
         onEdit(false);
     };
 </script>
 
 <label for={`timeInput-${id}`}>Time</label>
-<input bind:value={time} id={`timeInput-${id}`} type="time" role="textbox" />
+<input bind:value={newTime} id={`timeInput-${id}`} type="time" role="textbox" />
 <label for={`nameInput-${id}`}>Name</label>
-<input bind:value={name} id={`nameInput-${id}`} type="text" />
+<input bind:value={newName} id={`nameInput-${id}`} type="text" />
 <label for={`descriptionInput-${id}`}>Description</label>
-<input bind:value={description} id={`descriptionInput-${id}`} type="text" />
+<input bind:value={newDescription} id={`descriptionInput-${id}`} type="text" />
 <button on:click={onDelete}>Delete</button>
 <button on:click={onCancel}>Cancel</button>
 <button on:click={onConfirm}>Confirm</button>

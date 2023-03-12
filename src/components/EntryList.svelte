@@ -1,13 +1,12 @@
 <script>
     import Entry from "./Entry.svelte";
-    import { sortedIds } from "../stores/entries";
+    import { entries } from "../stores/entries";
 </script>
 
 <ul class="a">
-    {#each $sortedIds as id (id)}
-        <Entry {id} />
+    {#each $entries as entry (entry.id)}
+        <Entry {entry} />
     {/each}
-    <Entry isNewEntry={true} />
 </ul>
 
 <style lang="sass">

@@ -1,25 +1,13 @@
 <script>
-    import { now } from "../stores/now";
-
-    let date = $now;
-    $: displayDate = date.toLocaleDateString("de-DE");
-    $: nextDayPossible = $now.getTime() - date.getTime() > 1000 * 60 * 60 * 24;
-
-    const onPrevious = () => {
-        date.setDate(date.getDate() - 1);
-        date = date;
-    };
-    const onNext = () => {
-        date.setDate(date.getDate() + 1);
-        date = date;
-    };
+    import { date, nextDayPossible } from "../stores/date";
+    import { dateAsString } from "../util/time";
 </script>
 
 <div class="a">
-    <button on:click={onPrevious} aria-label="previous day">Previous</button>
-    <span>{displayDate}</span>
-    {#if nextDayPossible}
-        <button on:click={onNext} aria-label="next day">Next</button>
+    <button on:click={date.previous} aria-label="previous day">Previous</button>
+    <span>{dateAsString($date)}</span>
+    {#if $nextDayPossible}
+        <button on:click={date.next} aria-label="next day">Next</button>
     {/if}
 </div>
 

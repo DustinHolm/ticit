@@ -3,8 +3,31 @@
     windows_subsystem = "windows"
 )]
 
+use database::Database;
+use tauri::{generate_context, generate_handler, Builder};
+
+use crate::commands::{
+    all_entries_for_day, delete_entry, durations_for_day, edit_entry, end_day, new_entry,
+    toggle_break,
+};
+
+mod commands;
+mod daily_summary;
+mod database;
+mod entry;
+
 fn main() {
-    tauri::Builder::default()
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+    Builder::default()
+        .manage(Database::default())
+        .invoke_handler(generate_handler![
+            new_entry,
+            edit_entry,
+            delete_entry,
+            toggle_break,
+            end_day,
+            all_entries_for_day,
+            durations_for_day
+        ])
+        .run(generate_context!())
+        .expect("Error while running tauri application.");
 }

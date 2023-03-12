@@ -1,12 +1,6 @@
 <script>
     import { entrySumByName } from "../stores/entries";
-
-    const getDisplayedDuration = (duration) => {
-        const hours = Math.floor(duration / (1000 * 60 * 60));
-        const minutes = Math.floor(duration / (1000 * 60)) - hours * 60;
-
-        return `${hours}h ${minutes}m`;
-    };
+    import { secondsAsDurationString } from "../util/time";
 </script>
 
 <table>
@@ -18,11 +12,11 @@
         </tr>
     </thead>
     <tbody>
-        {#each $entrySumByName.entries() as entry}
+        {#each $entrySumByName as entry}
             <tr>
-                <td>{entry.name}</td>
+                <td>{entry.name ? entry.name : "-"}</td>
                 <td>{entry.description ? entry.description : "-"}</td>
-                <td>{getDisplayedDuration(entry.duration)}</td>
+                <td>{secondsAsDurationString(entry.duration)}</td>
             </tr>
         {/each}
     </tbody>

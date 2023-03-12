@@ -1,16 +1,17 @@
 <script>
     import { entries } from "../stores/entries";
+    import { timeAsString } from "../util/time";
 
     export let time;
     export let name;
     export let description;
 
     const onConfirm = () => {
-        entries.setEntry({ id: null, name, description, time });
+        entries.create({ name, description, time });
     };
 </script>
 
-<span aria-label="entry time">{time}</span>
+<span aria-label="entry time">{timeAsString(time)}</span>
 <label for={"nameInput-new"}>Name</label>
 <input bind:value={name} id={"nameInput-new"} type="text" />
 <label for={"descriptionInput-new"}>Description</label>

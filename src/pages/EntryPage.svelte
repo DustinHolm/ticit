@@ -1,9 +1,9 @@
 <script>
-    import DaySelector from "../components/DaySelector.svelte";
     import EntryList from "../components/EntryList.svelte";
-    import DailyData from "../components/DailyData.svelte";
+    import Entry from "../components/Entry.svelte";
+    import EntryButtons from "../components/EntryButtons.svelte";
 </script>
 
-<DaySelector />
 <EntryList />
-<DailyData />
+<Entry isNewEntry={true} />
+<EntryButtons />

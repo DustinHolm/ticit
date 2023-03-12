@@ -1,9 +1,12 @@
 <script>
     import HorizontalLayout from "./layouts/HorizontalLayout.svelte";
+    import { entries } from "./stores/entries";
 </script>
 
 <main>
-    <HorizontalLayout />
+    {#await entries.init() then}
+        <HorizontalLayout />
+    {/await}
 </main>
 
 <style lang="sass" global>

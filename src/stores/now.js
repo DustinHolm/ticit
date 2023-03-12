@@ -1,4 +1,4 @@
-import { derived, readable } from "svelte/store";
+import { readable } from "svelte/store";
 
 export const now = readable(new Date(), (set) => {
     const interval = setInterval(() => {
@@ -7,7 +7,3 @@ export const now = readable(new Date(), (set) => {
 
     return () => clearInterval(interval);
 });
-
-export const nowAsTimeString = derived(now, ($date) =>
-    $date.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })
-);
