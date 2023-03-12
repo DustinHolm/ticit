@@ -11,7 +11,7 @@ pub struct DailySummary {
 }
 
 impl DailySummary {
-    pub fn from_entries(entries: &mut [ExistingEntry]) -> Vec<Self> {
+    pub fn from_entries(entries: &mut [ExistingEntry]) -> Result<Vec<Self>, String> {
         entries.sort_unstable_by_key(|x| x.time);
 
         let mut results: Vec<DailySummary> = vec![];
@@ -26,7 +26,10 @@ impl DailySummary {
                 .enumerate()
                 .find(|(_, result)| result.name == new.name)
             {
-                results.get_mut(i).unwrap().combine(&new);
+                results
+                    .get_mut(i)
+                    .ok_or("Failed iteration at DailySummery")?
+                    .combine(&new);
             } else {
                 results.push(new);
             }
@@ -35,7 +38,7 @@ impl DailySummary {
             j += 1;
         }
 
-        results
+        Ok(results)
     }
 
     fn combine(&mut self, other: &Self) {
@@ -43,7 +46,7 @@ impl DailySummary {
             (None, None) => None,
             (None, Some(b)) => Some(b.to_string()),
             (Some(a), None) => Some(a.to_string()),
-            (Some(a), Some(b)) => Some(a.to_string() + "; " + &b),
+            (Some(a), Some(b)) => Some(a.to_string() + "; " + b),
         };
 
         self.duration += other.duration;

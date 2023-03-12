@@ -10,13 +10,15 @@ use crate::{
 #[tauri::command]
 pub fn new_entry(entry: NewEntry, app: AppHandle, db: State<Database>) -> Result<(), String> {
     let path = get_path(&app)?;
-    Ok(db.create(&path, entry))
+
+    db.create(&path, entry)
 }
 
 #[tauri::command]
 pub fn edit_entry(entry: ExistingEntry, app: AppHandle, db: State<Database>) -> Result<(), String> {
     let path = get_path(&app)?;
-    Ok(db.update(&path, entry))
+
+    db.update(&path, entry)
 }
 
 #[tauri::command]
@@ -26,7 +28,8 @@ pub fn delete_entry(
     db: State<Database>,
 ) -> Result<(), String> {
     let path = get_path(&app)?;
-    Ok(db.delete(&path, entry))
+
+    db.delete(&path, entry)
 }
 
 #[tauri::command]
@@ -37,14 +40,16 @@ pub fn toggle_break(
 ) -> Result<(), String> {
     let path = get_path(&app)?;
     let entry = NewEntry::new_break(&time);
-    Ok(db.create(&path, entry))
+
+    db.create(&path, entry)
 }
 
 #[tauri::command]
 pub fn end_day(time: OffsetDateTime, app: AppHandle, db: State<Database>) -> Result<(), String> {
     let path = get_path(&app)?;
     let entry = NewEntry::new_end_of_day(&time);
-    Ok(db.create(&path, entry))
+
+    db.create(&path, entry)
 }
 
 #[tauri::command]
@@ -54,7 +59,8 @@ pub fn all_entries_for_day(
     db: State<Database>,
 ) -> Result<Vec<ExistingEntry>, String> {
     let path = get_path(&app)?;
-    Ok(db.read_all_for_day(&path, day))
+
+    db.read_all_for_day(&path, day)
 }
 
 #[tauri::command]
@@ -64,11 +70,9 @@ pub fn durations_for_day(
     db: State<Database>,
 ) -> Result<Vec<DailySummary>, String> {
     let path = get_path(&app)?;
+    let mut entries = db.read_all_for_day(&path, day)?;
 
-    let mut entries = db.read_all_for_day(&path, day);
-    let results = DailySummary::from_entries(&mut entries);
-
-    Ok(results)
+    DailySummary::from_entries(&mut entries)
 }
 
 fn get_path(app: &AppHandle) -> Result<String, String> {

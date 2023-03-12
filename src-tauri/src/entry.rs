@@ -21,7 +21,7 @@ impl NewEntry {
         Self {
             name: None,
             description: None,
-            time: time.clone(),
+            time: *time,
             entry_type: EntryType::Break,
         }
     }
@@ -30,7 +30,7 @@ impl NewEntry {
         Self {
             name: None,
             description: None,
-            time: time.clone(),
+            time: *time,
             entry_type: EntryType::EndOfDay,
         }
     }
@@ -56,33 +56,34 @@ impl ExistingEntry {
         }
     }
 
-    pub fn get_db_key(&self) -> String {
-        format!("{}:{}", self.iso_date(), self.id.to_string())
+    pub fn get_db_key(&self) -> Result<String, String> {
+        let date = self.iso_date()?;
+        Ok(format!("{}:{}", date, self.id))
     }
 }
 
 pub trait Entry {
-    fn iso_date(&self) -> String;
+    fn iso_date(&self) -> Result<String, String>;
 }
 
 impl Entry for NewEntry {
-    fn iso_date(&self) -> String {
-        let format = parse("[year]-[month]-[day]").unwrap();
+    fn iso_date(&self) -> Result<String, String> {
+        let format = parse("[year]-[month]-[day]").map_err(|err| err.to_string())?;
 
         self.time
             .date()
             .format(&format)
-            .expect("What kind of date is this?")
+            .map_err(|err| err.to_string())
     }
 }
 
 impl Entry for ExistingEntry {
-    fn iso_date(&self) -> String {
-        let format = parse("[year]-[month]-[day]").unwrap();
+    fn iso_date(&self) -> Result<String, String> {
+        let format = parse("[year]-[month]-[day]").map_err(|err| err.to_string())?;
 
         self.time
             .date()
             .format(&format)
-            .expect("What kind of date is this?")
+            .map_err(|err| err.to_string())
     }
 }

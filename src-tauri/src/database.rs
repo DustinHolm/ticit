@@ -12,31 +12,33 @@ pub struct Database {
 }
 
 impl Database {
-    pub fn create(&self, path: &str, entry: NewEntry) {
-        self.open(path);
-        let lock = self.db.lock().expect("Thread trouble");
-        let db = lock.as_ref().expect("Db should be initialized");
-        let date = entry.iso_date();
-        let generated_key = db.generate_id().expect("Could not generate DB key");
+    pub fn create(&self, path: &str, entry: NewEntry) -> Result<(), String> {
+        self.open(path)?;
+        let lock = self.db.lock().map_err(|err| err.to_string())?;
+        let db = lock.as_ref().ok_or("Db should be initialized")?;
+        let date = entry.iso_date()?;
+        let generated_key = db.generate_id().map_err(|err| err.to_string())?;
         let key = format!("{date}:{generated_key}");
         let serialized_entry = serialize(&ExistingEntry::from_new_entry(entry, generated_key))
-            .expect("Could not serialize.");
+            .map_err(|err| err.to_string())?;
         db.insert(key, serialized_entry)
-            .expect("Database is not writable.");
+            .map_err(|err| err.to_string())?;
+
+        Ok(())
     }
 
-    pub fn read_all_for_day(&self, path: &str, day: Date) -> Vec<ExistingEntry> {
-        self.open(path);
-        let lock = self.db.lock().expect("Thread trouble");
-        let db = lock.as_ref().expect("Db should be initialized");
-        let format = parse("[year]-[month]-[day]").unwrap();
-        let prefix = day.format(&format).expect("What kind of date is this?");
+    pub fn read_all_for_day(&self, path: &str, day: Date) -> Result<Vec<ExistingEntry>, String> {
+        self.open(path)?;
+        let lock = self.db.lock().map_err(|err| err.to_string())?;
+        let db = lock.as_ref().ok_or("Db should be initialized")?;
+        let format = parse("[year]-[month]-[day]").map_err(|err| err.to_string())?;
+        let prefix = day.format(&format).map_err(|err| err.to_string())?;
 
         let mut result = db
-            .scan_prefix(&prefix)
+            .scan_prefix(prefix)
             .filter_map(|it| it.ok())
-            .map(|(_, val)| deserialize(&val).expect("Could not deserialize."))
-            .collect::<Vec<ExistingEntry>>();
+            .map(|(_, val)| deserialize(&val).map_err(|err| err.to_string()))
+            .collect::<Result<Vec<ExistingEntry>, String>>()?;
 
         result.sort_by(|a, b| {
             let primary_order = a.time.cmp(&b.time);
@@ -47,31 +49,36 @@ impl Database {
             }
         });
 
-        result
+        Ok(result)
     }
 
-    pub fn update(&self, path: &str, entry: ExistingEntry) {
-        self.open(path);
-        let lock = self.db.lock().expect("Thread trouble");
-        let db = lock.as_ref().expect("Db should be initialized");
-        let key = entry.get_db_key();
-        let serialized_entry = serialize(&entry).expect("Could not serialize.");
+    pub fn update(&self, path: &str, entry: ExistingEntry) -> Result<(), String> {
+        self.open(path)?;
+        let lock = self.db.lock().map_err(|err| err.to_string())?;
+        let db = lock.as_ref().ok_or("Db should be initialized")?;
+        let key = entry.get_db_key()?;
+        let serialized_entry = serialize(&entry).map_err(|err| err.to_string())?;
         db.insert(key, serialized_entry)
-            .expect("Database is not writable.");
+            .map_err(|err| err.to_string())?;
+
+        Ok(())
     }
 
-    pub fn delete(&self, path: &str, entry: ExistingEntry) {
-        self.open(path);
-        let lock = self.db.lock().expect("Thread trouble");
-        let db = lock.as_ref().expect("Db should be initialized");
-        let key = entry.get_db_key();
-        db.remove(key).expect("Database is not writable.");
+    pub fn delete(&self, path: &str, entry: ExistingEntry) -> Result<(), String> {
+        self.open(path)?;
+        let lock = self.db.lock().map_err(|err| err.to_string())?;
+        let db = lock.as_ref().ok_or("Db should be initialized")?;
+        let key = entry.get_db_key()?;
+        db.remove(key).map_err(|err| err.to_string())?;
+
+        Ok(())
     }
 
-    fn open(&self, path: &str) {
-        let mut locked_db = self.db.lock().expect("Thread trouble");
+    fn open(&self, path: &str) -> Result<(), String> {
+        let mut locked_db = self.db.lock().map_err(|err| err.to_string())?;
         if locked_db.is_none() {
-            *locked_db = Some(open(path).expect("Could not open database."))
+            *locked_db = Some(open(path).map_err(|err| err.to_string())?)
         }
+        Ok(())
     }
 }
