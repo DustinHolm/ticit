@@ -1,5 +1,5 @@
 <script>
-    import { breakEntry, totalTime } from "../stores/entries";
+    import { breakEntry, totalTime } from "../stores/summaries";
     import { secondsAsDurationString } from "../util/time";
 
     $: breakDuration = $breakEntry ? $breakEntry.duration : 0;

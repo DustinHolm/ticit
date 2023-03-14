@@ -6,12 +6,12 @@
     import PageSelector from "../components/PageSelector.svelte";
 
     let currentPage = 0;
-    let width;
+    let width = 0;
 
     const onNext = () => (currentPage = currentPage + 1);
     const onPrevious = () => (currentPage = currentPage - 1);
 
-    $: maxPages = Math.floor(width / 800);
+    $: maxPages = Math.max(1, Math.floor(width / 800));
     $: nextPossible = currentPage < 1 && maxPages < 2;
     $: previousPossible = currentPage > 0 && maxPages < 2;
 </script>

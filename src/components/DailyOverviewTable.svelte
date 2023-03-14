@@ -1,5 +1,5 @@
 <script>
-    import { workEntriesSummaries } from "../stores/entries";
+    import { workEntriesSummaries } from "../stores/summaries";
     import { secondsAsDurationString } from "../util/time";
 </script>
 
