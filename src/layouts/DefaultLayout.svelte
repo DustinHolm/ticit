@@ -1,7 +1,7 @@
 <script>
-    import DaySelector from "../components/DaySelector.svelte";
     import DailyData from "../components/DailyData.svelte";
     import DailyOverviewPage from "../pages/DailyOverviewPage.svelte";
+    import Page from "../bits/Page.svelte";
     import EntryPage from "../pages/EntryPage.svelte";
     import PageSelector from "../components/PageSelector.svelte";
 
@@ -18,12 +18,37 @@
 
 <svelte:window bind:innerWidth={width} />
 
-<DaySelector />
-<DailyData />
-{#if currentPage === 0 || maxPages > 1}
-    <EntryPage />
-{/if}
-{#if currentPage === 1 || maxPages > 1}
-    <DailyOverviewPage />
-{/if}
-<PageSelector {onNext} {nextPossible} {onPrevious} {previousPossible} />
+<div class={"outer"}>
+    <DailyData />
+    <div class={"inner"}>
+        {#if currentPage === 0 || maxPages > 1}
+            <Page>
+                <EntryPage />
+            </Page>
+        {/if}
+        {#if currentPage === 1 || maxPages > 1}
+            <Page>
+                <DailyOverviewPage />
+            </Page>
+        {/if}
+    </div>
+    <PageSelector {onNext} {nextPossible} {onPrevious} {previousPossible} />
+</div>
+
+<style lang="sass">
+    .outer
+        height: 100%
+        width: 100%
+        display: flex
+        flex-direction: column
+        justify-content: space-between
+
+    .inner
+        flex-grow: 1
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: center
+        background-color: lightgrey
+        overflow: scroll
+</style>

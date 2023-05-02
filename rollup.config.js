@@ -27,7 +27,12 @@ export default {
     plugins: [
         clear({ targets: "target/*", runOnce: true }),
         commonjs(),
-        copy({ targets: [{ src: "public/*.html", dest: "target" }] }),
+        copy({
+            targets: [
+                { src: "assets", dest: "target" },
+                { src: "public/*.html", dest: "target" },
+            ],
+        }),
         css({ output: "style.css" }),
         nodeResolve({ browser: true }),
         replace({
@@ -44,6 +49,6 @@ export default {
         }),
         swc({ minify: !isDev }),
         isDev && serve({ open: !isTauri, contentBase: "target", port: "3000" }),
-        isDev && livereload({ watch: "target", verbose: true }),
+        isDev && livereload({ watch: "target", delay: 200, verbose: true }),
     ],
 };

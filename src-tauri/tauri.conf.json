@@ -52,10 +52,10 @@
             {
                 "label": "main",
                 "fullscreen": false,
-                "height": 800,
+                "height": 1000,
                 "resizable": true,
                 "title": "Ticit",
-                "width": 600
+                "width": 800
             }
         ]
     }

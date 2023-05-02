@@ -10,10 +10,17 @@
 </main>
 
 <style lang="sass" global>
-    main
-        height: 100vh
-        width: 100vw
+    @font-face
+        font-family: Inter
+        font-style: normal
+        font-weight: 400
+        src: url("/assets/Inter-Regular.ttf") format("truetype")
 
     body
         margin: 0
+        font-family: Inter
+
+    main
+        height: 100vh
+        width: 100vw
 </style>
