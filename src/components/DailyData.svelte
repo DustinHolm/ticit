@@ -12,7 +12,7 @@
 </script>
 
 <Flex>
-    <IconButton onClick={date.previous} label="previous day">
+    <IconButton onClick={date.previous} label="Previous day">
         <ArrowLeft />
     </IconButton>
 
@@ -26,7 +26,7 @@
         </Flex>
     </div>
 
-    <IconButton onClick={date.next} label="next day" disabled={!$nextDayPossible}>
+    <IconButton onClick={date.next} label="Next day" disabled={!$nextDayPossible}>
         <ArrowRight />
     </IconButton>
 </Flex>

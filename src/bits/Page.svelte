@@ -4,7 +4,7 @@
 
 <style lang="sass">
     div
-        height: 800px
+        min-height: 400px
         width: 800px
         background-color: white
         border-radius: 8px

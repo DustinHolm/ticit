@@ -3,14 +3,14 @@
     import { entries } from "../stores/entries";
 </script>
 
-<ul class="a">
+<ul>
     {#each $entries as entry (entry.id)}
         <Entry {entry} />
     {/each}
 </ul>
 
 <style lang="sass">
-    .a
-        border: 1px solid black
-        background-color: green
+    ul
+        margin: 0
+        padding: 0
 </style>

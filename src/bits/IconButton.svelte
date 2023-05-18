@@ -11,7 +11,7 @@
     };
 </script>
 
-<button on:click={onClick} {disabled} class={size} aria-label={label}>
+<button on:click={onClick} {disabled} class={size} title={label}>
     <svg class:disabled viewBox={"0 0 64 64"} height={sizes[size]} width={sizes[size]}>
         <slot />
     </svg>
@@ -30,8 +30,6 @@
         background-color: white
         border: 2px solid lightgrey
         border-radius: 50%
-
-    button.disabled
 
     button:hover:enabled
         background-color: lightgrey

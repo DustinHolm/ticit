@@ -1,4 +1,12 @@
 <script>
+    import IconButton from "../bits/IconButton.svelte";
+    import Input from "../bits/Input.svelte";
+    import ListElement from "../bits/ListElement.svelte";
+    import Checkmark from "../bits/icons/Checkmark.svelte";
+    import Close from "../bits/icons/Close.svelte";
+    import Pencil from "../bits/icons/Pencil.svelte";
+    import Reload from "../bits/icons/Reload.svelte";
+    import TrashCan from "../bits/icons/TrashCan.svelte";
     import { entries, possibleEntryTypes } from "../stores/entries";
     import { now } from "../stores/now";
     import { timeAsString, timeFromString } from "../util/time";
@@ -60,49 +68,76 @@
             entryType: entry.entryType,
         });
     };
-
-    $: label = isNewEntry ? "new entry" : editable ? "editable entry" : "entry";
 </script>
 
-<li class="a" aria-label={label}>
-    {#if isNewEntry}
-        <span aria-label="entry time">{timeAsString($now)}</span>
-        <label for={"nameInput-new"}>Name</label>
-        <input bind:value={newName} id={"nameInput-new"} type="text" />
-        <label for={"descriptionInput-new"}>Description</label>
-        <input bind:value={newDescription} id={"descriptionInput-new"} type="text" />
-        <button on:click={onConfirmNew} disabled={!$possibleEntryTypes.includes("Work")}
-            >Confirm</button
-        >
-    {:else if editable}
-        <label for={`timeInput-${entry.id}`}>Time</label>
-        <input bind:value={newTime} id={`timeInput-${entry.id}`} type="time" role="textbox" />
-        <label for={`nameInput-${entry.id}`}>Name</label>
-        <input bind:value={newName} id={`nameInput-${entry.id}`} type="text" />
-        <label for={`descriptionInput-${entry.id}`}>Description</label>
-        <input bind:value={newDescription} id={`descriptionInput-${entry.id}`} type="text" />
-        <button on:click={onDelete}>Delete</button>
-        <button on:click={onCancel}>Cancel</button>
-        <button on:click={onConfirm}>Confirm</button>
-    {:else}
-        <span aria-label="entry time">{timeAsString(entry.time)}</span>
-        <span aria-label="entry name">{entry.name || "<undefined>"}</span>
-        {#if entry.description}
-            <span aria-label="entry description">{entry.description}</span>
+<ListElement>
+    <svelte:fragment slot="content">
+        <div class="content">
+            {#if isNewEntry || !editable}
+                <span aria-label="entry time" class="large">
+                    {timeAsString(entry.time || $now)}
+                </span>
+            {:else}
+                <Input label="Time" bind:value={newTime} type={"time"} />
+            {/if}
+            <div class="texts">
+                {#if isNewEntry || editable}
+                    <Input label="Name" bind:value={newName} />
+                    <Input label="Description" bind:value={newDescription} />
+                {:else}
+                    <span aria-label="entry name" class="large">
+                        {entry.name || "<undefined>"}
+                    </span>
+                    {#if entry.description}
+                        <span aria-label="entry description">{entry.description}</span>
+                    {/if}
+                {/if}
+            </div>
+        </div>
+    </svelte:fragment>
+    <svelte:fragment slot="buttons">
+        {#if isNewEntry}
+            <IconButton
+                onClick={onConfirmNew}
+                disabled={!$possibleEntryTypes.includes("Work")}
+                label="Create"
+            >
+                <Checkmark />
+            </IconButton>
+        {:else if editable}
+            <IconButton onClick={onDelete} label="Delete task">
+                <TrashCan />
+            </IconButton>
+            <IconButton onClick={onCancel} label="Cancel">
+                <Close />
+            </IconButton>
+            <IconButton onClick={onConfirm} label="Confirm">
+                <Checkmark />
+            </IconButton>
+        {:else}
+            <IconButton onClick={onEdit} label="Edit task">
+                <Pencil />
+            </IconButton>
+            <IconButton
+                onClick={onRestart}
+                disabled={!$possibleEntryTypes.includes("Work")}
+                label="Restart task again"
+            >
+                <Reload />
+            </IconButton>
         {/if}
-        <button on:click={onEdit}>Edit</button>
-        <button on:click={onRestart} disabled={!$possibleEntryTypes.includes("Work")}
-            >Restart Task</button
-        >
-    {/if}
-</li>
+    </svelte:fragment>
+</ListElement>
 
 <style lang="sass">
-    .a
-        border: 1px solid black
-        background-color: red
+    .content
+        padding: 8px
         display: flex
-
-    .a > *
-        flex: auto
+    .texts
+        padding-left: 16px
+        display: flex
+        flex-grow: 1
+        flex-direction: column
+    .large
+        font-size: larger
 </style>

@@ -47,7 +47,7 @@
         flex-grow: 1
         display: flex
         flex-direction: row
-        align-items: center
+        align-items: flex-start
         justify-content: center
         background-color: lightgrey
         overflow: scroll

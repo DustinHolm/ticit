@@ -11,10 +11,10 @@
 </script>
 
 <Flex>
-    <IconButton onClick={onPrevious} disabled={!previousPossible}>
+    <IconButton onClick={onPrevious} disabled={!previousPossible} label="Show previous content">
         <ArrowLeft />
     </IconButton>
-    <IconButton onClick={onNext} disabled={!nextPossible}>
+    <IconButton onClick={onNext} disabled={!nextPossible} label="Show next content">
         <ArrowRight />
     </IconButton>
 </Flex>

@@ -21,3 +21,9 @@
         {/each}
     </tbody>
 </table>
+
+<style lang="sass">
+    table
+        width: 100%
+        text-align: left
+</style>

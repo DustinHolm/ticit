@@ -4,6 +4,15 @@
     import EntryButtons from "../components/EntryButtons.svelte";
 </script>
 
-<EntryList />
-<Entry isNewEntry={true} />
-<EntryButtons />
+<div>
+    <EntryList />
+</div>
+<div class="interaction">
+    <Entry isNewEntry={true} />
+    <EntryButtons />
+</div>
+
+<style lang="sass">
+    .interaction
+        margin-top: 24px
+</style>
