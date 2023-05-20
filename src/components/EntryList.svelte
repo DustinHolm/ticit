@@ -1,5 +1,5 @@
 <script>
-    import Entry from "./Entry.svelte";
+    import Entry from "./entry/Entry.svelte";
     import { entries } from "../stores/entries";
 </script>
 

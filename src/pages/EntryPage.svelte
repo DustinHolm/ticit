@@ -1,15 +1,15 @@
 <script>
     import EntryList from "../components/EntryList.svelte";
-    import Entry from "../components/Entry.svelte";
-    import EntryButtons from "../components/EntryButtons.svelte";
+    import Entry from "../components/entry/Entry.svelte";
 </script>
 
 <div>
     <EntryList />
 </div>
+
 <div class="interaction">
+    New entry
     <Entry isNewEntry={true} />
-    <EntryButtons />
 </div>
 
 <style lang="sass">

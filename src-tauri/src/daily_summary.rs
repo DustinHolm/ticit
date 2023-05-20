@@ -43,6 +43,8 @@ impl DailySummary {
             j += 1;
         }
 
+        results.sort_unstable_by(|x, y| x.name.cmp(&y.name));
+
         Ok(results)
     }
 

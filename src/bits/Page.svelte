@@ -11,4 +11,8 @@
         box-sizing: border-box
         margin: 16px
         padding: 8px
+        overflow: hidden
+
+    div :global(> *)
+        max-width: 100%
 </style>

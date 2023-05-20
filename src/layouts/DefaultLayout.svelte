@@ -19,20 +19,23 @@
 <svelte:window bind:innerWidth={width} />
 
 <div class={"outer"}>
-    <DailyData />
+    <PageSelector {onNext} {nextPossible} {onPrevious} {previousPossible} />
+
     <div class={"inner"}>
         {#if currentPage === 0 || maxPages > 1}
             <Page>
                 <EntryPage />
             </Page>
         {/if}
+
         {#if currentPage === 1 || maxPages > 1}
             <Page>
                 <DailyOverviewPage />
             </Page>
         {/if}
     </div>
-    <PageSelector {onNext} {nextPossible} {onPrevious} {previousPossible} />
+
+    <DailyData />
 </div>
 
 <style lang="sass">

@@ -35,7 +35,6 @@ const createSummaries = () => {
     const loadAll = async () => {
         let result = await invoke("durations_for_day", { day: dateAsIsoString(currentDate) });
         result = result.map((r) => ({ ...r, duration: Number.parseFloat(r.duration) }));
-        console.log("summaries", result);
         internalStore.set(result);
     };
 

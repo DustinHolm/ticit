@@ -2,12 +2,17 @@
     export let direction = "row";
     export let grow = false;
     export let justifyContent = "space-between";
-
-    $: column = direction === "column";
-    $: row = !column;
+    export let alignItems = "normal";
+    export let padding = "0";
 </script>
 
-<div class:row class:column class:grow style={`justify-content: ${justifyContent}`}>
+<div
+    class:grow
+    style={`flex-direction: ${direction};
+            justify-content: ${justifyContent};
+            align-items: ${alignItems};
+            padding: ${padding}`}
+>
     <slot />
 </div>
 
@@ -20,10 +25,4 @@
 
     div.grow :global(> *)
         flex: auto
-
-    .row
-        flex-direction: row
-
-    .column
-        flex-direction: column
 </style>

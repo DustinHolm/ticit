@@ -23,7 +23,6 @@ const createEntries = () => {
 
     const loadAll = async () => {
         const entries = await invoke("all_entries_for_day", { day: dateAsIsoString(currentDate) });
-        console.log("entries", entries);
         const parsedEntries = entries.map(parseEntry);
         internalStore.set(parsedEntries);
     };

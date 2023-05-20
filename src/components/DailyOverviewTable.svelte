@@ -6,9 +6,9 @@
 <table>
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Time spent</th>
+            <th id="name">Name</th>
+            <th id="description">Description</th>
+            <th id="time">Time spent</th>
         </tr>
     </thead>
     <tbody>
@@ -23,7 +23,23 @@
 </table>
 
 <style lang="sass">
+    #name, #description
+        width: 40%
+
+    #time
+        width: 20%
+
     table
         width: 100%
         text-align: left
+        border-collapse: collapse
+        table-layout: fixed
+
+    tr:not(:last-child)
+        border-bottom: 1px solid lightgrey
+        
+    td, th
+        padding: 8px
+        overflow-wrap: break-word
+        word-wrap: break-word
 </style>
