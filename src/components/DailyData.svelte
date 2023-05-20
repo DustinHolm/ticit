@@ -11,13 +11,3 @@
     <span>Break time: {secondsAsDurationString(breakDuration)}</span>
     <span>Time worked: {secondsAsDurationString(workDuration)}</span>
 </Flex>
-
-<style lang="sass">
-    #data-panel
-        flex: 2 0 auto
-        margin: 0 16px
-
-    #date
-        text-align: center
-        font-size: larger
-</style>
