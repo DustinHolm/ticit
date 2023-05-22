@@ -18,6 +18,7 @@ runs:
                 libappindicator3-dev
                 librsvg2-dev
                 patchelf
+          shell: bash
 
         - name: install Rust stable
           uses: dtolnay/rust-toolchain@stable

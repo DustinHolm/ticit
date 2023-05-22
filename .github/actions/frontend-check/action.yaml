@@ -5,6 +5,8 @@ runs:
     steps:
         - name: lint
           run: npm run lint
+          shell: bash
 
         - name: test
           run: npm run test:all
+          shell: bash
