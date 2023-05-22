@@ -11,7 +11,6 @@ import { swc } from "rollup-plugin-swc3";
 import sveltePreprocess from "svelte-preprocess";
 
 const isDev = process.env.NODE_ENV === "development";
-const isTauri = process.env.MODE === "tauri";
 
 export default {
     input: "src/main.js",
@@ -39,7 +38,6 @@ export default {
             preventAssignment: true,
             values: {
                 "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
-                "process.env.MODE": JSON.stringify(process.env.MODE),
             },
         }),
         svelte({
@@ -48,7 +46,7 @@ export default {
             preprocess: sveltePreprocess(),
         }),
         swc({ minify: !isDev }),
-        isDev && serve({ open: !isTauri, contentBase: "target", port: "3000" }),
+        isDev && serve({ contentBase: "target", port: "3000" }),
         isDev && livereload({ watch: "target", delay: 200, verbose: true }),
     ],
 };
