@@ -1,13 +1,12 @@
 {
     "type": "module",
     "scripts": {
-        "start:base": "rollup -c -w --environment NODE_ENV:development ",
-        "start:standalone": "npm run start:base -- --environment MODE:standalone",
-        "start:tauri": "npm run start:base -- --environment MODE:tauri",
-        "build": "rollup -c --environment NODE_ENV:production,MODE:tauri",
+        "start": "rollup -c -w --environment NODE_ENV:development ",
+        "build": "rollup -c --environment NODE_ENV:production",
         "test:watch": "jest --watch --coverage",
         "test:all": "jest --silent --ci --all",
-        "lint": "eslint && prettier -c --config ./.prettierrc.json ./src ./tests ./*.js",
+        "lint": "eslint ./src ./tests ./*.js && prettier -c ./src ./tests ./*.js",
+        "fix": "eslint --fix ./src ./tests ./*.js && prettier -w ./src ./tests ./*.js",
         "prerelease": "npm run lint && npm run test:all"
     },
     "dependencies": {
