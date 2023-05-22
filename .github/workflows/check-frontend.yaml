@@ -12,5 +12,5 @@ jobs:
 
         steps:
             - uses: actions/checkout@v3
-            - uses: ./.github/actions/frontend-install.yaml
-            - uses: ./.github/actions/frontend-check.yaml
+            - uses: ./.github/actions/frontend-install
+            - uses: ./.github/actions/frontend-check
