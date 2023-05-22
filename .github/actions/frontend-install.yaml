@@ -1,0 +1,12 @@
+name: "frontend install"
+
+runs:
+    using: "composite"
+    steps:
+        - name: setup node
+          uses: actions/setup-node@v3
+          with:
+              node-version: 18
+
+        - name: install frontend dependencies
+          run: npm install

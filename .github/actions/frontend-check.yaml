@@ -1,0 +1,10 @@
+name: "frontend check"
+
+runs:
+    using: "composite"
+    steps:
+        - name: lint
+          run: npm run lint
+
+        - name: test
+          run: npm run test:all

@@ -1,4 +1,5 @@
 name: "publish"
+
 on:
     push:
         branches: [main]
@@ -18,14 +19,11 @@ jobs:
         steps:
             - uses: actions/checkout@v3
 
-            - name: setup node
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 18
+            # Prepare and check frontend
+            - uses: ./.github/actions/frontend-install.yaml
+            - uses: ./.github/actions/frontend-check.yaml
 
-            - name: install frontend dependencies
-              run: npm install
-
+            # Prepare and check backend
             - name: install dependencies (ubuntu only)
               if: matrix.platform == 'ubuntu-20.04'
               run: |
@@ -35,6 +33,7 @@ jobs:
             - name: install Rust stable
               uses: dtolnay/rust-toolchain@stable
 
+            # Build executeables
             - uses: tauri-apps/tauri-action@v0
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

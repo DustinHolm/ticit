@@ -1,4 +1,5 @@
 name: "check frontend"
+
 on:
     push:
         branches: [next]
@@ -11,17 +12,5 @@ jobs:
 
         steps:
             - uses: actions/checkout@v3
-
-            - name: setup node
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 18
-
-            - name: install frontend dependencies
-              run: npm install
-
-            - name: lint
-              run: npm run lint
-
-            - name: test
-              run: npm run test:all
+            - uses: ./.github/actions/frontend-install.yaml
+            - uses: ./.github/actions/frontend-check.yaml
