@@ -1,8 +1,9 @@
 import { readable } from "svelte/store";
+import { newDate } from "../util/time";
 
-export const now = readable(new Date(), (set) => {
+export const now = readable(newDate(), (set) => {
     const interval = setInterval(() => {
-        set(new Date());
+        set(newDate());
     }, 1000);
 
     return () => clearInterval(interval);

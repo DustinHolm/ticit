@@ -4,7 +4,7 @@
     "restoreMocks": true,
     "roots": ["<rootDir>/src/", "<rootDir>/tests/"],
     "setupFilesAfterEnv": ["@testing-library/jest-dom/extend-expect", "<rootDir>/jest-setup.js"],
-    "testEnvironment": "@happy-dom/jest-environment",
+    "testEnvironment": "jsdom",
     "testMatch": ["**/tests/**/*.test.js"],
     "transform": {
         "^.+\\.(t|j)sx?$": "@swc/jest",

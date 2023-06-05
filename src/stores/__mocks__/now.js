@@ -9,4 +9,5 @@ const createNow = () => {
 
     return { subscribe, set, reset };
 };
+
 export const now = createNow();

@@ -14,7 +14,7 @@
     };
 </script>
 
-<EntryBase entryType={entry.entryType}>
+<EntryBase entryType={entry.entryType} label="readonly break entry">
     <svelte:fragment slot="time">
         <span aria-label="entry time" class="large" id="time">
             {timeAsString(entry.time)}
@@ -26,7 +26,7 @@
     </svelte:fragment>
 
     <svelte:fragment slot="buttons">
-        <IconButton onClick={onEdit} label="Edit task">
+        <IconButton onClick={onEdit} label="Edit entry">
             <Pencil />
         </IconButton>
     </svelte:fragment>

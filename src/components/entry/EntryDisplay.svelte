@@ -23,7 +23,7 @@
     };
 </script>
 
-<EntryBase>
+<EntryBase label="readonly entry">
     <svelte:fragment slot="time">
         <span aria-label="entry time" class="large" id="time">
             {timeAsString(entry.time || $now)}
@@ -41,14 +41,14 @@
     </svelte:fragment>
 
     <svelte:fragment slot="buttons">
-        <IconButton onClick={onEdit} label="Edit task">
+        <IconButton onClick={onEdit} label="Edit entry">
             <Pencil />
         </IconButton>
 
         <IconButton
             onClick={onRestart}
             disabled={!$possibleEntryTypes.includes("Work")}
-            label="Restart task again"
+            label="Restart entry again"
         >
             <Reload />
         </IconButton>

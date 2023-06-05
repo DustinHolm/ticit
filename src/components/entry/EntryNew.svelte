@@ -27,7 +27,7 @@
     };
 </script>
 
-<EntryBase>
+<EntryBase label="new entry">
     <svelte:fragment slot="time">
         <span aria-label="entry time" class="large" id="time">
             {timeAsString($now)}
@@ -60,7 +60,7 @@
         <IconButton
             onClick={onConfirm}
             disabled={!$possibleEntryTypes.includes("Work")}
-            label="Create"
+            label="Create entry"
         >
             <Checkmark />
         </IconButton>
