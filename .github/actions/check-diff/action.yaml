@@ -3,16 +3,20 @@ name: "check diff"
 runs:
     using: "composite"
     steps:
+        - id: files
+          uses: jitterbit/get-changed-files@v1
+
         - name: "Check for changes in backend code"
           run: |
-              if $(git diff main --name-only | grep -q "^src-tauri/"); 
+              if $(${{ steps.files.outputs.all }} | tr " " "\n" | grep -q "^src-tauri/"); 
               then echo "BACKEND_DIFFS=true" >> "$GITHUB_ENV"
               else echo "BACKEND_DIFFS=false" >> "$GITHUB_ENV"
               fi
           shell: bash
+
         - name: "Check for changes in frontend code"
           run: |
-              if $(git diff main --name-only | grep -q "^src/"); 
+              if $(${{ steps.files.outputs.all }} | tr " " "\n" | grep -q "^src/"); 
               then echo "FRONTEND_DIFFS=true" >> "$GITHUB_ENV"
               else echo "FRONTEND_DIFFS=false" >> "$GITHUB_ENV"
               fi
