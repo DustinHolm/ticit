@@ -1,11 +1,9 @@
 use tauri::{AppHandle, State};
 use time::{Date, OffsetDateTime};
 
-use crate::{
-    daily_summary::DailySummary,
-    database::Database,
-    entry::{ExistingEntry, NewEntry},
-};
+use crate::database::Database;
+use ticit::daily_summary::DailySummary;
+use ticit::entry::{ExistingEntry, NewEntry};
 
 #[tauri::command]
 pub fn new_entry(entry: NewEntry, app: AppHandle, db: State<Database>) -> Result<(), String> {

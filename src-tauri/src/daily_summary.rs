@@ -3,18 +3,18 @@ use time::Duration;
 
 use crate::entry::{EntryType, ExistingEntry};
 
-#[derive(Serialize, PartialEq, Eq)]
-enum DailySummaryType {
+#[derive(Debug, Serialize, PartialEq, Eq)]
+pub enum DailySummaryType {
     Break,
     Work,
 }
 
 #[derive(Serialize)]
 pub struct DailySummary {
-    name: Option<String>,
-    description: Option<String>,
-    duration: Duration,
-    daily_summary_type: DailySummaryType,
+    pub name: Option<String>,
+    pub description: Option<String>,
+    pub duration: Duration,
+    pub daily_summary_type: DailySummaryType,
 }
 
 impl DailySummary {
