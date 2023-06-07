@@ -27,6 +27,7 @@ jobs:
             - uses: ./.github/actions/backend-install
               with:
                   platform: ${{matrix.platform}}
+            - uses: ./.github/actions/backend-check
 
             # Build executeables
             - uses: tauri-apps/tauri-action@v0

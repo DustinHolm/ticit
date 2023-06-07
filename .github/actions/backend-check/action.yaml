@@ -1,0 +1,14 @@
+name: "backend check"
+
+runs:
+    using: "composite"
+    steps:
+        - name: lint
+          run: cargo check
+          working-directory: src-tauri
+          shell: bash
+
+        - name: test
+          run: cargo test
+          working-directory: src-tauri
+          shell: bash
