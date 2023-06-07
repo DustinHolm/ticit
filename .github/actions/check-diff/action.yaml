@@ -3,9 +3,11 @@ name: "check diff"
 runs:
     using: "composite"
     steps:
+        - name: "Fetch comparison branch"
+          run: git fetch origin main
+
         - name: "Check for changes in backend code"
           run: |
-              git fetch origin main
               if $(git diff origin/main..HEAD --name-only | grep -q "^src-tauri/"); 
               then echo "BACKEND_DIFFS=true" >> "$GITHUB_ENV"
               else echo "BACKEND_DIFFS=false" >> "$GITHUB_ENV"
@@ -14,7 +16,6 @@ runs:
 
         - name: "Check for changes in frontend code"
           run: |
-              git fetch origin main
               if $(git diff origin/main..HEAD --name-only | grep -q "^src/"); 
               then echo "FRONTEND_DIFFS=true" >> "$GITHUB_ENV"
               else echo "FRONTEND_DIFFS=false" >> "$GITHUB_ENV"

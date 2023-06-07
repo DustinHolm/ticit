@@ -21,6 +21,8 @@ jobs:
 
             - if: ${{ env.BACKEND_DIFFS == 'true' }}
               uses: ./.github/actions/backend-install
+              with:
+                  platform: ubuntu-latest
 
             - if: ${{ env.BACKEND_DIFFS == 'true' }}
               uses: ./.github/actions/backend-check
