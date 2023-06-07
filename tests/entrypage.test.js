@@ -3,11 +3,13 @@ import userEvent from "@testing-library/user-event";
 import EntryPage from "../src/pages/EntryPage";
 import { entries } from "../src/stores/entries";
 import { now } from "../src/stores/now";
+import { date } from "../src/stores/date";
 import { TestUtils } from "./utils";
 import { newDate, timeFromString } from "../src/util/time";
 import { invoke } from "@tauri-apps/api";
 
 jest.mock("@tauri-apps/api");
+jest.mock("../src/stores/date");
 jest.mock("../src/stores/now");
 jest.mock("../src/util/time", () => ({
     ...jest.requireActual("../src/util/time"),
@@ -203,6 +205,7 @@ const given = {
 
     currentDate: (given) => {
         newDate.mockReturnValue(new Date(`${given}T12:00:00`));
+        date.set(newDate());
     },
 };
 
