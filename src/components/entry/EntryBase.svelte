@@ -1,8 +1,9 @@
 <script>
     export let entryType = "Work";
+    export let label;
 </script>
 
-<li class={entryType !== "Work" ? entryType : null}>
+<li class={entryType !== "Work" ? entryType : null} aria-label={label}>
     <div class="content">
         <slot name="time" />
         <div class="texts">

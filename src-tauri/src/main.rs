@@ -5,6 +5,7 @@
 
 use database::Database;
 use tauri::{generate_context, generate_handler, Builder};
+use ticit::database;
 
 use crate::commands::{
     all_entries_for_day, delete_entry, durations_for_day, edit_entry, end_day, new_entry,
@@ -12,9 +13,6 @@ use crate::commands::{
 };
 
 mod commands;
-mod daily_summary;
-mod database;
-mod entry;
 
 fn main() {
     Builder::default()

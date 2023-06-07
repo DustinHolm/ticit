@@ -14,7 +14,6 @@
         "date-fns": "^2.30.0"
     },
     "devDependencies": {
-        "@happy-dom/jest-environment": "^9.18.3",
         "@rollup/plugin-commonjs": "^25.0.0",
         "@rollup/plugin-node-resolve": "^15.0.2",
         "@rollup/plugin-replace": "^5.0.2",
@@ -28,8 +27,8 @@
         "eslint-plugin-jest-dom": "^4.0.3",
         "eslint-plugin-svelte3": "^4.0.0",
         "eslint-plugin-testing-library": "^5.11.0",
-        "happy-dom": "^9.18.3",
         "jest": "^29.5.0",
+        "jest-environment-jsdom": "^29.5.0",
         "postcss": "^8.4.23",
         "prettier": "^2.8.8",
         "prettier-plugin-svelte": "^2.10.0",

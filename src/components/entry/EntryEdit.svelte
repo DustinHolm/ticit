@@ -44,7 +44,7 @@
     };
 </script>
 
-<EntryBase>
+<EntryBase label="editable entry">
     <svelte:fragment slot="time">
         <Input label="Time" bind:value={newTime} type={"time"} onEnter={onConfirm} />
     </svelte:fragment>
@@ -56,7 +56,7 @@
     </svelte:fragment>
 
     <svelte:fragment slot="buttons">
-        <IconButton onClick={onDelete} label="Delete task">
+        <IconButton onClick={onDelete} label="Delete entry">
             <TrashCan />
         </IconButton>
 

@@ -1,9 +1,10 @@
 import { derived, writable } from "svelte/store";
 import { now } from "./now";
 import { add, sub } from "date-fns";
+import { newDate } from "../util/time";
 
 const createDate = () => {
-    const { subscribe, update } = writable(new Date());
+    const { subscribe, update } = writable(newDate());
 
     const previous = () => {
         update((old) => sub(old, { days: 1 }));

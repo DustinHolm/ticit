@@ -1,0 +1,28 @@
+name: "backend check"
+
+runs:
+    using: "composite"
+    steps:
+        - name: satisfy macro
+          run: mkdir target
+          shell: bash
+
+        - name: fmt
+          run: cargo fmt --check -q
+          working-directory: src-tauri
+          shell: bash
+
+        - name: lint
+          run: cargo check -q
+          working-directory: src-tauri
+          shell: bash
+
+        - name: clippy
+          run: cargo clippy -q
+          working-directory: src-tauri
+          shell: bash
+
+        - name: test
+          run: cargo test
+          working-directory: src-tauri
+          shell: bash

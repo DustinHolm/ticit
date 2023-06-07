@@ -1,0 +1,28 @@
+name: "checks on pull request"
+
+on:
+    pull_request:
+        branches: [main]
+
+jobs:
+    check-pull-request:
+        runs-on: "ubuntu-latest"
+
+        steps:
+            - uses: actions/checkout@v3
+
+            - uses: ./.github/actions/check-diff
+
+            - if: ${{ env.FRONTEND_DIFFS == 'true' }}
+              uses: ./.github/actions/frontend-install
+
+            - if: ${{ env.FRONTEND_DIFFS == 'true' }}
+              uses: ./.github/actions/frontend-check
+
+            - if: ${{ env.BACKEND_DIFFS == 'true' }}
+              uses: ./.github/actions/backend-install
+              with:
+                  platform: ubuntu-latest
+
+            - if: ${{ env.BACKEND_DIFFS == 'true' }}
+              uses: ./.github/actions/backend-check

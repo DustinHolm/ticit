@@ -1,14 +1,14 @@
 use serde::{Deserialize, Serialize};
 use time::{format_description::parse, OffsetDateTime};
 
-#[derive(Serialize, Deserialize)]
-pub enum EntryType {
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub(crate) enum EntryType {
     Break,
     EndOfDay,
     Work,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct NewEntry {
     name: Option<String>,
     description: Option<String>,
@@ -34,15 +34,28 @@ impl NewEntry {
             entry_type: EntryType::EndOfDay,
         }
     }
+
+    pub fn new_work(
+        name: Option<String>,
+        description: Option<String>,
+        time: &OffsetDateTime,
+    ) -> Self {
+        Self {
+            name,
+            description,
+            time: *time,
+            entry_type: EntryType::Work,
+        }
+    }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ExistingEntry {
-    pub id: u64,
-    pub name: Option<String>,
-    pub description: Option<String>,
-    pub time: OffsetDateTime,
-    pub entry_type: EntryType,
+    pub(crate) id: u64,
+    pub(crate) name: Option<String>,
+    pub(crate) description: Option<String>,
+    pub(crate) time: OffsetDateTime,
+    pub(crate) entry_type: EntryType,
 }
 
 impl ExistingEntry {
@@ -56,13 +69,13 @@ impl ExistingEntry {
         }
     }
 
-    pub fn get_db_key(&self) -> Result<String, String> {
+    pub(crate) fn get_db_key(&self) -> Result<String, String> {
         let date = self.iso_date()?;
         Ok(format!("{}:{}", date, self.id))
     }
 }
 
-pub trait Entry {
+pub(crate) trait Entry {
     fn iso_date(&self) -> Result<String, String>;
 }
 
