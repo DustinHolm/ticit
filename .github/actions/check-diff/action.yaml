@@ -5,6 +5,7 @@ runs:
     steps:
         - name: "Fetch comparison branch"
           run: git fetch origin main
+          shell: bash
 
         - name: "Check for changes in backend code"
           run: |
