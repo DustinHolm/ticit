@@ -10,4 +10,5 @@ runs:
 
     - name: install frontend dependencies
       run: npm install
+      working-directory: frontend
       shell: bash

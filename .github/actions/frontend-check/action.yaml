@@ -5,10 +5,10 @@ runs:
   steps:
     - name: lint
       run: npm run lint
-      working-directory: backend
+      working-directory: frontend
       shell: bash
 
     - name: test
       run: npm run test:all
-      working-directory: backend
+      working-directory: frontend
       shell: bash
