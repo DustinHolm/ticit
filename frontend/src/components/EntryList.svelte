@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import Entry from "./entry/Entry.svelte";
     import { entries } from "../stores/entries";
 </script>

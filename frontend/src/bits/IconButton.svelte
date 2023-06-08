@@ -1,8 +1,10 @@
-<script>
+<script lang="ts">
+    import type { MouseEventHandler } from "svelte/elements";
+
     export let disabled = false;
-    export let onClick = null;
-    export let size = "medium";
-    export let label = null;
+    export let onClick: MouseEventHandler<HTMLButtonElement> | null = null;
+    export let size: "small" | "medium" | "large" = "medium";
+    export let label: string | null = null;
 
     const sizes = {
         small: 20,

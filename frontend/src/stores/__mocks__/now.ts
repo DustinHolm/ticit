@@ -11,3 +11,5 @@ const createNow = () => {
 };
 
 export const now = createNow();
+
+export type MockNowStore = typeof now;

@@ -1,15 +1,19 @@
-import { invoke } from "@tauri-apps/api";
-import { derived, get, writable } from "svelte/store";
-import { dateAsIsoString } from "../util/time";
+import { type Subscriber, type Unsubscriber, derived, get, writable } from "svelte/store";
 import { date } from "./date";
 import { entries } from "./entries";
+import type { DailySummary, ExistingEntry } from "../types";
+import { dateAsIsoString } from "../util/time";
+import { invokeGetAllDailySummaries } from "../util/tauri";
 
 const createSummaries = () => {
-    const internalStore = writable([]);
+    const internalStore = writable<DailySummary[]>([]);
     let currentDate = get(date);
-    let currentEntries = [];
+    let currentEntries: ExistingEntry[] = [];
 
-    const subscribe = (run, invalidate) => {
+    const subscribe = (
+        run: Subscriber<DailySummary[]>,
+        invalidate?: (value?: DailySummary[]) => void
+    ): Unsubscriber => {
         const unsubscribeSummaries = internalStore.subscribe(run, invalidate);
         const unsubscribeEntries = entries.subscribe((newEntries) => {
             if (
@@ -17,7 +21,11 @@ const createSummaries = () => {
                 JSON.stringify(newEntries) !== JSON.stringify(currentEntries)
             ) {
                 currentEntries = newEntries;
-                loadAll();
+                loadAll().catch(() =>
+                    console.error(
+                        `Could not fetch entries for day ${dateAsIsoString(currentDate)}.`
+                    )
+                );
             }
         });
         const unsubscribeDate = date.subscribe((newDate) => {
@@ -33,8 +41,7 @@ const createSummaries = () => {
     };
 
     const loadAll = async () => {
-        let result = await invoke("durations_for_day", { day: dateAsIsoString(currentDate) });
-        result = result.map((r) => ({ ...r, duration: Number.parseFloat(r.duration) }));
+        const result = await invokeGetAllDailySummaries(currentDate);
         internalStore.set(result);
     };
 
@@ -44,11 +51,11 @@ const createSummaries = () => {
 const entriesSummaries = createSummaries();
 
 export const workEntriesSummaries = derived(entriesSummaries, (summaries) =>
-    summaries.filter((s) => s.daily_summary_type === "Work")
+    summaries.filter((s) => s.dailySummaryType === "Work")
 );
 
 export const breakEntry = derived(entriesSummaries, (summaries) =>
-    summaries.find((s) => s.daily_summary_type === "Break")
+    summaries.find((s) => s.dailySummaryType === "Break")
 );
 
 export const totalTime = derived(workEntriesSummaries, (summaries) =>

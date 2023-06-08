@@ -1,10 +1,12 @@
-<script>
-    export let label;
-    export let value;
-    export let type = "text";
-    export let onEnter = null;
+<script lang="ts">
+    import type { KeyboardEventHandler } from "svelte/elements";
 
-    const handleKeyPress = (event) => {
+    export let label: string;
+    export let value: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+    export let type = "text";
+    export let onEnter: (() => void) | null = null;
+
+    const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = (event) => {
         if (onEnter && event.key === "Enter") {
             onEnter();
         }

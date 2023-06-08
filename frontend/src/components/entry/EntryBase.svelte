@@ -1,6 +1,8 @@
-<script>
-    export let entryType = "Work";
-    export let label;
+<script lang="ts">
+    import type { EntryType } from "../../types";
+
+    export let entryType: EntryType = "Work";
+    export let label: string;
 </script>
 
 <li class={entryType !== "Work" ? entryType : null} aria-label={label}>

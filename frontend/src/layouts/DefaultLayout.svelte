@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import DailyData from "../components/DailyData.svelte";
     import DailyOverviewPage from "../pages/DailyOverviewPage.svelte";
     import Page from "../bits/Page.svelte";

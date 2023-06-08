@@ -1,8 +1,30 @@
-<script>
-    export let direction = "row";
+<script lang="ts">
+    export let direction:
+        | "row"
+        | "row-reverse"
+        | "column"
+        | "column-reverse"
+        | "initial"
+        | "inherit" = "row";
     export let grow = false;
-    export let justifyContent = "space-between";
-    export let alignItems = "normal";
+    export let justifyContent:
+        | "flex-start"
+        | "flex-end"
+        | "center"
+        | "space-between"
+        | "space-around"
+        | "space-evenly"
+        | "initial"
+        | "inherit" = "space-between";
+    export let alignItems:
+        | "normal"
+        | "stretch"
+        | "center"
+        | "flex-start"
+        | "flex-end"
+        | "baseline"
+        | "initial"
+        | "inherit" = "normal";
     export let padding = "0";
 </script>
 

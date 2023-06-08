@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import Input from "../../bits/Input.svelte";
     import IconButton from "../../bits/IconButton.svelte";
     import Checkmark from "../../bits/icons/Checkmark.svelte";
@@ -7,15 +7,16 @@
     import { entries } from "../../stores/entries";
     import { timeAsString, timeFromString } from "../../util/time";
     import EntryBase from "./EntryBase.svelte";
+    import type { ExistingEntry } from "../../types";
 
-    export let entry;
-    export let endEdit;
+    export let entry: ExistingEntry;
+    export let endEdit: () => void;
 
-    let newTime = entry.time ? timeAsString(entry.time) : null;
+    let newTime = timeAsString(entry.time);
     let text = entry.entryType === "EndOfDay" ? "End of day" : entry.entryType;
 
-    const onConfirm = () => {
-        entries.edit({
+    const onConfirm = async () => {
+        await entries.edit({
             id: entry.id,
             name: null,
             description: null,
@@ -30,8 +31,8 @@
         endEdit();
     };
 
-    const onDelete = () => {
-        entries.remove({
+    const onDelete = async () => {
+        await entries.remove({
             id: entry.id,
             name: entry.name,
             description: entry.description,

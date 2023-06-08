@@ -1,11 +1,12 @@
-<script>
+<script lang="ts">
     import IconButton from "../../bits/IconButton.svelte";
     import Pencil from "../../bits/icons/Pencil.svelte";
+    import type { ExistingEntry } from "../../types";
     import { timeAsString } from "../../util/time";
     import EntryBase from "./EntryBase.svelte";
 
-    export let entry;
-    export let startEdit;
+    export let entry: ExistingEntry;
+    export let startEdit: () => void;
 
     let text = entry.entryType === "EndOfDay" ? "End of day" : entry.entryType;
 

@@ -1,25 +1,32 @@
 import { render, screen, within } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
-import EntryPage from "../src/pages/EntryPage";
+import EntryPage from "../src/pages/EntryPage.svelte";
 import { entries } from "../src/stores/entries";
 import { now } from "../src/stores/now";
 import { date } from "../src/stores/date";
 import { TestUtils } from "./utils";
 import { newDate, timeFromString } from "../src/util/time";
 import { invoke } from "@tauri-apps/api";
+import type { TauriNewEntry, TauriExistingEntry } from "../src/types";
+import type { MockDateStore } from "../src/stores/__mocks__/date";
+import type { MockNowStore } from "../src/stores/__mocks__/now";
 
 jest.mock("@tauri-apps/api");
+const mockInvoke = invoke as jest.Mock;
 jest.mock("../src/stores/date");
+const mockDate = date as unknown as MockDateStore;
 jest.mock("../src/stores/now");
+const mockNow = now as unknown as MockNowStore;
 jest.mock("../src/util/time", () => ({
-    ...jest.requireActual("../src/util/time"),
+    ...jest.requireActual<object>("../src/util/time"),
     newDate: jest.fn(() => new Date()),
 }));
+const mockNewDate = newDate as jest.Mock<Date>;
 
 describe("EntryPage tests", () => {
     beforeEach(() => {
         given.existingEntries([]);
-        now.reset();
+        mockNow.reset();
     });
 
     describe("Initial state", () => {
@@ -31,7 +38,7 @@ describe("EntryPage tests", () => {
         test.each([0, 1, 2, 99])(
             "Contains fields for every existing entry: Case %s",
             async (number) => {
-                const entries = TestUtils.generate(number, (i) =>
+                const entries = TestUtils.generate(number, (i: number) =>
                     TestUtils.generateEntry({
                         id: i,
                         name: "entry",
@@ -91,7 +98,8 @@ describe("EntryPage tests", () => {
             given.existingEntries([entry0]);
             given.currentTime("02:00");
             await when.rendered();
-            await when.entry(entry0.name).restarted();
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- is set before
+            await when.entry(entry0.name!).restarted();
             then.newEntry.hasName("Entry 0");
             then.newEntry.hasTime("02:00");
         });
@@ -191,21 +199,21 @@ describe("EntryPage tests", () => {
 });
 
 const given = {
-    existingEntries: (given) => {
-        invoke.mockImplementation((cmd) => {
+    existingEntries: (given: TauriExistingEntry[]) => {
+        mockInvoke.mockImplementation((cmd) => {
             if (cmd === "all_entries_for_day") {
                 return Promise.resolve(given);
             }
         });
     },
 
-    currentTime: (given) => {
-        now.set(timeFromString(given));
+    currentTime: (given: string) => {
+        mockNow.set(timeFromString(given));
     },
 
-    currentDate: (given) => {
-        newDate.mockReturnValue(new Date(`${given}T12:00:00`));
-        date.set(newDate());
+    currentDate: (given: string) => {
+        mockNewDate.mockReturnValue(new Date(`${given}T12:00:00`));
+        mockDate.set(newDate());
     },
 };
 
@@ -215,7 +223,7 @@ const when = {
         render(EntryPage);
     },
 
-    entry: (searchParam) => {
+    entry: (searchParam: number | string) => {
         const selectedEntry = util.getEntry(searchParam);
 
         return {
@@ -247,21 +255,21 @@ const when = {
                 await userEvent.click(button);
             },
 
-            nameEdited: async (edit) => {
+            nameEdited: async (edit: string) => {
                 const field = within(selectedEntry).getByRole("textbox", {
                     name: "Name",
                 });
                 await userEvent.type(field, edit);
             },
 
-            descriptionEdited: async (edit) => {
+            descriptionEdited: async (edit: string) => {
                 const field = within(selectedEntry).getByRole("textbox", {
                     name: "Description",
                 });
                 await userEvent.type(field, edit);
             },
 
-            timeEdited: async (edit) => {
+            timeEdited: async (edit: string) => {
                 const field = within(selectedEntry).getByRole("textbox", {
                     name: "Time",
                 });
@@ -304,54 +312,58 @@ const then = {
         expect(screen.getByRole("listitem", { name: "new entry" })).toBeInTheDocument();
     },
 
-    editableEntriesExist: (expected) => {
+    editableEntriesExist: (expected: number) => {
         expect(screen.queryAllByRole("listitem", { name: "editable entry" })).toHaveLength(
             expected
         );
     },
 
-    readOnlyEntriesExist: (expected) => {
+    readOnlyEntriesExist: (expected: number) => {
         expect(screen.queryAllByRole("listitem", { name: "readonly entry" })).toHaveLength(
             expected
         );
     },
 
     newEntry: {
-        hasName: (expected) => {
+        hasName: (expected: string | null) => {
             expect(invoke).toBeCalledWith("new_entry", {
-                entry: expect.objectContaining({ name: expected }),
+                entry: expect.objectContaining({ name: expected }) as TauriNewEntry,
             });
         },
 
-        hasDescription: (expected) => {
+        hasDescription: (expected: string | null) => {
             expect(invoke).toBeCalledWith("new_entry", {
-                entry: expect.objectContaining({ description: expected }),
+                entry: expect.objectContaining({ description: expected }) as TauriNewEntry,
             });
         },
 
-        hasTime: (expected) => {
+        hasTime: (expected: string) => {
             expect(invoke).toBeCalledWith("new_entry", {
-                entry: expect.objectContaining({ time: expect.stringContaining(expected) }),
+                entry: expect.objectContaining({
+                    time: expect.stringContaining(expected) as string,
+                }) as TauriNewEntry,
             });
         },
     },
 
     editEntry: {
-        hasName: (expected) => {
+        hasName: (expected: string) => {
             expect(invoke).toBeCalledWith("edit_entry", {
-                entry: expect.objectContaining({ name: expected }),
+                entry: expect.objectContaining({ name: expected }) as TauriExistingEntry,
             });
         },
 
-        hasDescription: (expected) => {
+        hasDescription: (expected: string) => {
             expect(invoke).toBeCalledWith("edit_entry", {
-                entry: expect.objectContaining({ description: expected }),
+                entry: expect.objectContaining({ description: expected }) as TauriExistingEntry,
             });
         },
 
-        hasTime: (expected) => {
+        hasTime: (expected: string) => {
             expect(invoke).toBeCalledWith("edit_entry", {
-                entry: expect.objectContaining({ time: expect.stringContaining(expected) }),
+                entry: expect.objectContaining({
+                    time: expect.stringContaining(expected) as string,
+                }) as TauriExistingEntry,
             });
         },
 
@@ -361,8 +373,10 @@ const then = {
     },
 
     deleteEntry: {
-        isCalledWith: (expected) => {
-            expect(invoke).not.toBeCalledWith("delete_entry", expected);
+        isCalledWith: (expectedId: number) => {
+            expect(invoke).toBeCalledWith("delete_entry", {
+                entry: expect.objectContaining({ id: expectedId }) as TauriExistingEntry,
+            });
         },
     },
 
@@ -378,7 +392,7 @@ const then = {
 };
 
 const util = {
-    getEntry: (searchParam) => {
+    getEntry: (searchParam: number | string) => {
         if (searchParam === "new") {
             return screen.getByRole("listitem", { name: "new entry" });
         } else if (searchParam === "latest") {
@@ -388,7 +402,13 @@ const util = {
             return screen.getAllByRole("listitem")[searchParam];
         } else {
             const all = screen.getAllByRole("listitem");
-            return all.find((element) => element.textContent.includes(searchParam));
+            const found = all.find((element) => element.textContent?.includes(searchParam));
+
+            if (found === undefined) {
+                throw new Error("Expected Entry not found!");
+            }
+
+            return found;
         }
     },
 };

@@ -1,21 +1,23 @@
-<script>
+<script lang="ts">
     import IconButton from "../../bits/IconButton.svelte";
     import Input from "../../bits/Input.svelte";
     import Checkmark from "../../bits/icons/Checkmark.svelte";
     import Close from "../../bits/icons/Close.svelte";
     import TrashCan from "../../bits/icons/TrashCan.svelte";
     import { entries } from "../../stores/entries";
+    import type { ExistingEntry } from "../../types";
     import { timeAsString, timeFromString } from "../../util/time";
     import EntryBase from "./EntryBase.svelte";
-    export let entry;
-    export let endEdit;
 
-    let newTime = entry.time ? timeAsString(entry.time) : null;
+    export let entry: ExistingEntry;
+    export let endEdit: () => void;
+
+    let newTime = timeAsString(entry.time);
     let newName = entry.name;
     let newDescription = entry.description;
 
-    const onConfirm = () => {
-        entries.edit({
+    const onConfirm = async () => {
+        await entries.edit({
             id: entry.id,
             name: newName,
             description: newDescription,
@@ -32,8 +34,8 @@
         endEdit();
     };
 
-    const onDelete = () => {
-        entries.remove({
+    const onDelete = async () => {
+        await entries.remove({
             id: entry.id,
             name: entry.name,
             description: entry.description,
