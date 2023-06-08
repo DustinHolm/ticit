@@ -1,41 +1,41 @@
 name: "publish"
 
 on:
-    push:
-        tags: ["release"]
+  push:
+    tags: ["release"]
 
 jobs:
-    publish-tauri:
-        permissions:
-            contents: write
+  publish-tauri:
+    permissions:
+      contents: write
 
-        strategy:
-            fail-fast: false
-            matrix:
-                platform: [windows-latest]
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [windows-latest]
 
-        runs-on: ${{ matrix.platform }}
+    runs-on: ${{ matrix.platform }}
 
-        steps:
-            - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-            # Prepare and check frontend
-            - uses: ./.github/actions/frontend-install
-            - uses: ./.github/actions/frontend-check
+      # Prepare and check frontend
+      - uses: ./.github/actions/frontend-install
+      - uses: ./.github/actions/frontend-check
 
-            # Prepare and check backend
-            - uses: ./.github/actions/backend-install
-              with:
-                  platform: ${{matrix.platform}}
-            - uses: ./.github/actions/backend-check
+      # Prepare and check backend
+      - uses: ./.github/actions/backend-install
+        with:
+          platform: ${{matrix.platform}}
+      - uses: ./.github/actions/backend-check
 
-            # Build executeables
-            - uses: tauri-apps/tauri-action@v0
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
-                  TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
-              with:
-                  tagName: v__VERSION__
-                  releaseName: "Ticit v__VERSION__"
-                  releaseBody: "See the assets to download this version and install."
+      # Build executeables
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        with:
+          tagName: v__VERSION__
+          releaseName: "Ticit v__VERSION__"
+          releaseBody: "See the assets to download this version and install."

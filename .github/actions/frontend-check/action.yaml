@@ -1,12 +1,14 @@
 name: "frontend check"
 
 runs:
-    using: "composite"
-    steps:
-        - name: lint
-          run: npm run lint
-          shell: bash
+  using: "composite"
+  steps:
+    - name: lint
+      run: npm run lint
+      working-directory: frontend
+      shell: bash
 
-        - name: test
-          run: npm run test:all
-          shell: bash
+    - name: test
+      run: npm run test:all
+      working-directory: frontend
+      shell: bash
