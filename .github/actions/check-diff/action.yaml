@@ -1,24 +1,24 @@
 name: "check diff"
 
 runs:
-    using: "composite"
-    steps:
-        - name: "Fetch comparison branch"
-          run: git fetch origin main
-          shell: bash
+  using: "composite"
+  steps:
+    - name: "Fetch comparison branch"
+      run: git fetch origin main
+      shell: bash
 
-        - name: "Check for changes in backend code"
-          run: |
-              if $(git diff origin/main..HEAD --name-only | grep -q "^src-tauri/"); 
-              then echo "BACKEND_DIFFS=true" >> "$GITHUB_ENV"
-              else echo "BACKEND_DIFFS=false" >> "$GITHUB_ENV"
-              fi
-          shell: bash
+    - name: "Check for changes in backend code"
+      run: |
+        if $(git diff origin/main..HEAD --name-only | grep -q "^src-tauri/"); 
+        then echo "BACKEND_DIFFS=true" >> "$GITHUB_ENV"
+        else echo "BACKEND_DIFFS=false" >> "$GITHUB_ENV"
+        fi
+      shell: bash
 
-        - name: "Check for changes in frontend code"
-          run: |
-              if $(git diff origin/main..HEAD --name-only | grep -q "^src/"); 
-              then echo "FRONTEND_DIFFS=true" >> "$GITHUB_ENV"
-              else echo "FRONTEND_DIFFS=false" >> "$GITHUB_ENV"
-              fi
-          shell: bash
+    - name: "Check for changes in frontend code"
+      run: |
+        if $(git diff origin/main..HEAD --name-only | grep -q "^src/"); 
+        then echo "FRONTEND_DIFFS=true" >> "$GITHUB_ENV"
+        else echo "FRONTEND_DIFFS=false" >> "$GITHUB_ENV"
+        fi
+      shell: bash
