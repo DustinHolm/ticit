@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import IconButton from "../../bits/IconButton.svelte";
     import Input from "../../bits/Input.svelte";
     import Checkmark from "../../bits/icons/Checkmark.svelte";
@@ -9,13 +9,13 @@
     import { timeAsString } from "../../util/time";
     import EntryBase from "./EntryBase.svelte";
 
-    let newName = null;
-    let newDescription = null;
+    let newName: string | null = null;
+    let newDescription: string | null = null;
 
     const onBreak = () => entries.takeBreak($now);
     const onEnd = () => entries.endDay($now);
-    const onConfirm = () => {
-        entries.create({
+    const onConfirm = async () => {
+        await entries.create({
             name: newName,
             description: newDescription,
             time: $now,

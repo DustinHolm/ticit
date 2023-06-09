@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
     import EntryList from "../components/EntryList.svelte";
-    import Entry from "../components/entry/Entry.svelte";
+    import EntryNew from "../components/entry/EntryNew.svelte";
 </script>
 
 <div>
@@ -9,7 +9,7 @@
 
 <div class="interaction">
     New entry
-    <Entry isNewEntry={true} />
+    <EntryNew />
 </div>
 
 <style lang="sass">

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { workEntriesSummaries } from "../stores/summaries";
     import { secondsAsDurationString } from "../util/time";
 </script>

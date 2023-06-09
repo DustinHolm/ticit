@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import Flex from "../bits/Flex.svelte";
     import IconButton from "../bits/IconButton.svelte";
     import ArrowLeft from "../bits/icons/ArrowLeft.svelte";
@@ -6,10 +6,10 @@
     import { date, nextDayPossible } from "../stores/date";
     import { dateAsString } from "../util/time";
 
-    export let onPrevious;
-    export let previousPossible;
-    export let onNext;
-    export let nextPossible;
+    export let onPrevious: () => void;
+    export let previousPossible: boolean;
+    export let onNext: () => void;
+    export let nextPossible: boolean;
 </script>
 
 <Flex padding="8px">

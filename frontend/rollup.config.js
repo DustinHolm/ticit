@@ -8,12 +8,12 @@ import livereload from "rollup-plugin-livereload";
 import serve from "rollup-plugin-serve";
 import svelte from "rollup-plugin-svelte";
 import { swc } from "rollup-plugin-swc3";
-import sveltePreprocess from "svelte-preprocess";
+import svelteConfig from "./svelte.config.js";
 
 const isDev = process.env.NODE_ENV === "development";
 
 export default {
-    input: "src/main.js",
+    input: "src/main.ts",
     output: {
         name: "Ticit",
         file: "target/ticit.js",
@@ -40,11 +40,7 @@ export default {
                 "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
             },
         }),
-        svelte({
-            emitCss: true,
-            include: "src/**/*.svelte",
-            preprocess: sveltePreprocess(),
-        }),
+        svelte(svelteConfig),
         swc({ minify: !isDev }),
         isDev && serve({ contentBase: "target", port: "3000" }),
         isDev && livereload({ watch: "target", delay: 200, verbose: true }),

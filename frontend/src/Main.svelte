@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import DefaultLayout from "./layouts/DefaultLayout.svelte";
     import { entries } from "./stores/entries";
 </script>
@@ -9,6 +9,7 @@
     {/await}
 </main>
 
+<!-- svelte-ignore css-unused-selector -->
 <style lang="sass" global>
     @font-face
         font-family: Inter
@@ -16,7 +17,7 @@
         font-weight: 400
         src: url("/assets/Inter-Regular.ttf") format("truetype")
 
-    body
+    body 
         margin: 0
         font-family: Inter
 
