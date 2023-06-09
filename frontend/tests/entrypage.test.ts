@@ -10,18 +10,19 @@ import { invoke } from "@tauri-apps/api";
 import type { TauriNewEntry, TauriExistingEntry } from "../src/types";
 import type { MockDateStore } from "../src/stores/__mocks__/date";
 import type { MockNowStore } from "../src/stores/__mocks__/now";
+import { vi, type Mock } from "vitest";
 
-jest.mock("@tauri-apps/api");
-const mockInvoke = invoke as jest.Mock;
-jest.mock("../src/stores/date");
+vi.mock("@tauri-apps/api");
+const mockInvoke = invoke as Mock;
+vi.mock("../src/stores/date");
 const mockDate = date as unknown as MockDateStore;
-jest.mock("../src/stores/now");
+vi.mock("../src/stores/now");
 const mockNow = now as unknown as MockNowStore;
-jest.mock("../src/util/time", () => ({
-    ...jest.requireActual<object>("../src/util/time"),
-    newDate: jest.fn(() => new Date()),
+vi.mock("../src/util/time", async () => ({
+    ...(await vi.importActual<object>("../src/util/time")),
+    newDate: vi.fn(() => new Date()),
 }));
-const mockNewDate = newDate as jest.Mock<Date>;
+const mockNewDate = newDate as Mock<[], Date>;
 
 describe("EntryPage tests", () => {
     beforeEach(() => {
