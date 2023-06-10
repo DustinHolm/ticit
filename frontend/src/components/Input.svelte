@@ -3,7 +3,7 @@
 
     export let label: string;
     export let value: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-    export let type = "text";
+    export let type: "text" | "time" = "text";
     export let onEnter: (() => void) | null = null;
 
     const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = (event) => {

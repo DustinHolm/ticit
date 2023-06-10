@@ -1,6 +1,6 @@
 <script lang="ts">
-    import EntryList from "../components/EntryList.svelte";
-    import EntryNew from "../components/entry/EntryNew.svelte";
+    import EntryList from "../entry/EntryList.svelte";
+    import EntryNew from "../entry/variants/EntryNew.svelte";
 </script>
 
 <div>

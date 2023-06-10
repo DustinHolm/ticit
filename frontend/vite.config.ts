@@ -2,11 +2,12 @@ import { defineConfig } from "vite";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 
 export default defineConfig({
+    root: ".",
     plugins: [
         svelte({
             configFile: "./svelte.config.js",
             emitCss: true,
-            include: "src/**/*.svelte",
+            include: "./src/**/*.svelte",
         }),
     ],
     build: {
@@ -18,7 +19,7 @@ export default defineConfig({
     test: {
         environment: "jsdom",
         globals: true,
-        include: ["**/tests/**/*.test.ts"],
+        include: ["./tests/**/*.test.ts"],
         restoreMocks: true,
         setupFiles: "./tests/test-setup.ts",
     },

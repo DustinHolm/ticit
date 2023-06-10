@@ -1,11 +1,9 @@
 <script lang="ts">
-    import type { EntryType } from "../../types";
-
-    export let entryType: EntryType = "Work";
     export let label: string;
+    export let backgroundColor: string | null = null;
 </script>
 
-<li class={entryType !== "Work" ? entryType : null} aria-label={label}>
+<li style:background-color={backgroundColor} aria-label={label}>
     <div class="content">
         <slot name="time" />
         <div class="texts">
@@ -19,12 +17,6 @@
 </li>
 
 <style lang="sass">
-    .EndOfDay
-        background-color: lightblue
-
-    .Break
-        background-color: lightgreen
-
     .buttons
         white-space: nowrap
 

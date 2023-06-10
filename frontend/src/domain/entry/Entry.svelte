@@ -1,9 +1,9 @@
 <script lang="ts">
     import { type ExistingEntry } from "../../types";
-    import EntryBreakDisplay from "./EntryBreakDisplay.svelte";
-    import EntryBreakEdit from "./EntryBreakEdit.svelte";
-    import EntryDisplay from "./EntryDisplay.svelte";
-    import EntryEdit from "./EntryEdit.svelte";
+    import EntryBreakDisplay from "./variants/EntryBreakDisplay.svelte";
+    import EntryBreakEdit from "./variants/EntryBreakEdit.svelte";
+    import EntryDisplay from "./variants/EntryDisplay.svelte";
+    import EntryEdit from "./variants/EntryEdit.svelte";
 
     export let entry: ExistingEntry;
 

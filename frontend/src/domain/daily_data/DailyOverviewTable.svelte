@@ -1,6 +1,6 @@
 <script lang="ts">
     import { workEntriesSummaries } from "../stores/summaries";
-    import { secondsAsDurationString } from "../util/time";
+    import { secondsAsDurationString } from "../../util/time";
 </script>
 
 <table>

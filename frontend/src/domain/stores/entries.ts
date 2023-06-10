@@ -6,9 +6,9 @@ import {
     writable,
     type Readable,
 } from "svelte/store";
-import { dateAsIsoString } from "../util/time";
+import { dateAsIsoString } from "../../util/time";
 import { date } from "./date";
-import type { EntryType, ExistingEntry, NewEntry } from "../types";
+import type { EntryType, ExistingEntry, NewEntry } from "../../types";
 import {
     invokeDeleteExistingEntry,
     invokeGetAllEntries,
@@ -16,7 +16,7 @@ import {
     invokePutBreak,
     invokePutEndOfDay,
     invokePutNewEntry,
-} from "../util/tauri";
+} from "../../util/tauri";
 
 const createEntries = () => {
     const internalStore = writable<ExistingEntry[]>([]);

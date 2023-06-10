@@ -1,25 +1,26 @@
 <script lang="ts">
-    import Input from "../../bits/Input.svelte";
-    import IconButton from "../../bits/IconButton.svelte";
-    import Checkmark from "../../bits/icons/Checkmark.svelte";
-    import Close from "../../bits/icons/Close.svelte";
-    import TrashCan from "../../bits/icons/TrashCan.svelte";
+    import IconButton from "../../../components/IconButton.svelte";
+    import Input from "../../../components/Input.svelte";
+    import ListElementForm from "../../../components/ListElementForm.svelte";
+    import Checkmark from "../../../components/icons/Checkmark.svelte";
+    import Close from "../../../components/icons/Close.svelte";
+    import TrashCan from "../../../components/icons/TrashCan.svelte";
     import { entries } from "../../stores/entries";
-    import { timeAsString, timeFromString } from "../../util/time";
-    import EntryBase from "./EntryBase.svelte";
-    import type { ExistingEntry } from "../../types";
+    import type { ExistingEntry } from "../../../types";
+    import { timeAsString, timeFromString } from "../../../util/time";
 
     export let entry: ExistingEntry;
     export let endEdit: () => void;
 
     let newTime = timeAsString(entry.time);
-    let text = entry.entryType === "EndOfDay" ? "End of day" : entry.entryType;
+    let newName = entry.name;
+    let newDescription = entry.description;
 
     const onConfirm = async () => {
         await entries.edit({
             id: entry.id,
-            name: null,
-            description: null,
+            name: newName,
+            description: newDescription,
             time: timeFromString(newTime),
             entryType: entry.entryType,
         });
@@ -28,6 +29,8 @@
 
     const onCancel = () => {
         newTime = timeAsString(entry.time);
+        newName = entry.name;
+        newDescription = entry.description;
         endEdit();
     };
 
@@ -43,13 +46,15 @@
     };
 </script>
 
-<EntryBase entryType={entry.entryType} label="editable break entry">
+<ListElementForm label="editable entry">
     <svelte:fragment slot="time">
         <Input label="Time" bind:value={newTime} type={"time"} onEnter={onConfirm} />
     </svelte:fragment>
 
     <svelte:fragment slot="texts">
-        <span aria-label="entry name" class="large" id="name">{text}</span>
+        <Input label="Name" bind:value={newName} onEnter={onConfirm} />
+
+        <Input label="Description" bind:value={newDescription} onEnter={onConfirm} />
     </svelte:fragment>
 
     <svelte:fragment slot="buttons">
@@ -65,4 +70,4 @@
             <Checkmark />
         </IconButton>
     </svelte:fragment>
-</EntryBase>
+</ListElementForm>

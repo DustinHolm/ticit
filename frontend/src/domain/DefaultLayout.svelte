@@ -1,9 +1,9 @@
 <script lang="ts">
-    import DailyData from "../components/DailyData.svelte";
-    import DailyOverviewPage from "../pages/DailyOverviewPage.svelte";
-    import Page from "../bits/Page.svelte";
-    import EntryPage from "../pages/EntryPage.svelte";
-    import PageSelector from "../components/PageSelector.svelte";
+    import DailyData from "./daily_data/DailyData.svelte";
+    import DailyOverviewPage from "./pages/DailyOverviewPage.svelte";
+    import Page from "../components/Page.svelte";
+    import EntryPage from "./pages/EntryPage.svelte";
+    import PageSelector from "./pages/PageSelector.svelte";
 
     let currentPage = 0;
     let width = 0;

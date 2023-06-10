@@ -1,9 +1,9 @@
 import { type Subscriber, type Unsubscriber, derived, get, writable } from "svelte/store";
 import { date } from "./date";
 import { entries } from "./entries";
-import type { DailySummary, ExistingEntry } from "../types";
-import { dateAsIsoString } from "../util/time";
-import { invokeGetAllDailySummaries } from "../util/tauri";
+import type { DailySummary, ExistingEntry } from "../../types";
+import { dateAsIsoString } from "../../util/time";
+import { invokeGetAllDailySummaries } from "../../util/tauri";
 
 const createSummaries = () => {
     const internalStore = writable<DailySummary[]>([]);

@@ -1,12 +1,12 @@
 <script lang="ts">
-    import IconButton from "../../bits/IconButton.svelte";
-    import Pencil from "../../bits/icons/Pencil.svelte";
-    import Reload from "../../bits/icons/Reload.svelte";
+    import IconButton from "../../../components/IconButton.svelte";
+    import ListElementForm from "../../../components/ListElementForm.svelte";
+    import Pencil from "../../../components/icons/Pencil.svelte";
+    import Reload from "../../../components/icons/Reload.svelte";
     import { entries, possibleEntryTypes } from "../../stores/entries";
     import { now } from "../../stores/now";
-    import type { ExistingEntry } from "../../types";
-    import { timeAsString } from "../../util/time";
-    import EntryBase from "./EntryBase.svelte";
+    import type { ExistingEntry } from "../../../types";
+    import { timeAsString } from "../../../util/time";
 
     export let entry: ExistingEntry;
     export let startEdit: () => void;
@@ -25,7 +25,7 @@
     };
 </script>
 
-<EntryBase label="readonly entry">
+<ListElementForm label="readonly entry">
     <svelte:fragment slot="time">
         <span aria-label="entry time" class="large" id="time">
             {timeAsString(entry.time)}
@@ -55,4 +55,4 @@
             <Reload />
         </IconButton>
     </svelte:fragment>
-</EntryBase>
+</ListElementForm>
