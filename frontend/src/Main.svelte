@@ -1,6 +1,6 @@
 <script lang="ts">
-    import DefaultLayout from "./layouts/DefaultLayout.svelte";
-    import { entries } from "./stores/entries";
+    import DefaultLayout from "./domain/DefaultLayout.svelte";
+    import { entries } from "./domain/stores/entries";
 </script>
 
 <main>

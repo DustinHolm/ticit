@@ -1,13 +1,13 @@
 <script lang="ts">
-    import IconButton from "../../bits/IconButton.svelte";
-    import Input from "../../bits/Input.svelte";
-    import Checkmark from "../../bits/icons/Checkmark.svelte";
-    import Fireworks from "../../bits/icons/Fireworks.svelte";
-    import Teabag from "../../bits/icons/Teabag.svelte";
+    import IconButton from "../../../components/IconButton.svelte";
+    import Input from "../../../components/Input.svelte";
+    import ListElementForm from "../../../components/ListElementForm.svelte";
+    import Checkmark from "../../../components/icons/Checkmark.svelte";
+    import Fireworks from "../../../components/icons/Fireworks.svelte";
+    import Teabag from "../../../components/icons/Teabag.svelte";
     import { entries, possibleEntryTypes } from "../../stores/entries";
     import { now } from "../../stores/now";
-    import { timeAsString } from "../../util/time";
-    import EntryBase from "./EntryBase.svelte";
+    import { timeAsString } from "../../../util/time";
 
     let newName: string | null = null;
     let newDescription: string | null = null;
@@ -27,7 +27,7 @@
     };
 </script>
 
-<EntryBase label="new entry">
+<ListElementForm label="new entry">
     <svelte:fragment slot="time">
         <span aria-label="entry time" class="large" id="time">
             {timeAsString($now)}
@@ -65,4 +65,4 @@
             <Checkmark />
         </IconButton>
     </svelte:fragment>
-</EntryBase>
+</ListElementForm>

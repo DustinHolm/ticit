@@ -1,10 +1,10 @@
 <script lang="ts">
-    import Flex from "../bits/Flex.svelte";
-    import IconButton from "../bits/IconButton.svelte";
-    import ArrowLeft from "../bits/icons/ArrowLeft.svelte";
-    import ArrowRight from "../bits/icons/ArrowRight.svelte";
+    import Flex from "../../components/Flex.svelte";
+    import IconButton from "../../components/IconButton.svelte";
+    import ArrowLeft from "../../components/icons/ArrowLeft.svelte";
+    import ArrowRight from "../../components/icons/ArrowRight.svelte";
     import { date, nextDayPossible } from "../stores/date";
-    import { dateAsString } from "../util/time";
+    import { dateAsString } from "../../util/time";
 
     export let onPrevious: () => void;
     export let previousPossible: boolean;

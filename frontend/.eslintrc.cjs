@@ -17,6 +17,7 @@ module.exports = {
         "plugin:svelte/prettier",
         "plugin:testing-library/dom",
         "plugin:vitest/recommended",
+        "plugin:storybook/recommended",
     ],
     parser: "@typescript-eslint/parser",
     parserOptions: {

@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Flex from "../bits/Flex.svelte";
+    import Flex from "../../components/Flex.svelte";
     import { breakEntry, totalTime } from "../stores/summaries";
-    import { secondsAsDurationString } from "../util/time";
+    import { secondsAsDurationString } from "../../util/time";
 
     $: breakDuration = $breakEntry ? $breakEntry.duration : 0;
 </script>

@@ -1,22 +1,22 @@
+import { invoke } from "@tauri-apps/api";
 import { render, screen, within } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
-import EntryPage from "../src/pages/EntryPage.svelte";
-import { entries } from "../src/stores/entries";
-import { now } from "../src/stores/now";
-import { date } from "../src/stores/date";
-import { TestUtils } from "./utils";
-import { newDate, timeFromString } from "../src/util/time";
-import { invoke } from "@tauri-apps/api";
-import type { TauriNewEntry, TauriExistingEntry } from "../src/types";
-import type { MockDateStore } from "../src/stores/__mocks__/date";
-import type { MockNowStore } from "../src/stores/__mocks__/now";
 import { vi, type Mock } from "vitest";
+import EntryPage from "../src/domain/pages/EntryPage.svelte";
+import type { MockDateStore } from "../src/domain/stores/__mocks__/date";
+import type { MockNowStore } from "../src/domain/stores/__mocks__/now";
+import { date } from "../src/domain/stores/date";
+import { entries } from "../src/domain/stores/entries";
+import { now } from "../src/domain/stores/now";
+import type { TauriExistingEntry, TauriNewEntry } from "../src/types";
+import { newDate, timeFromString } from "../src/util/time";
+import { TestUtils } from "./utils";
 
 vi.mock("@tauri-apps/api");
 const mockInvoke = invoke as Mock;
-vi.mock("../src/stores/date");
+vi.mock("../src/domain/stores/date");
 const mockDate = date as unknown as MockDateStore;
-vi.mock("../src/stores/now");
+vi.mock("../src/domain/stores/now");
 const mockNow = now as unknown as MockNowStore;
 vi.mock("../src/util/time", async () => ({
     ...(await vi.importActual<object>("../src/util/time")),
