@@ -6,8 +6,8 @@
         "storybook": "storybook dev -p 6006",
         "test:all": "vitest run --silent",
         "test:watch": "vitest watch --coverage",
-        "check:lint": "npm run eslint && npm run prettier -- -c && tsc && svelte-check",
-        "check:fix": "npm run eslint -- --fix && npm run prettier -- -w",
+        "check:lint": "npm run util:eslint && npm run util:prettier -- -c && tsc && svelte-check",
+        "check:fix": "npm run util:eslint -- --fix && npm run util:prettier -- -w",
         "util:eslint": "eslint --no-error-on-unmatched-pattern ./src ./tests ./*.ts ./*.js",
         "util:prettier": "prettier --no-error-on-unmatched-pattern ./src ./tests ./*.ts ./*.js"
     },
