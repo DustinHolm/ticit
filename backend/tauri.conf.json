@@ -20,7 +20,8 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "org.ticit.ticit",
+      "identifier": "Ticit",
+      "publisher": "Ticit Maintainers",
       "shortDescription": "Simple timekeeping app",
       "targets": ["deb", "msi", "dmg", "updater"]
     },
