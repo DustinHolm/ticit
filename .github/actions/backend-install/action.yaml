@@ -4,6 +4,7 @@ inputs:
   platform:
     required: false
     default: "unknown"
+
 runs:
   using: "composite"
   steps:

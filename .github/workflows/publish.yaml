@@ -28,6 +28,8 @@ jobs:
         with:
           platform: ${{matrix.platform}}
       - uses: ./.github/actions/backend-check
+        with:
+          mode: release
 
       # Build executeables
       - uses: tauri-apps/tauri-action@v0

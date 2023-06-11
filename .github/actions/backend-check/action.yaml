@@ -1,5 +1,10 @@
 name: "backend check"
 
+inputs:
+  mode:
+    required: false
+    default: "debug"
+
 runs:
   using: "composite"
   steps:
@@ -23,6 +28,13 @@ runs:
       shell: bash
 
     - name: test
+      if: inputs.mode != 'release'
       run: cargo test
+      working-directory: backend
+      shell: bash
+
+    - name: test
+      if: inputs.mode == 'release'
+      run: cargo test --release
       working-directory: backend
       shell: bash
