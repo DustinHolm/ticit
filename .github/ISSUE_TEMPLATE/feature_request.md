@@ -11,4 +11,4 @@ assignees: ''
 A clear and concise description of  features you are considering to be important.
 
 **Are you willing to implement the feature yourself?**
-Yes/No
+Yes/No/...
