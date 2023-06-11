@@ -14,7 +14,7 @@
 
     let newTime = timeAsString(entry.time);
     let text = entry.entryType === "EndOfDay" ? "End of day" : entry.entryType;
-    let backgroundColor = entry.entryType === "EndOfDay" ? "brightgreen" : "brightblue";
+    let backgroundColor = entry.entryType === "EndOfDay" ? "lightgreen" : "lightblue";
 
     const onConfirm = async () => {
         await entries.edit({

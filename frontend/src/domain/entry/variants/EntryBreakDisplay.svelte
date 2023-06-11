@@ -9,7 +9,7 @@
     export let startEdit: () => void;
 
     let text = entry.entryType === "EndOfDay" ? "End of day" : entry.entryType;
-    let backgroundColor = entry.entryType === "EndOfDay" ? "brightgreen" : "brightblue";
+    let backgroundColor = entry.entryType === "EndOfDay" ? "lightgreen" : "lightblue";
 
     const onEdit = () => {
         startEdit();
