@@ -30,10 +30,10 @@
 
 <div
     class:grow
-    style={`flex-direction: ${direction};
-            justify-content: ${justifyContent};
-            align-items: ${alignItems};
-            padding: ${padding}`}
+    style:flex-direction={direction}
+    style:justify-content={justifyContent}
+    style:align-items={alignItems}
+    style:padding
 >
     <slot />
 </div>
