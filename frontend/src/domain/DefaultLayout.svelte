@@ -53,5 +53,5 @@
         align-items: flex-start
         justify-content: center
         background-color: lightgrey
-        overflow: scroll
+        overflow: auto
 </style>
