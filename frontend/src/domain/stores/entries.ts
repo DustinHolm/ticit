@@ -24,17 +24,17 @@ const createEntries = () => {
 
     const subscribe = (
         run: Subscriber<ExistingEntry[]>,
-        invalidate?: (value?: ExistingEntry[]) => void
+        invalidate?: (value?: ExistingEntry[]) => void,
     ): Unsubscriber => {
         const unsubscribeEntries = internalStore.subscribe(run, invalidate);
         const unsubscribeDate = date.subscribe((newDate) => {
             if (newDate !== currentDate) {
                 currentDate = newDate;
-                loadAll().catch(() =>
+                loadAll().catch(() => {
                     console.error(
-                        `Could not fetch entries for day ${dateAsIsoString(currentDate)}.`
-                    )
-                );
+                        `Could not fetch entries for day ${dateAsIsoString(currentDate)}.`,
+                    );
+                });
             }
         });
 

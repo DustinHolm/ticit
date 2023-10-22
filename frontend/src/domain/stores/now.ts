@@ -6,5 +6,7 @@ export const now = readable(newDate(), (set) => {
         set(newDate());
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => {
+        clearInterval(interval);
+    };
 });

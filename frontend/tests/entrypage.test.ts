@@ -1,7 +1,7 @@
 import { invoke } from "@tauri-apps/api";
 import { render, screen, within } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
-import { vi, type Mock } from "vitest";
+import { beforeEach, describe, expect, test, vi, type Mock } from "vitest";
 import EntryPage from "../src/domain/pages/EntryPage.svelte";
 import type { MockDateStore } from "../src/domain/stores/__mocks__/date";
 import type { MockNowStore } from "../src/domain/stores/__mocks__/now";
@@ -43,13 +43,13 @@ describe("EntryPage tests", () => {
                     TestUtils.generateEntry({
                         id: i,
                         name: "entry",
-                    })
+                    }),
                 );
 
                 given.existingEntries(entries);
                 await when.rendered();
                 then.readOnlyEntriesExist(number);
-            }
+            },
         );
     });
 
@@ -315,13 +315,13 @@ const then = {
 
     editableEntriesExist: (expected: number) => {
         expect(screen.queryAllByRole("listitem", { name: "editable entry" })).toHaveLength(
-            expected
+            expected,
         );
     },
 
     readOnlyEntriesExist: (expected: number) => {
         expect(screen.queryAllByRole("listitem", { name: "readonly entry" })).toHaveLength(
-            expected
+            expected,
         );
     },
 
@@ -382,13 +382,21 @@ const then = {
     },
 
     takeBreak: {
-        isCalled: () => expect(invoke).toBeCalledWith("take_break", expect.anything()),
-        isNotCalled: () => expect(invoke).not.toBeCalledWith("take_break", expect.anything()),
+        isCalled: () => {
+            expect(invoke).toBeCalledWith("take_break", expect.anything());
+        },
+        isNotCalled: () => {
+            expect(invoke).not.toBeCalledWith("take_break", expect.anything());
+        },
     },
 
     endDay: {
-        isCalled: () => expect(invoke).toBeCalledWith("end_day", expect.anything()),
-        isNotCalled: () => expect(invoke).not.toBeCalledWith("end_day", expect.anything()),
+        isCalled: () => {
+            expect(invoke).toBeCalledWith("end_day", expect.anything());
+        },
+        isNotCalled: () => {
+            expect(invoke).not.toBeCalledWith("end_day", expect.anything());
+        },
     },
 };
 

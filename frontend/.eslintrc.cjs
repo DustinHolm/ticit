@@ -9,9 +9,7 @@ module.exports = {
     ignorePatterns: [".eslintrc.cjs", "*.config.js"],
     extends: [
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "plugin:@typescript-eslint/strict",
+        "plugin:@typescript-eslint/strict-type-checked",
         "plugin:jest-dom/recommended",
         "plugin:svelte/recommended",
         "plugin:svelte/prettier",

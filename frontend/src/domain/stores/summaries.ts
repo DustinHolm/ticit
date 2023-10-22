@@ -12,7 +12,7 @@ const createSummaries = () => {
 
     const subscribe = (
         run: Subscriber<DailySummary[]>,
-        invalidate?: (value?: DailySummary[]) => void
+        invalidate?: (value?: DailySummary[]) => void,
     ): Unsubscriber => {
         const unsubscribeSummaries = internalStore.subscribe(run, invalidate);
         const unsubscribeEntries = entries.subscribe((newEntries) => {
@@ -21,11 +21,11 @@ const createSummaries = () => {
                 JSON.stringify(newEntries) !== JSON.stringify(currentEntries)
             ) {
                 currentEntries = newEntries;
-                loadAll().catch(() =>
+                loadAll().catch(() => {
                     console.error(
-                        `Could not fetch entries for day ${dateAsIsoString(currentDate)}.`
-                    )
-                );
+                        `Could not fetch entries for day ${dateAsIsoString(currentDate)}.`,
+                    );
+                });
             }
         });
         const unsubscribeDate = date.subscribe((newDate) => {
@@ -51,13 +51,13 @@ const createSummaries = () => {
 const entriesSummaries = createSummaries();
 
 export const workEntriesSummaries = derived(entriesSummaries, (summaries) =>
-    summaries.filter((s) => s.dailySummaryType === "Work")
+    summaries.filter((s) => s.dailySummaryType === "Work"),
 );
 
 export const breakEntry = derived(entriesSummaries, (summaries) =>
-    summaries.find((s) => s.dailySummaryType === "Break")
+    summaries.find((s) => s.dailySummaryType === "Break"),
 );
 
 export const totalTime = derived(workEntriesSummaries, (summaries) =>
-    summaries.map((s) => s.duration).reduce((prev, current) => prev + current, 0)
+    summaries.map((s) => s.duration).reduce((prev, current) => prev + current, 0),
 );
