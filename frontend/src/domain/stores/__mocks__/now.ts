@@ -5,7 +5,9 @@ const initial = new Date("2000-01-01T00:00:00");
 const createNow = () => {
     const { subscribe, set } = writable(initial);
 
-    const reset = () => set(initial);
+    const reset = () => {
+        set(initial);
+    };
 
     return { subscribe, set, reset };
 };
