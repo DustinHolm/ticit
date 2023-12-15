@@ -1,4 +1,6 @@
 import {
+    eachDayOfInterval,
+    endOfWeek,
     format,
     getHours,
     getMinutes,
@@ -7,6 +9,7 @@ import {
     secondsToMinutes,
     setHours,
     setMinutes,
+    startOfWeek,
 } from "date-fns";
 
 export const newDate = () => new Date();
@@ -30,4 +33,11 @@ export const secondsAsDurationString = (seconds: number) => {
     const minutes = secondsToMinutes(seconds) % 60;
 
     return `${hours}h ${minutes}m`;
+};
+
+export const getAllDaysOfWeek = (date: Date) => {
+    return eachDayOfInterval({
+        start: startOfWeek(date, { weekStartsOn: 1 }),
+        end: endOfWeek(date, { weekStartsOn: 1 }),
+    });
 };

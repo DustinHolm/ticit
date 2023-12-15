@@ -1,7 +1,7 @@
 import { derived, writable } from "svelte/store";
 import { now } from "./now";
 import { add, sub } from "date-fns";
-import { newDate } from "../../util/time";
+import { getAllDaysOfWeek, newDate } from "../../util/time";
 
 const createDate = () => {
     const { subscribe, update } = writable(newDate());
@@ -22,3 +22,5 @@ export const date = createDate();
 export const nextDayPossible = derived([now, date], ([$now, $date]) => {
     return $now.getTime() - $date.getTime() > 1000 * 60 * 60 * 24;
 });
+
+export const daysOfWeek = derived(date, ($date) => getAllDaysOfWeek($date));

@@ -8,10 +8,11 @@
     let currentPage = 0;
     let width = 0;
 
+    const widthPx = 500;
     const onNext = () => (currentPage = currentPage + 1);
     const onPrevious = () => (currentPage = currentPage - 1);
 
-    $: maxPages = Math.max(1, Math.floor(width / 800));
+    $: maxPages = Math.max(1, Math.floor(width / widthPx));
     $: nextPossible = currentPage < 1 && maxPages < 2;
     $: previousPossible = currentPage > 0 && maxPages < 2;
 </script>
@@ -23,13 +24,13 @@
 
     <div class={"inner"}>
         {#if currentPage === 0 || maxPages > 1}
-            <Page>
+            <Page {widthPx}>
                 <EntryPage />
             </Page>
         {/if}
 
         {#if currentPage === 1 || maxPages > 1}
-            <Page>
+            <Page {widthPx}>
                 <DailyOverviewPage />
             </Page>
         {/if}

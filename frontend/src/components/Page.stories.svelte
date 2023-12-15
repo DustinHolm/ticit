@@ -1,9 +1,15 @@
-<script lang="ts">
-    import { Meta, Story } from "@storybook/addon-svelte-csf";
+<script context="module" lang="ts">
     import Page from "./Page.svelte";
+
+    export const meta = {
+        title: "Components/Page",
+        component: Page,
+    };
 </script>
 
-<Meta title="Components/Page" component={Page} />
+<script lang="ts">
+    import { Story } from "@storybook/addon-svelte-csf";
+</script>
 
 <Story name="Default">
     <div class="outer">
