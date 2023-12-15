@@ -1,11 +1,14 @@
-<div>
+<script lang="ts">
+    export let widthPx: number;
+</script>
+
+<div style:width={widthPx + "px"}>
     <slot />
 </div>
 
 <style lang="sass">
     div
         min-height: 400px
-        width: 800px
         background-color: white
         border-radius: 8px
         box-sizing: border-box

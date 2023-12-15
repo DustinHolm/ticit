@@ -1,46 +1,49 @@
-<script>
-    import { Meta, Story, Template } from "@storybook/addon-svelte-csf";
+<script context="module" lang="ts">
     import Flex from "./Flex.svelte";
+
+    export const meta = {
+        title: "Components/Flex",
+        component: { Flex },
+        argTypes: {
+            direction: {
+                control: "radio",
+                options: ["row", "row-reverse", "column", "column-reverse", "initial", "inherit"],
+            },
+            grow: { control: "boolean" },
+            justifyContent: {
+                control: "radio",
+                options: [
+                    "flex-start",
+                    "flex-end",
+                    "center",
+                    "space-between",
+                    "space-around",
+                    "space-evenly",
+                    "initial",
+                    "inherit",
+                ],
+            },
+            alignItems: {
+                control: "radio",
+                options: [
+                    "normal",
+                    "stretch",
+                    "center",
+                    "flex-start",
+                    "flex-end",
+                    "baseline",
+                    "initial",
+                    "inherit",
+                ],
+            },
+            padding: { control: "text" },
+        },
+    };
 </script>
 
-<Meta
-    title="Components/Flex"
-    component={Flex}
-    argTypes={{
-        direction: {
-            control: "radio",
-            options: ["row", "row-reverse", "column", "column-reverse", "initial", "inherit"],
-        },
-        grow: { control: "boolean" },
-        justifyContent: {
-            control: "radio",
-            options: [
-                "flex-start",
-                "flex-end",
-                "center",
-                "space-between",
-                "space-around",
-                "space-evenly",
-                "initial",
-                "inherit",
-            ],
-        },
-        alignItems: {
-            control: "radio",
-            options: [
-                "normal",
-                "stretch",
-                "center",
-                "flex-start",
-                "flex-end",
-                "baseline",
-                "initial",
-                "inherit",
-            ],
-        },
-        padding: { control: "text" },
-    }}
-/>
+<script lang="ts">
+    import { Story, Template } from "@storybook/addon-svelte-csf";
+</script>
 
 <Template let:args>
     <Flex {...args}>

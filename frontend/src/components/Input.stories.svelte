@@ -1,22 +1,25 @@
-<script lang="ts">
-    import { Meta, Story, Template } from "@storybook/addon-svelte-csf";
+<script context="module" lang="ts">
     import Input from "./Input.svelte";
+
+    export const meta = {
+        title: "Components/Input",
+        component: { Input },
+        argTypes: {
+            label: { control: "text" },
+            type: {
+                control: "radio",
+                options: ["text", "time"],
+            },
+            onEnter: { action: "enter", control: false },
+        },
+    };
+</script>
+
+<script lang="ts">
+    import { Story, Template } from "@storybook/addon-svelte-csf";
 
     let value: unknown = undefined;
 </script>
-
-<Meta
-    title="Components/Input"
-    component={Input}
-    argTypes={{
-        label: { control: "text" },
-        type: {
-            control: "radio",
-            options: ["text", "time"],
-        },
-        onEnter: { action: "enter", control: false },
-    }}
-/>
 
 <Template let:args>
     <Input {...args} bind:value />

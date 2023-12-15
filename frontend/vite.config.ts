@@ -7,7 +7,7 @@ export default defineConfig({
         svelte({
             configFile: "./svelte.config.js",
             emitCss: true,
-            include: "./src/**/*.svelte",
+            include: "**/*.svelte",
         }),
     ],
     build: {
