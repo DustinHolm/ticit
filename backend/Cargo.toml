@@ -1,12 +1,12 @@
 [package]
 name = "ticit"
-version = "1.0.4"
+version = "1.0.5"
 description = "Simple timekeeping app"
 authors = ["Dustin Holm"]
 license = "MIT"
 default-run = "ticit"
 edition = "2021"
-rust-version = "1.59"
+rust-version = "1.74"
 
 [dependencies]
 bincode = "1.3.3"
