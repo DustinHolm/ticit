@@ -5,10 +5,7 @@ Ticit is a simple timekeeping app build with Tauri and running on all operating 
 ## Installation
 
 Find the latest release for your operating system [here](https://github.com/DustinHolm/ticit/releases/latest)
-(Windows: ".msi", Linux: ".deb", OS X: ".dmg").
-
-Updates for Windows are distributed via Tauri's auto-updater. Other operating systems need to
-download and install new updates manually.
+(Windows: ".exe", Linux: ".deb", OS X: ".dmg").
 
 ## Usage
 

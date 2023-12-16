@@ -23,7 +23,7 @@
       "identifier": "Ticit",
       "publisher": "Ticit Maintainers",
       "shortDescription": "Simple timekeeping app",
-      "targets": ["deb", "msi", "nsis", "dmg", "updater"]
+      "targets": ["deb", "nsis", "dmg", "updater"]
     },
     "windows": [
       {
