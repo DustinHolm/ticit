@@ -12,6 +12,14 @@
         "strict": true,
         "target": "ES2022"
     },
-    "include": ["src/**/*", "tests/**/*", "__mocks__/**/*", "*.ts", "*.js", "*.cjs"],
+    "include": [
+        "src/**/*",
+        "tests/**/*",
+        "__mocks__/**/*",
+        "*.ts",
+        "*.js",
+        "*.cjs",
+        ".eslintrc.cjs"
+    ],
     "exclude": ["node_modules"]
 }

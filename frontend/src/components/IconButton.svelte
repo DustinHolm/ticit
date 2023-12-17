@@ -5,6 +5,7 @@
     export let onClick: MouseEventHandler<HTMLButtonElement> | null = null;
     export let size: "small" | "medium" | "large" = "medium";
     export let label: string | null = null;
+    export let color: string = "black";
 
     const sizes = {
         small: 20,
@@ -14,15 +15,12 @@
 </script>
 
 <button on:click={onClick} {disabled} class={size} title={label}>
-    <svg class:disabled viewBox={"0 0 64 64"} height={sizes[size]} width={sizes[size]}>
+    <svg class:disabled viewBox={"0 0 64 64"} height={sizes[size]} width={sizes[size]} fill={color}>
         <slot />
     </svg>
 </button>
 
 <style lang="sass">
-    svg
-        fill: black
-
     svg.disabled
         fill: lightgrey
 

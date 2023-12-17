@@ -1,11 +1,22 @@
 <script lang="ts">
     import DefaultLayout from "./domain/DefaultLayout.svelte";
     import { entries } from "./domain/stores/entries";
+    import { checkForUpdates } from "./util/tauri";
+
+    let updateAvailable = false;
+
+    checkForUpdates()
+        .then((result) => {
+            updateAvailable = result;
+        })
+        .catch((e) => {
+            console.error("Could not check for updates", e);
+        });
 </script>
 
 <main>
     {#await entries.loadAll() then}
-        <DefaultLayout />
+        <DefaultLayout {updateAvailable} />
     {/await}
 </main>
 

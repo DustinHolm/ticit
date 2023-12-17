@@ -1,4 +1,4 @@
-import { invoke } from "@tauri-apps/api";
+import { invoke, updater } from "@tauri-apps/api";
 import { dateAsIsoString, dateTimeAsString, dateTimeFromString, dateWithTime } from "./time";
 import type {
     DailySummary,
@@ -71,4 +71,10 @@ export const invokeGetAllDailySummaries = async (date: Date): Promise<DailySumma
         dailySummaryType: summary.daily_summary_type,
         duration: Number.parseFloat(summary.duration),
     }));
+};
+
+export const checkForUpdates = async (): Promise<boolean> => {
+    const result = await updater.checkUpdate();
+
+    return result.shouldUpdate;
 };

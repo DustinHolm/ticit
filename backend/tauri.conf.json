@@ -7,7 +7,14 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false
+      "all": false,
+      "shell": {
+        "all": false,
+        "execute": false,
+        "open": "^https://github.com/DustinHolm",
+        "scope": [],
+        "sidecar": false
+      }
     },
     "bundle": {
       "active": true,
@@ -23,14 +30,22 @@
       "identifier": "Ticit",
       "publisher": "Ticit Maintainers",
       "shortDescription": "Simple timekeeping app",
-      "targets": ["deb", "nsis", "dmg", "updater"]
+      "targets": ["deb", "nsis", "dmg"]
+    },
+    "updater": {
+      "active": true,
+      "dialog": false,
+      "endpoints": [
+        "https://gist.githubusercontent.com/DustinHolm/5dffd0b6b7723f911eb03128fa576dcb/raw"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDgwNEMzNkMzMEFBQ0VFMUIKUldRYjdxd0t3elpNZ05qUVRuQk9oT2lqQkZIQW1pak01TDNCVUdSVXNMTUtHYlpGYnU1dXA2NDcK"
     },
     "windows": [
       {
         "title": "Ticit",
         "label": "main",
         "height": 600,
-        "width": 800,
+        "width": 600,
         "fileDropEnabled": false
       }
     ]

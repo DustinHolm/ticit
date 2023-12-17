@@ -6,6 +6,7 @@
     import { date, nextDayPossible } from "../stores/date";
     import { dateAsString } from "../../util/time";
 
+    export let updateAvailable: boolean;
     export let onPrevious: () => void;
     export let previousPossible: boolean;
     export let onNext: () => void;
@@ -13,9 +14,14 @@
 </script>
 
 <Flex padding="8px">
-    <IconButton onClick={onPrevious} disabled={!previousPossible} label="Show previous content">
-        <ArrowLeft />
-    </IconButton>
+    <Flex direction="column" justifyContent="flex-end" alignItems="center">
+        {#if updateAvailable}
+            <a href="https://github.com/DustinHolm/ticit/releases" target="_blank">Update</a>
+        {/if}
+        <IconButton onClick={onPrevious} disabled={!previousPossible} label="Show previous content">
+            <ArrowLeft />
+        </IconButton>
+    </Flex>
 
     <Flex alignItems="center">
         <IconButton onClick={date.previous} label="Previous day" size="small">
@@ -29,9 +35,11 @@
         </IconButton>
     </Flex>
 
-    <IconButton onClick={onNext} disabled={!nextPossible} label="Show next content">
-        <ArrowRight />
-    </IconButton>
+    <Flex direction="column" justifyContent="flex-end" alignItems="center">
+        <IconButton onClick={onNext} disabled={!nextPossible} label="Show next content">
+            <ArrowRight />
+        </IconButton>
+    </Flex>
 </Flex>
 
 <style lang="sass">
