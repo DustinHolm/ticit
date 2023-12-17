@@ -5,6 +5,8 @@
     import EntryPage from "./pages/EntryPage.svelte";
     import PageSelector from "./pages/PageSelector.svelte";
 
+    export let updateAvailable: boolean;
+
     let currentPage = 0;
     let width = 0;
 
@@ -20,7 +22,7 @@
 <svelte:window bind:innerWidth={width} />
 
 <div class={"outer"}>
-    <PageSelector {onNext} {nextPossible} {onPrevious} {previousPossible} />
+    <PageSelector {updateAvailable} {onNext} {nextPossible} {onPrevious} {previousPossible} />
 
     <div class={"inner"}>
         {#if currentPage === 0 || maxPages > 1}
