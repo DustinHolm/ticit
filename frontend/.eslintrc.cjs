@@ -6,7 +6,7 @@ module.exports = {
         jest: true,
         node: true,
     },
-    ignorePatterns: [".eslintrc.cjs", "*.config.js"],
+    ignorePatterns: [".eslintrc.cjs"],
     extends: [
         "eslint:recommended",
         "plugin:@typescript-eslint/strict-type-checked",
