@@ -30,7 +30,7 @@
       "identifier": "Ticit",
       "publisher": "Ticit Maintainers",
       "shortDescription": "Simple timekeeping app",
-      "targets": ["deb", "nsis", "dmg", "updater"]
+      "targets": ["deb", "nsis", "dmg"]
     },
     "updater": {
       "active": true,
@@ -45,7 +45,7 @@
         "title": "Ticit",
         "label": "main",
         "height": 600,
-        "width": 800,
+        "width": 600,
         "fileDropEnabled": false
       }
     ]
