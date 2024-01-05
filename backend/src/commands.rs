@@ -1,4 +1,5 @@
 use tauri::{AppHandle, State};
+use ticit::simple_summary::SimpleDailySummary;
 use time::{Date, OffsetDateTime};
 
 use crate::database::Database;
@@ -67,6 +68,18 @@ pub fn durations_for_day(
     let mut entries = db.read_all_for_day(&path, &day)?;
 
     DailySummary::from_entries(&mut entries)
+}
+
+#[tauri::command]
+pub fn simple_daily_summary(
+    day: Date,
+    app: AppHandle,
+    db: State<Database>,
+) -> Result<SimpleDailySummary, String> {
+    let path = get_path(&app)?;
+    let mut entries = db.read_all_for_day(&path, &day)?;
+
+    Ok(SimpleDailySummary::from_entries(&mut entries))
 }
 
 fn get_path(app: &AppHandle) -> Result<String, String> {
