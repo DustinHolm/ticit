@@ -12,7 +12,7 @@
         "util:prettier": "prettier --no-error-on-unmatched-pattern ./src ./tests ./*.ts ./*.js"
     },
     "dependencies": {
-        "@tauri-apps/api": "^1.5.2",
+        "@tauri-apps/api": "^1.4.1",
         "date-fns": "^2.30.0"
     },
     "devDependencies": {
