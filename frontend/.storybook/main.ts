@@ -6,7 +6,6 @@ const config: StorybookConfig = {
     addons: [
         "@storybook/addon-essentials",
         "@storybook/addon-a11y",
-        "@storybook/addon-console",
         "@storybook/addon-storysource",
         "@storybook/addon-svelte-csf",
     ],

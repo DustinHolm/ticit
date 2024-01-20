@@ -9,7 +9,7 @@
         { name: "Time spent", width: "20%" },
     ];
 
-    const rows = $workEntriesSummaries.map((entry) => [
+    $: rows = $workEntriesSummaries.map((entry) => [
         entry.name ? entry.name : "-",
         entry.description ? entry.description : "-",
         secondsAsDurationString(entry.duration),

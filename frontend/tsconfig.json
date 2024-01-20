@@ -10,7 +10,7 @@
         "noEmit": true,
         "noImplicitAny": true,
         "strict": true,
-        "target": "ES2022"
+        "target": "ES2022",
     },
     "include": [
         "src/**/*",
@@ -19,7 +19,7 @@
         "*.ts",
         "*.js",
         "*.cjs",
-        ".eslintrc.cjs"
+        ".eslintrc.cjs",
     ],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules"],
 }
