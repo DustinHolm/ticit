@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     import ListElementForm from "./ListElementForm.svelte";
 
     export const meta = {
@@ -13,14 +13,20 @@
 
 <Story name="Default">
     <ListElementForm label="Default">
-        <svelte:fragment slot="time">
-            <span class="large" id="time"> 10:24 </span>
-        </svelte:fragment>
+        {#snippet time()}
+            
+                <span class="large" id="time"> 10:24 </span>
+            
+            {/snippet}
 
-        <svelte:fragment slot="texts">
-            <span class="large" id="name">Title</span>
-        </svelte:fragment>
+        {#snippet texts()}
+            
+                <span class="large" id="name">Title</span>
+            
+            {/snippet}
 
-        <svelte:fragment slot="buttons">Button</svelte:fragment>
+        {#snippet buttons()}
+                Button
+            {/snippet}
     </ListElementForm>
 </Story>

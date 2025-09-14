@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     import Flex from "./Flex.svelte";
 
     export const meta = {
@@ -45,12 +45,14 @@
     import { Story, Template } from "@storybook/addon-svelte-csf";
 </script>
 
-<Template let:args>
-    <Flex {...args}>
-        {#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as i}
-            <span>Element {i}</span>
-        {/each}
-    </Flex>
+<Template >
+    {#snippet children({ args })}
+        <Flex {...args}>
+            {#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as i}
+                <span>Element {i}</span>
+            {/each}
+        </Flex>
+    {/snippet}
 </Template>
 
 <Story name="Default" />

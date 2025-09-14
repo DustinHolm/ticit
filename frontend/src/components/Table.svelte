@@ -1,6 +1,10 @@
 <script lang="ts">
-    export let headers: { name: string; width: string }[];
-    export let rows: string[][];
+    interface Props {
+        headers: { name: string; width: string }[];
+        rows: string[][];
+    }
+
+    let { headers, rows }: Props = $props();
 </script>
 
 <table>

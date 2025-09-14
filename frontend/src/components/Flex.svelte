@@ -1,13 +1,14 @@
 <script lang="ts">
-    export let direction:
+    interface Props {
+        direction?: 
         | "row"
         | "row-reverse"
         | "column"
         | "column-reverse"
         | "initial"
-        | "inherit" = "row";
-    export let grow = false;
-    export let justifyContent:
+        | "inherit";
+        grow?: boolean;
+        justifyContent?: 
         | "flex-start"
         | "flex-end"
         | "center"
@@ -15,8 +16,8 @@
         | "space-around"
         | "space-evenly"
         | "initial"
-        | "inherit" = "space-between";
-    export let alignItems:
+        | "inherit";
+        alignItems?: 
         | "normal"
         | "stretch"
         | "center"
@@ -24,8 +25,19 @@
         | "flex-end"
         | "baseline"
         | "initial"
-        | "inherit" = "normal";
-    export let padding = "0";
+        | "inherit";
+        padding?: string;
+        children?: import('svelte').Snippet;
+    }
+
+    let {
+        direction = "row",
+        grow = false,
+        justifyContent = "space-between",
+        alignItems = "normal",
+        padding = "0",
+        children
+    }: Props = $props();
 </script>
 
 <div
@@ -35,7 +47,7 @@
     style:align-items={alignItems}
     style:padding
 >
-    <slot />
+    {@render children?.()}
 </div>
 
 <style lang="sass">

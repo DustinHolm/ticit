@@ -16,7 +16,7 @@ mod commands;
 
 fn main() {
     Builder::default()
-        .manage(Database::default())
+        .manage(Database::new())
         .invoke_handler(generate_handler![
             new_entry,
             edit_entry,

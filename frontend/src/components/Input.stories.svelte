@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     import Input from "./Input.svelte";
 
     export const meta = {
@@ -18,11 +18,13 @@
 <script lang="ts">
     import { Story, Template } from "@storybook/addon-svelte-csf";
 
-    let value: unknown = undefined;
+    let value: unknown = $state(undefined);
 </script>
 
-<Template let:args>
-    <Input {...args} bind:value />
+<Template >
+    {#snippet children({ args })}
+        <Input {...args} bind:value />
+    {/snippet}
 </Template>
 
 <Story name="Default" />

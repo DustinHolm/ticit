@@ -9,10 +9,14 @@
     import ListElementForm from "../../../components/ListElementForm.svelte";
     import type { ExistingEntry } from "../../../types";
 
-    export let entry: ExistingEntry;
-    export let endEdit: () => void;
+    interface Props {
+        entry: ExistingEntry;
+        endEdit: () => void;
+    }
 
-    let newTime = timeAsString(entry.time);
+    let { entry, endEdit }: Props = $props();
+
+    let newTime = $state(timeAsString(entry.time));
     let text = entry.entryType === "EndOfDay" ? "End of day" : entry.entryType;
     let backgroundColor = entry.entryType === "EndOfDay" ? "lightgreen" : "lightblue";
 
@@ -45,25 +49,31 @@
 </script>
 
 <ListElementForm {backgroundColor} label="editable break entry">
-    <svelte:fragment slot="time">
-        <Input label="Time" bind:value={newTime} type={"time"} onEnter={onConfirm} />
-    </svelte:fragment>
+    {#snippet time()}
+    
+            <Input label="Time" bind:value={newTime} type={"time"} onEnter={onConfirm} />
+        
+    {/snippet}
 
-    <svelte:fragment slot="texts">
-        <span aria-label="entry name" class="large" id="name">{text}</span>
-    </svelte:fragment>
+    {#snippet texts()}
+    
+            <span aria-label="entry name" class="large" id="name">{text}</span>
+        
+    {/snippet}
 
-    <svelte:fragment slot="buttons">
-        <IconButton onClick={onDelete} label="Delete entry">
-            <TrashCan />
-        </IconButton>
+    {#snippet buttons()}
+    
+            <IconButton onClick={onDelete} label="Delete entry">
+                <TrashCan />
+            </IconButton>
 
-        <IconButton onClick={onCancel} label="Cancel">
-            <Close />
-        </IconButton>
+            <IconButton onClick={onCancel} label="Cancel">
+                <Close />
+            </IconButton>
 
-        <IconButton onClick={onConfirm} label="Confirm">
-            <Checkmark />
-        </IconButton>
-    </svelte:fragment>
+            <IconButton onClick={onConfirm} label="Confirm">
+                <Checkmark />
+            </IconButton>
+        
+    {/snippet}
 </ListElementForm>

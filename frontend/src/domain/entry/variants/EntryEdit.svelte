@@ -9,12 +9,16 @@
     import type { ExistingEntry } from "../../../types";
     import { timeAsString, timeFromString } from "../../../util/time";
 
-    export let entry: ExistingEntry;
-    export let endEdit: () => void;
+    interface Props {
+        entry: ExistingEntry;
+        endEdit: () => void;
+    }
 
-    let newTime = timeAsString(entry.time);
-    let newName = entry.name;
-    let newDescription = entry.description;
+    let { entry, endEdit }: Props = $props();
+
+    let newTime = $state(timeAsString(entry.time));
+    let newName = $state(entry.name);
+    let newDescription = $state(entry.description);
 
     const onConfirm = async () => {
         await entries.edit({
@@ -47,27 +51,33 @@
 </script>
 
 <ListElementForm label="editable entry">
-    <svelte:fragment slot="time">
-        <Input label="Time" bind:value={newTime} type={"time"} onEnter={onConfirm} />
-    </svelte:fragment>
+    {#snippet time()}
+    
+            <Input label="Time" bind:value={newTime} type={"time"} onEnter={onConfirm} />
+        
+    {/snippet}
 
-    <svelte:fragment slot="texts">
-        <Input label="Name" bind:value={newName} onEnter={onConfirm} />
+    {#snippet texts()}
+    
+            <Input label="Name" bind:value={newName} onEnter={onConfirm} />
 
-        <Input label="Description" bind:value={newDescription} onEnter={onConfirm} />
-    </svelte:fragment>
+            <Input label="Description" bind:value={newDescription} onEnter={onConfirm} />
+        
+    {/snippet}
 
-    <svelte:fragment slot="buttons">
-        <IconButton onClick={onDelete} label="Delete entry">
-            <TrashCan />
-        </IconButton>
+    {#snippet buttons()}
+    
+            <IconButton onClick={onDelete} label="Delete entry">
+                <TrashCan />
+            </IconButton>
 
-        <IconButton onClick={onCancel} label="Cancel">
-            <Close />
-        </IconButton>
+            <IconButton onClick={onCancel} label="Cancel">
+                <Close />
+            </IconButton>
 
-        <IconButton onClick={onConfirm} label="Confirm">
-            <Checkmark />
-        </IconButton>
-    </svelte:fragment>
+            <IconButton onClick={onConfirm} label="Confirm">
+                <Checkmark />
+            </IconButton>
+        
+    {/snippet}
 </ListElementForm>

@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     import IconButton from "./IconButton.svelte";
 
     export const meta = {
@@ -21,26 +21,34 @@
     import Teabag from "./icons/Teabag.svelte";
 </script>
 
-<Story name="WithPencil" let:args>
-    <IconButton {...args}>
-        <Pencil />
-    </IconButton>
+<Story name="WithPencil" >
+    {#snippet children({ args })}
+        <IconButton {...args}>
+            <Pencil />
+        </IconButton>
+    {/snippet}
 </Story>
 
-<Story name="WithTeabag" let:args>
-    <IconButton {...args}>
-        <Teabag />
-    </IconButton>
+<Story name="WithTeabag" >
+    {#snippet children({ args })}
+        <IconButton {...args}>
+            <Teabag />
+        </IconButton>
+    {/snippet}
 </Story>
 
-<Story name="WithChevronLeft" let:args>
-    <IconButton {...args}>
-        <ChevronLeft />
-    </IconButton>
+<Story name="WithChevronLeft" >
+    {#snippet children({ args })}
+        <IconButton {...args}>
+            <ChevronLeft />
+        </IconButton>
+    {/snippet}
 </Story>
 
-<Story name="WithArrowRight" let:args>
-    <IconButton {...args}>
-        <ArrowRight />
-    </IconButton>
+<Story name="WithArrowRight" >
+    {#snippet children({ args })}
+        <IconButton {...args}>
+            <ArrowRight />
+        </IconButton>
+    {/snippet}
 </Story>

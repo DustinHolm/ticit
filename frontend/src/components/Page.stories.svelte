@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     import Page from "./Page.svelte";
 
     export const meta = {

@@ -1,11 +1,23 @@
 <script lang="ts">
     import type { MouseEventHandler } from "svelte/elements";
 
-    export let disabled = false;
-    export let onClick: MouseEventHandler<HTMLButtonElement> | null = null;
-    export let size: "small" | "medium" | "large" = "medium";
-    export let label: string | null = null;
-    export let color: string = "black";
+    interface Props {
+        disabled?: boolean;
+        onClick?: MouseEventHandler<HTMLButtonElement> | null;
+        size?: "small" | "medium" | "large";
+        label?: string | null;
+        color?: string;
+        children?: import('svelte').Snippet;
+    }
+
+    let {
+        disabled = false,
+        onClick = null,
+        size = "medium",
+        label = null,
+        color = "black",
+        children
+    }: Props = $props();
 
     const sizes = {
         small: 20,
@@ -14,9 +26,9 @@
     };
 </script>
 
-<button on:click={onClick} {disabled} class={size} title={label}>
+<button onclick={onClick} {disabled} class={size} title={label}>
     <svg class:disabled viewBox={"0 0 64 64"} height={sizes[size]} width={sizes[size]} fill={color}>
-        <slot />
+        {@render children?.()}
     </svg>
 </button>
 
