@@ -1,17 +1,14 @@
 <script module lang="ts">
+    import { defineMeta } from "@storybook/addon-svelte-csf";
     import Table from "./Table.svelte";
 
-    export const meta = {
+    const { Story } = defineMeta({
         title: "Components/Table",
         component: Table,
-    };
+    });
 </script>
 
-<script lang="ts">
-    import { Story } from "@storybook/addon-svelte-csf";
-</script>
-
-<Story name="Default">
+<Story name="Default" asChild>
     <Table
         headers={[
             { name: "Head a", width: "50%" },
@@ -27,7 +24,7 @@
     />
 </Story>
 
-<Story name="No rows">
+<Story name="No rows" asChild>
     <Table
         headers={[
             { name: "Head a", width: "50%" },

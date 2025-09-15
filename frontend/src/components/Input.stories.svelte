@@ -1,9 +1,10 @@
 <script module lang="ts">
+    import { defineMeta } from "@storybook/addon-svelte-csf";
     import Input from "./Input.svelte";
 
-    export const meta = {
+    const { Story } = defineMeta({
         title: "Components/Input",
-        component: { Input },
+        component: Input,
         argTypes: {
             label: { control: "text" },
             type: {
@@ -12,20 +13,8 @@
             },
             onEnter: { action: "enter", control: false },
         },
-    };
+    });
 </script>
-
-<script lang="ts">
-    import { Story, Template } from "@storybook/addon-svelte-csf";
-
-    let value: unknown = $state(undefined);
-</script>
-
-<Template >
-    {#snippet children({ args })}
-        <Input {...args} bind:value />
-    {/snippet}
-</Template>
 
 <Story name="Default" />
 

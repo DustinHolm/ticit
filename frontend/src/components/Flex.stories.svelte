@@ -1,9 +1,10 @@
 <script module lang="ts">
+    import { defineMeta } from "@storybook/addon-svelte-csf";
     import Flex from "./Flex.svelte";
 
-    export const meta = {
+    const { Story } = defineMeta({
         title: "Components/Flex",
-        component: { Flex },
+        component: Flex,
         argTypes: {
             direction: {
                 control: "radio",
@@ -38,24 +39,18 @@
             },
             padding: { control: "text" },
         },
-    };
+    });
 </script>
 
-<script lang="ts">
-    import { Story, Template } from "@storybook/addon-svelte-csf";
-</script>
-
-<Template >
-    {#snippet children({ args })}
+<Story name="Default">
+    {#snippet template(args)}
         <Flex {...args}>
             {#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as i}
                 <span>Element {i}</span>
             {/each}
         </Flex>
     {/snippet}
-</Template>
-
-<Story name="Default" />
+</Story>
 
 <style lang="sass">
     span
