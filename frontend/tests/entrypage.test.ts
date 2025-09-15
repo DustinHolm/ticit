@@ -1,4 +1,4 @@
-import { invoke } from "@tauri-apps/api";
+import { invoke } from "@tauri-apps/api/core";
 import { render, screen, within } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, test, vi, type Mock } from "vitest";
@@ -12,7 +12,7 @@ import type { TauriExistingEntry, TauriNewEntry } from "../src/types";
 import { newDate, timeFromString } from "../src/util/time";
 import { TestUtils } from "./utils";
 
-vi.mock("@tauri-apps/api");
+vi.mock("@tauri-apps/api/core");
 const mockInvoke = invoke as Mock;
 vi.mock("../src/domain/stores/date");
 const mockDate = date as unknown as MockDateStore;
@@ -22,7 +22,7 @@ vi.mock("../src/util/time", async () => ({
     ...(await vi.importActual<object>("../src/util/time")),
     newDate: vi.fn(() => new Date()),
 }));
-const mockNewDate = newDate as Mock<[], Date>;
+const mockNewDate = newDate as Mock;
 
 describe("EntryPage tests", () => {
     beforeEach(() => {
