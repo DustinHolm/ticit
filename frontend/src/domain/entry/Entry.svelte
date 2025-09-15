@@ -5,9 +5,13 @@
     import EntryDisplay from "./variants/EntryDisplay.svelte";
     import EntryEdit from "./variants/EntryEdit.svelte";
 
-    export let entry: ExistingEntry;
+    interface Props {
+        entry: ExistingEntry;
+    }
 
-    let editable = false;
+    let { entry }: Props = $props();
+
+    let editable = $state(false);
 </script>
 
 {#if editable && entry.entryType !== "Work"}

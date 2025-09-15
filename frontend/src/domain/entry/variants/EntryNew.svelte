@@ -9,8 +9,8 @@
     import { now } from "../../stores/now";
     import { timeAsString } from "../../../util/time";
 
-    let newName: string | null = null;
-    let newDescription: string | null = null;
+    let newName: string | null = $state(null);
+    let newDescription: string | null = $state(null);
 
     const onBreak = () => entries.takeBreak($now);
     const onEnd = () => entries.endDay($now);
@@ -28,41 +28,47 @@
 </script>
 
 <ListElementForm label="new entry">
-    <svelte:fragment slot="time">
-        <span aria-label="entry time" class="large" id="time">
-            {timeAsString($now)}
-        </span>
-    </svelte:fragment>
+    {#snippet time()}
+    
+            <span aria-label="entry time" class="large" id="time">
+                {timeAsString($now)}
+            </span>
+        
+    {/snippet}
 
-    <svelte:fragment slot="texts">
-        <Input label="Name" bind:value={newName} onEnter={onConfirm} />
+    {#snippet texts()}
+    
+            <Input label="Name" bind:value={newName} onEnter={onConfirm} />
 
-        <Input label="Description" bind:value={newDescription} onEnter={onConfirm} />
-    </svelte:fragment>
+            <Input label="Description" bind:value={newDescription} onEnter={onConfirm} />
+        
+    {/snippet}
 
-    <svelte:fragment slot="buttons">
-        <IconButton
-            onClick={onEnd}
-            disabled={!$possibleEntryTypes.includes("EndOfDay")}
-            label="End day"
-        >
-            <Fireworks />
-        </IconButton>
+    {#snippet buttons()}
+    
+            <IconButton
+                onClick={onEnd}
+                disabled={!$possibleEntryTypes.includes("EndOfDay")}
+                label="End day"
+            >
+                <Fireworks />
+            </IconButton>
 
-        <IconButton
-            onClick={onBreak}
-            disabled={!$possibleEntryTypes.includes("Break")}
-            label="Take break"
-        >
-            <Teabag />
-        </IconButton>
+            <IconButton
+                onClick={onBreak}
+                disabled={!$possibleEntryTypes.includes("Break")}
+                label="Take break"
+            >
+                <Teabag />
+            </IconButton>
 
-        <IconButton
-            onClick={onConfirm}
-            disabled={!$possibleEntryTypes.includes("Work")}
-            label="Create entry"
-        >
-            <Checkmark />
-        </IconButton>
-    </svelte:fragment>
+            <IconButton
+                onClick={onConfirm}
+                disabled={!$possibleEntryTypes.includes("Work")}
+                label="Create entry"
+            >
+                <Checkmark />
+            </IconButton>
+        
+    {/snippet}
 </ListElementForm>

@@ -1,18 +1,31 @@
 <script lang="ts">
-    export let label: string;
-    export let backgroundColor: string | null = null;
+    interface Props {
+        label: string;
+        backgroundColor?: string | null;
+        time?: import('svelte').Snippet;
+        texts?: import('svelte').Snippet;
+        buttons?: import('svelte').Snippet;
+    }
+
+    let {
+        label,
+        backgroundColor = null,
+        time,
+        texts,
+        buttons
+    }: Props = $props();
 </script>
 
 <li style:background-color={backgroundColor} aria-label={label}>
     <div class="content">
-        <slot name="time" />
+        {@render time?.()}
         <div class="texts">
-            <slot name="texts" />
+            {@render texts?.()}
         </div>
     </div>
 
     <div class="buttons">
-        <slot name="buttons" />
+        {@render buttons?.()}
     </div>
 </li>
 

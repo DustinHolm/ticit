@@ -1,4 +1,4 @@
-use tauri::{AppHandle, State};
+use tauri::{AppHandle, Manager, State};
 use time::{Date, OffsetDateTime};
 
 use crate::database::Database;
@@ -70,8 +70,9 @@ pub fn durations_for_day(
 }
 
 fn get_path(app: &AppHandle) -> Result<String, String> {
-    app.path_resolver()
+    app.path()
         .app_data_dir()
+        .ok()
         .and_then(|it| it.to_str().map(|s| s.to_string()))
         .ok_or("No path given".to_string())
 }

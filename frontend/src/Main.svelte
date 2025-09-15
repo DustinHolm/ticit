@@ -3,7 +3,7 @@
     import { entries } from "./domain/stores/entries";
     import { checkForUpdates } from "./util/tauri";
 
-    let updateAvailable = false;
+    let updateAvailable = $state(false);
 
     checkForUpdates()
         .then((result) => {
@@ -20,7 +20,7 @@
     {/await}
 </main>
 
-<!-- svelte-ignore css-unused-selector -->
+<!-- svelte-ignore css_unused_selector -->
 <style lang="sass" global>
     @font-face
         font-family: Inter

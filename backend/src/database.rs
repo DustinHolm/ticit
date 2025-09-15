@@ -1,17 +1,27 @@
 use std::{cmp::Ordering, sync::Mutex};
 
-use bincode::{deserialize, serialize};
+use bincode::{
+    config,
+    serde::{decode_from_slice, encode_to_vec},
+};
 use sled::{open, Db};
 use time::{format_description::parse, Date};
 
 use crate::entry::{Entry, ExistingEntry, NewEntry};
 
-#[derive(Default)]
 pub struct Database {
+    config: config::Configuration<config::LittleEndian, config::Fixint, config::NoLimit>,
     db: Mutex<Option<Db>>,
 }
 
 impl Database {
+    pub fn new() -> Self {
+        Self {
+            config: config::legacy(),
+            db: Mutex::default(),
+        }
+    }
+
     pub fn create(&self, path: &str, entry: NewEntry) -> Result<(), String> {
         self.open(path)?;
         let lock = self.db.lock().map_err(|err| err.to_string())?;
@@ -19,8 +29,11 @@ impl Database {
         let date = entry.iso_date()?;
         let generated_key = db.generate_id().map_err(|err| err.to_string())?;
         let key = format!("{date}:{generated_key}");
-        let serialized_entry = serialize(&ExistingEntry::from_new_entry(entry, generated_key))
-            .map_err(|err| err.to_string())?;
+        let serialized_entry = encode_to_vec(
+            &ExistingEntry::from_new_entry(entry, generated_key),
+            self.config,
+        )
+        .map_err(|err| err.to_string())?;
         db.insert(key, serialized_entry)
             .map_err(|err| err.to_string())?;
 
@@ -37,7 +50,11 @@ impl Database {
         let mut result = db
             .scan_prefix(prefix)
             .filter_map(|it| it.ok())
-            .map(|(_, val)| deserialize(&val).map_err(|err| err.to_string()))
+            .map(|(_, val)| {
+                decode_from_slice::<ExistingEntry, _>(&val, self.config)
+                    .map(|item| item.0)
+                    .map_err(|err| err.to_string())
+            })
             .collect::<Result<Vec<ExistingEntry>, String>>()?;
 
         result.sort_by(|a, b| {
@@ -57,7 +74,7 @@ impl Database {
         let lock = self.db.lock().map_err(|err| err.to_string())?;
         let db = lock.as_ref().ok_or("Db should be initialized")?;
         let key = entry.get_db_key()?;
-        let serialized_entry = serialize(&entry).map_err(|err| err.to_string())?;
+        let serialized_entry = encode_to_vec(&entry, self.config).map_err(|err| err.to_string())?;
         db.insert(key, serialized_entry)
             .map_err(|err| err.to_string())?;
 

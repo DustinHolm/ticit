@@ -6,11 +6,21 @@
     import { date, nextDayPossible } from "../stores/date";
     import { dateAsString } from "../../util/time";
 
-    export let updateAvailable: boolean;
-    export let onPrevious: () => void;
-    export let previousPossible: boolean;
-    export let onNext: () => void;
-    export let nextPossible: boolean;
+    interface Props {
+        updateAvailable: boolean;
+        onPrevious: () => void;
+        previousPossible: boolean;
+        onNext: () => void;
+        nextPossible: boolean;
+    }
+
+    let {
+        updateAvailable,
+        onPrevious,
+        previousPossible,
+        onNext,
+        nextPossible
+    }: Props = $props();
 </script>
 
 <Flex padding="8px">

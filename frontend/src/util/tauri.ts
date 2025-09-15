@@ -1,4 +1,4 @@
-import { invoke, updater } from "@tauri-apps/api";
+import { invoke } from "@tauri-apps/api/core";
 import { dateAsIsoString, dateTimeAsString, dateTimeFromString, dateWithTime } from "./time";
 import type {
     DailySummary,
@@ -8,6 +8,7 @@ import type {
     TauriExistingEntry,
     TauriNewEntry,
 } from "../types";
+import { check } from "@tauri-apps/plugin-updater";
 
 export const invokeGetAllEntries = async (currentDate: Date): Promise<ExistingEntry[]> => {
     const tauriEntries: TauriExistingEntry[] = await invoke("all_entries_for_day", {
@@ -74,7 +75,7 @@ export const invokeGetAllDailySummaries = async (date: Date): Promise<DailySumma
 };
 
 export const checkForUpdates = async (): Promise<boolean> => {
-    const result = await updater.checkUpdate();
+    const result = await check();
 
-    return result.shouldUpdate;
+    return result !== null;
 };

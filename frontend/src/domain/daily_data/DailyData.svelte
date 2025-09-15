@@ -3,7 +3,7 @@
     import { breakEntry, totalTime } from "../stores/summaries";
     import { secondsAsDurationString } from "../../util/time";
 
-    $: breakDuration = $breakEntry ? $breakEntry.duration : 0;
+    let breakDuration = $derived($breakEntry ? $breakEntry.duration : 0);
 </script>
 
 <Flex padding="8px">

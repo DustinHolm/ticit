@@ -2,16 +2,10 @@ import type { StorybookConfig } from "@storybook/svelte-vite";
 
 const config: StorybookConfig = {
     stories: ["../src/**/*.stories.svelte"],
-    framework: "@storybook/svelte-vite",
-    addons: [
-        "@storybook/addon-essentials",
-        "@storybook/addon-a11y",
-        "@storybook/addon-storysource",
-        "@storybook/addon-svelte-csf",
-    ],
-    docs: {
-        autodocs: true,
+    addons: ["@storybook/addon-svelte-csf"],
+    framework: {
+        name: "@storybook/svelte-vite",
+        options: {},
     },
 };
-
 export default config;

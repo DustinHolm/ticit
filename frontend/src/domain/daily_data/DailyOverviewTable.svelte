@@ -9,11 +9,11 @@
         { name: "Time spent", width: "20%" },
     ];
 
-    $: rows = $workEntriesSummaries.map((entry) => [
+    let rows = $derived($workEntriesSummaries.map((entry) => [
         entry.name ? entry.name : "-",
         entry.description ? entry.description : "-",
         secondsAsDurationString(entry.duration),
-    ]);
+    ]));
 </script>
 
 <Table {headers} {rows} />

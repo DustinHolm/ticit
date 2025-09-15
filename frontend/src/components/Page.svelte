@@ -1,9 +1,14 @@
 <script lang="ts">
-    export let widthPx: number;
+    interface Props {
+        widthPx: number;
+        children?: import('svelte').Snippet;
+    }
+
+    let { widthPx, children }: Props = $props();
 </script>
 
 <div style:width={widthPx + "px"}>
-    <slot />
+    {@render children?.()}
 </div>
 
 <style lang="sass">

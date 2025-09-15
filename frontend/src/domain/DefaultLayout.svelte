@@ -5,18 +5,22 @@
     import EntryPage from "./pages/EntryPage.svelte";
     import PageSelector from "./pages/PageSelector.svelte";
 
-    export let updateAvailable: boolean;
+    interface Props {
+        updateAvailable: boolean;
+    }
 
-    let currentPage = 0;
-    let width = 0;
+    let { updateAvailable }: Props = $props();
+
+    let currentPage = $state(0);
+    let width = $state(0);
 
     const widthPx = 500;
     const onNext = () => (currentPage = currentPage + 1);
     const onPrevious = () => (currentPage = currentPage - 1);
 
-    $: maxPages = Math.max(1, Math.floor(width / widthPx));
-    $: nextPossible = currentPage < 1 && maxPages < 2;
-    $: previousPossible = currentPage > 0 && maxPages < 2;
+    let maxPages = $derived(Math.max(1, Math.floor(width / widthPx)));
+    let nextPossible = $derived(currentPage < 1 && maxPages < 2);
+    let previousPossible = $derived(currentPage > 0 && maxPages < 2);
 </script>
 
 <svelte:window bind:innerWidth={width} />

@@ -1,26 +1,25 @@
-<script context="module" lang="ts">
+<script module lang="ts">
+    import { defineMeta } from "@storybook/addon-svelte-csf";
     import ListElementForm from "./ListElementForm.svelte";
 
-    export const meta = {
+    const { Story } = defineMeta({
         title: "Components/ListElementForm",
         component: ListElementForm,
-    };
+    });
 </script>
 
-<script lang="ts">
-    import { Story } from "@storybook/addon-svelte-csf";
-</script>
-
-<Story name="Default">
+<Story name="Default" asChild>
     <ListElementForm label="Default">
-        <svelte:fragment slot="time">
+        {#snippet time()}
             <span class="large" id="time"> 10:24 </span>
-        </svelte:fragment>
+        {/snippet}
 
-        <svelte:fragment slot="texts">
+        {#snippet texts()}
             <span class="large" id="name">Title</span>
-        </svelte:fragment>
+        {/snippet}
 
-        <svelte:fragment slot="buttons">Button</svelte:fragment>
+        {#snippet buttons()}
+            Button
+        {/snippet}
     </ListElementForm>
 </Story>

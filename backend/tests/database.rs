@@ -118,7 +118,7 @@ fn entries_are_returned_in_chronological_order() {
 fn generate_test_input() -> (String, Database, Date) {
     let dir = tempdir().unwrap();
     let path = dir.path().to_str().unwrap().to_string();
-    let db = Database::default();
+    let db = Database::new();
     let date = Date::from_calendar_date(2000, Month::December, 24).unwrap();
 
     (path, db, date)
