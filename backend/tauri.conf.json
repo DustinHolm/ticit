@@ -18,8 +18,7 @@
     ],
     "targets": ["deb", "nsis", "dmg"],
     "publisher": "Ticit Maintainers",
-    "shortDescription": "Simple timekeeping app",
-    "createUpdaterArtifacts": "v1Compatible"
+    "shortDescription": "Simple timekeeping app"
   },
   "identifier": "Ticit",
   "plugins": {
