@@ -16,6 +16,8 @@ mod commands;
 
 fn main() {
     Builder::default()
+        .plugin(tauri_plugin_updater::Builder::new().build())
+        .plugin(tauri_plugin_shell::init())
         .manage(Database::new())
         .invoke_handler(generate_handler![
             new_entry,
