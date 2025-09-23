@@ -1,12 +1,20 @@
 import { invoke } from "@tauri-apps/api/core";
-import { dateAsIsoString, dateTimeAsString, dateTimeFromString, dateWithTime } from "./time";
+import {
+    dateAsIsoString,
+    dateTimeAsString,
+    dateTimeFromString,
+    dateWithTime,
+    parseSimpleTime,
+} from "./time";
 import type {
     DailySummary,
     ExistingEntry,
     NewEntry,
+    SimpleTime,
     TauriDailySummary,
     TauriExistingEntry,
     TauriNewEntry,
+    TauriSimpleTime,
 } from "../types";
 import { check } from "@tauri-apps/plugin-updater";
 
@@ -72,6 +80,13 @@ export const invokeGetAllDailySummaries = async (date: Date): Promise<DailySumma
         dailySummaryType: summary.daily_summary_type,
         duration: Number.parseFloat(summary.duration),
     }));
+};
+
+export const invokeSimpleTimeForDay = async (date: Date): Promise<SimpleTime> => {
+    const simpleTime: TauriSimpleTime = await invoke("simple_time_for_day", {
+        day: dateAsIsoString(date),
+    });
+    return parseSimpleTime(simpleTime);
 };
 
 export const checkForUpdates = async (): Promise<boolean> => {

@@ -3,10 +3,17 @@
     import { breakEntry, totalTime } from "../stores/summaries";
     import { secondsAsDurationString } from "../../util/time";
 
-    let breakDuration = $derived($breakEntry ? $breakEntry.duration : 0);
+    let breakDuration = $derived($breakEntry.then((entry) => (entry ? entry.duration : 0)));
 </script>
 
-<Flex padding="8px">
-    <span>Break time: {secondsAsDurationString(breakDuration)}</span>
-    <span>Time worked: {secondsAsDurationString($totalTime)}</span>
-</Flex>
+{#await Promise.all([breakDuration, $totalTime])}
+    <Flex padding="8px">
+        <span>Break time: {secondsAsDurationString(0)}</span>
+        <span>Time worked: {secondsAsDurationString(0)}</span>
+    </Flex>
+{:then resolved}
+    <Flex padding="8px">
+        <span>Break time: {secondsAsDurationString(resolved[0])}</span>
+        <span>Time worked: {secondsAsDurationString(resolved[1])}</span>
+    </Flex>
+{/await}

@@ -41,3 +41,19 @@ export type DailySummary = {
     duration: number;
     dailySummaryType: DailySummaryType;
 };
+
+export type TauriSimpleTime = {
+    total_work_duration: number;
+    start_of_work: string | undefined;
+    start_of_break: string | undefined;
+    end_of_break: string | undefined;
+    end_of_day: string | undefined;
+};
+
+export type SimpleTime = {
+    totalWorkDuration: number;
+    startOfWork: Date | undefined;
+    startOfBreak: Date | undefined;
+    endOfBreak: Date | undefined;
+    endOfDay: Date | undefined;
+};

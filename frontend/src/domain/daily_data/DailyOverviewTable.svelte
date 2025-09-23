@@ -9,11 +9,17 @@
         { name: "Time spent", width: "20%" },
     ];
 
-    let rows = $derived($workEntriesSummaries.map((entry) => [
-        entry.name ? entry.name : "-",
-        entry.description ? entry.description : "-",
-        secondsAsDurationString(entry.duration),
-    ]));
+    let rows = $derived.by(async () =>
+        (await $workEntriesSummaries).map((entry) => [
+            entry.name ? entry.name : "-",
+            entry.description ? entry.description : "-",
+            secondsAsDurationString(entry.duration),
+        ]),
+    );
 </script>
 
-<Table {headers} {rows} />
+{#await rows}
+    <Table {headers} rows={[]} />
+{:then resolvedRows}
+    <Table {headers} rows={resolvedRows} />
+{/await}

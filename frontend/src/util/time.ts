@@ -11,6 +11,7 @@ import {
     setMinutes,
     startOfWeek,
 } from "date-fns";
+import type { SimpleTime, TauriSimpleTime } from "../types";
 
 export const newDate = () => new Date();
 
@@ -40,4 +41,27 @@ export const getAllDaysOfWeek = (date: Date) => {
         start: startOfWeek(date, { weekStartsOn: 1 }),
         end: endOfWeek(date, { weekStartsOn: 1 }),
     });
+};
+
+export const parseSimpleTime = (simpleTime: TauriSimpleTime): SimpleTime => {
+    const totalWorkDuration = simpleTime.total_work_duration;
+
+    const startOfWork = simpleTime.start_of_work
+        ? dateTimeFromString(simpleTime.start_of_work)
+        : undefined;
+    const startOfBreak = simpleTime.start_of_break
+        ? dateTimeFromString(simpleTime.start_of_break)
+        : undefined;
+    const endOfBreak = simpleTime.end_of_break
+        ? dateTimeFromString(simpleTime.end_of_break)
+        : undefined;
+    const endOfDay = simpleTime.end_of_day ? dateTimeFromString(simpleTime.end_of_day) : undefined;
+
+    return {
+        totalWorkDuration,
+        startOfWork,
+        startOfBreak,
+        endOfBreak,
+        endOfDay,
+    };
 };
