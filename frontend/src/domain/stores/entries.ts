@@ -79,11 +79,11 @@ const createEntries = () => {
 
 export const entries = createEntries();
 
-export const possibleEntryTypes: Readable<EntryType[]> = derived(entries, ($entries) => {
-    const isBreak = $entries.at(-1)?.entryType === "Break";
-    const dayEnded = $entries.at(-1)?.entryType === "EndOfDay";
+export const possibleEntryTypes: Readable<EntryType[]> = derived(entries, (values) => {
+    const isBreak = values.at(-1)?.entryType === "Break";
+    const dayEnded = values.at(-1)?.entryType === "EndOfDay";
 
-    if ($entries.length < 1) return ["Work"] as EntryType[];
+    if (values.length < 1) return ["Work"] as EntryType[];
     if (dayEnded) return [] as EntryType[];
     if (isBreak) return ["Work"] as EntryType[];
     return ["Break", "EndOfDay", "Work"] as EntryType[];

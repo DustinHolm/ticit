@@ -1,6 +1,6 @@
 [package]
 name = "ticit"
-version = "1.1.1"
+version = "1.2.0"
 description = "Simple timekeeping app"
 authors = ["Dustin Holm"]
 license = "MIT"

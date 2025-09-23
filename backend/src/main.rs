@@ -9,13 +9,15 @@ use ticit::database;
 
 use crate::commands::{
     all_entries_for_day, delete_entry, durations_for_day, edit_entry, end_day, new_entry,
-    take_break,
+    simple_time_for_day, take_break,
 };
 
 mod commands;
 
 fn main() {
     Builder::default()
+        .plugin(tauri_plugin_updater::Builder::new().build())
+        .plugin(tauri_plugin_shell::init())
         .manage(Database::new())
         .invoke_handler(generate_handler![
             new_entry,
@@ -24,7 +26,8 @@ fn main() {
             take_break,
             end_day,
             all_entries_for_day,
-            durations_for_day
+            durations_for_day,
+            simple_time_for_day
         ])
         .run(generate_context!())
         .expect("Error while running tauri application.");

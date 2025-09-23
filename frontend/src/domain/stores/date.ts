@@ -19,8 +19,8 @@ const createDate = () => {
 
 export const date = createDate();
 
-export const nextDayPossible = derived([now, date], ([$now, $date]) => {
-    return $now.getTime() - $date.getTime() > 1000 * 60 * 60 * 24;
+export const nextDayPossible = derived([now, date], ([nowValue, dateValue]) => {
+    return nowValue.getTime() - dateValue.getTime() > 1000 * 60 * 60 * 24;
 });
 
-export const daysOfWeek = derived(date, ($date) => getAllDaysOfWeek($date));
+export const daysOfWeek = derived(date, (dateValue) => getAllDaysOfWeek(dateValue));
