@@ -1,7 +1,10 @@
 use serde::Serialize;
 use time::{Duration, OffsetDateTime};
 
-use crate::entry::{EntryType, ExistingEntry};
+use crate::{
+    entry::{EntryType, ExistingEntry},
+    utils::total_work,
+};
 
 #[derive(Debug, Serialize, PartialEq)]
 pub struct SimpleTime {
@@ -16,28 +19,20 @@ impl SimpleTime {
     pub fn from_entries(entries: &mut [ExistingEntry]) -> Result<Self, String> {
         entries.sort_unstable_by_key(|x| x.time);
 
-        let mut start_of_work: Option<OffsetDateTime> = None;
-        let mut total_work_duration: Duration = Duration::ZERO;
-        let mut last_work: Option<OffsetDateTime> = None;
+        let start_of_work: Option<OffsetDateTime> = entries
+            .iter()
+            .find(|e| e.entry_type == EntryType::Work)
+            .map(|e| e.time);
 
-        for entry in entries {
-            if let Some(last_work) = last_work {
-                total_work_duration += entry.time - last_work;
-            }
-            if entry.entry_type == EntryType::Work {
-                last_work = Some(entry.time);
-                if start_of_work.is_none() {
-                    start_of_work = Some(entry.time);
-                }
-            } else {
-                last_work = None;
-            }
-        }
+        let total_work_duration: Duration = total_work(entries);
 
         let break_duration = match total_work_duration {
-            x if x >= Duration::hours(8) => Duration::minutes(45),
-            x if x >= Duration::hours(4) => Duration::minutes(30),
-            x if x < Duration::hours(4) => Duration::ZERO,
+            x if x >= Duration::hours(9).saturating_add(Duration::minutes(16)) => {
+                Duration::minutes(45)
+            }
+            x if x >= Duration::hours(6).saturating_add(Duration::minutes(16)) => {
+                Duration::minutes(30)
+            }
             _ => Duration::ZERO,
         };
 
@@ -101,6 +96,93 @@ mod tests {
     }
 
     #[test]
+    fn test_no_break_at_615() {
+        let mut entries = vec![
+            create_entry(1, 10, 0, EntryType::Work),
+            create_entry(2, 16, 15, EntryType::EndOfDay),
+        ];
+
+        let simple_time = SimpleTime::from_entries(&mut entries).unwrap();
+
+        assert_eq!(
+            simple_time.total_work_duration,
+            Duration::hours(6).saturating_add(Duration::minutes(15))
+        );
+        assert_eq!(
+            simple_time.start_of_work,
+            Some(datetime!(2025-09-16 10:00:00 +00:00))
+        );
+        assert_eq!(simple_time.start_of_break, None);
+        assert_eq!(simple_time.end_of_break, None);
+        assert_eq!(
+            simple_time.end_of_day,
+            Some(datetime!(2025-09-16 16:15:00 +00:00))
+        );
+    }
+
+    #[test]
+    fn test_break_at_616() {
+        let mut entries = vec![
+            create_entry(1, 10, 0, EntryType::Work),
+            create_entry(2, 16, 16, EntryType::EndOfDay),
+        ];
+
+        let simple_time = SimpleTime::from_entries(&mut entries).unwrap();
+
+        assert_eq!(
+            simple_time.total_work_duration,
+            Duration::hours(6).saturating_add(Duration::minutes(16))
+        );
+        assert_eq!(
+            simple_time.start_of_work,
+            Some(datetime!(2025-09-16 10:00:00 +00:00))
+        );
+        assert_eq!(
+            simple_time.start_of_break,
+            Some(datetime!(2025-09-16 13:08:00 +00:00))
+        );
+        assert_eq!(
+            simple_time.end_of_break,
+            Some(datetime!(2025-09-16 13:38:00 +00:00))
+        );
+        assert_eq!(
+            simple_time.end_of_day,
+            Some(datetime!(2025-09-16 16:46:00 +00:00))
+        );
+    }
+
+    #[test]
+    fn test_more_break_at_916() {
+        let mut entries = vec![
+            create_entry(1, 10, 0, EntryType::Work),
+            create_entry(2, 19, 16, EntryType::EndOfDay),
+        ];
+
+        let simple_time = SimpleTime::from_entries(&mut entries).unwrap();
+
+        assert_eq!(
+            simple_time.total_work_duration,
+            Duration::hours(9).saturating_add(Duration::minutes(16))
+        );
+        assert_eq!(
+            simple_time.start_of_work,
+            Some(datetime!(2025-09-16 10:00:00 +00:00))
+        );
+        assert_eq!(
+            simple_time.start_of_break,
+            Some(datetime!(2025-09-16 14:38:00 +00:00))
+        );
+        assert_eq!(
+            simple_time.end_of_break,
+            Some(datetime!(2025-09-16 15:23:00 +00:00))
+        );
+        assert_eq!(
+            simple_time.end_of_day,
+            Some(datetime!(2025-09-16 20:01:00 +00:00))
+        );
+    }
+
+    #[test]
     fn test_multiple_breaks() {
         let mut entries = vec![
             create_entry(1, 9, 0, EntryType::Work),
@@ -108,27 +190,27 @@ mod tests {
             create_entry(3, 12, 0, EntryType::Work),
             create_entry(4, 14, 0, EntryType::Break),
             create_entry(5, 15, 0, EntryType::Work),
-            create_entry(6, 17, 0, EntryType::EndOfDay),
+            create_entry(6, 18, 0, EntryType::EndOfDay),
         ];
 
         let simple_time = SimpleTime::from_entries(&mut entries).unwrap();
 
-        assert_eq!(simple_time.total_work_duration, Duration::hours(6));
+        assert_eq!(simple_time.total_work_duration, Duration::hours(7));
         assert_eq!(
             simple_time.start_of_work,
             Some(datetime!(2025-09-16 09:00:00 +00:00))
         );
         assert_eq!(
             simple_time.start_of_break,
-            Some(datetime!(2025-09-16 12:00:00 +00:00))
-        );
-        assert_eq!(
-            simple_time.end_of_break,
             Some(datetime!(2025-09-16 12:30:00 +00:00))
         );
         assert_eq!(
+            simple_time.end_of_break,
+            Some(datetime!(2025-09-16 13:00:00 +00:00))
+        );
+        assert_eq!(
             simple_time.end_of_day,
-            Some(datetime!(2025-09-16 15:30:00 +00:00))
+            Some(datetime!(2025-09-16 16:30:00 +00:00))
         );
     }
 

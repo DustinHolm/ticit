@@ -9,7 +9,7 @@ use ticit::database;
 
 use crate::commands::{
     all_entries_for_day, delete_entry, durations_for_day, edit_entry, end_day, new_entry,
-    simple_time_for_day, take_break,
+    simple_time_for_day, take_break, total_work_in_week,
 };
 
 mod commands;
@@ -27,7 +27,8 @@ fn main() {
             end_day,
             all_entries_for_day,
             durations_for_day,
-            simple_time_for_day
+            simple_time_for_day,
+            total_work_in_week
         ])
         .run(generate_context!())
         .expect("Error while running tauri application.");

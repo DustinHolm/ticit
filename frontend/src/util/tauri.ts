@@ -89,6 +89,10 @@ export const invokeSimpleTimeForDay = async (date: Date): Promise<SimpleTime> =>
     return parseSimpleTime(simpleTime);
 };
 
+export const invokeTotalSumPerWeek = async (date: Date): Promise<number> => {
+    return await invoke("total_work_in_week", { day: dateAsIsoString(date) });
+};
+
 export const checkForUpdates = async (): Promise<boolean> => {
     const result = await check();
 

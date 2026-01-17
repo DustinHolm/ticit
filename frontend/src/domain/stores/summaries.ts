@@ -1,7 +1,7 @@
 import { derived } from "svelte/store";
 import { date } from "./date";
 import { entries } from "./entries";
-import { invokeGetAllDailySummaries } from "../../util/tauri";
+import { invokeGetAllDailySummaries, invokeTotalSumPerWeek } from "../../util/tauri";
 
 const entriesSummaries = derived(
     [entries, date],
@@ -18,4 +18,9 @@ export const breakEntry = derived(entriesSummaries, async (summaries) =>
 
 export const totalTime = derived(workEntriesSummaries, async (summaries) =>
     (await summaries).map((s) => s.duration).reduce((prev, current) => prev + current, 0),
+);
+
+export const weeklyTotalTime = derived(
+    [entries, date],
+    async ([, dateValue]) => await invokeTotalSumPerWeek(dateValue),
 );

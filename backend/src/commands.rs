@@ -1,10 +1,10 @@
 use tauri::{AppHandle, Manager, State};
-use time::{Date, OffsetDateTime};
+use time::{Date, Duration, OffsetDateTime};
 
 use crate::database::Database;
-use ticit::daily_summary::DailySummary;
 use ticit::entry::{ExistingEntry, NewEntry};
 use ticit::simple_time::SimpleTime;
+use ticit::{daily_summary::DailySummary, weekly_data::weekly_summary};
 
 #[tauri::command]
 pub fn new_entry(entry: NewEntry, app: AppHandle, db: State<Database>) -> Result<(), String> {
@@ -80,6 +80,17 @@ pub fn simple_time_for_day(
     let mut entries = db.read_all_for_day(&path, &day)?;
 
     SimpleTime::from_entries(&mut entries)
+}
+
+#[tauri::command]
+pub fn total_work_in_week(
+    day: Date,
+    app: AppHandle,
+    db: State<Database>,
+) -> Result<Duration, String> {
+    let path = get_path(&app)?;
+
+    weekly_summary(|d| db.read_all_for_day(&path, &d), day)
 }
 
 fn get_path(app: &AppHandle) -> Result<String, String> {

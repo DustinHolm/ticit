@@ -6,5 +6,10 @@
   },
   "mounts": [
     "source=${localEnv:XDG_RUNTIME_DIR}/${localEnv:WAYLAND_DISPLAY},target=/tmp/${localEnv:WAYLAND_DISPLAY},type=bind"
-  ]
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": ["svelte.svelte-vscode"]
+    }
+  }
 }
