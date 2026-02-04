@@ -93,6 +93,10 @@ export const invokeTotalSumPerWeek = async (date: Date): Promise<number> => {
     return await invoke("total_work_in_week", { day: dateAsIsoString(date) });
 };
 
+export const invokeCompletions = async (): Promise<string[]> => {
+    return await invoke("completions");
+};
+
 export const checkForUpdates = async (): Promise<boolean> => {
     const result = await check();
 

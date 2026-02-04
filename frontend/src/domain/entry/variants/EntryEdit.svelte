@@ -12,9 +12,10 @@
     interface Props {
         entry: ExistingEntry;
         endEdit: () => void;
+        options?: string[];
     }
 
-    let { entry, endEdit }: Props = $props();
+    let { entry, endEdit, options }: Props = $props();
 
     let newTime = $state(timeAsString(entry.time));
     let newName = $state(entry.name);
@@ -52,32 +53,26 @@
 
 <ListElementForm label="editable entry">
     {#snippet time()}
-    
-            <Input label="Time" bind:value={newTime} type={"time"} onEnter={onConfirm} />
-        
+        <Input label="Time" bind:value={newTime} type={"time"} onEnter={onConfirm} />
     {/snippet}
 
     {#snippet texts()}
-    
-            <Input label="Name" bind:value={newName} onEnter={onConfirm} />
+        <Input label="Name" bind:value={newName} {options} onEnter={onConfirm} />
 
-            <Input label="Description" bind:value={newDescription} onEnter={onConfirm} />
-        
+        <Input label="Description" bind:value={newDescription} onEnter={onConfirm} />
     {/snippet}
 
     {#snippet buttons()}
-    
-            <IconButton onClick={onDelete} label="Delete entry">
-                <TrashCan />
-            </IconButton>
+        <IconButton onClick={onDelete} label="Delete entry">
+            <TrashCan />
+        </IconButton>
 
-            <IconButton onClick={onCancel} label="Cancel">
-                <Close />
-            </IconButton>
+        <IconButton onClick={onCancel} label="Cancel">
+            <Close />
+        </IconButton>
 
-            <IconButton onClick={onConfirm} label="Confirm">
-                <Checkmark />
-            </IconButton>
-        
+        <IconButton onClick={onConfirm} label="Confirm">
+            <Checkmark />
+        </IconButton>
     {/snippet}
 </ListElementForm>

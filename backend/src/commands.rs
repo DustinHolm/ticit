@@ -1,9 +1,9 @@
 use tauri::{AppHandle, Manager, State};
-use time::{Date, Duration, OffsetDateTime};
+use time::{Date, Duration, OffsetDateTime, UtcDateTime};
 
-use crate::database::Database;
 use ticit::entry::{ExistingEntry, NewEntry};
 use ticit::simple_time::SimpleTime;
+use ticit::{completions::ordered_completions, database::Database};
 use ticit::{daily_summary::DailySummary, weekly_data::weekly_summary};
 
 #[tauri::command]
@@ -91,6 +91,18 @@ pub fn total_work_in_week(
     let path = get_path(&app)?;
 
     weekly_summary(|d| db.read_all_for_day(&path, &d), day)
+}
+
+#[tauri::command]
+pub fn completions(app: AppHandle, db: State<Database>) -> Result<Vec<String>, String> {
+    let path = get_path(&app)?;
+    let day = UtcDateTime::now().date();
+
+    Ok(ordered_completions(
+        |d| db.read_all_for_day(&path, &d),
+        day,
+        14,
+    ))
 }
 
 fn get_path(app: &AppHandle) -> Result<String, String> {

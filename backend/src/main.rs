@@ -8,11 +8,11 @@ use tauri::{generate_context, generate_handler, Builder};
 use ticit::database;
 
 use crate::commands::{
-    all_entries_for_day, delete_entry, durations_for_day, edit_entry, end_day, new_entry,
-    simple_time_for_day, take_break, total_work_in_week,
+    all_entries_for_day, completions, delete_entry, durations_for_day, edit_entry, end_day,
+    new_entry, simple_time_for_day, take_break, total_work_in_week,
 };
 
-mod commands;
+pub mod commands;
 
 fn main() {
     Builder::default()
@@ -28,7 +28,8 @@ fn main() {
             all_entries_for_day,
             durations_for_day,
             simple_time_for_day,
-            total_work_in_week
+            total_work_in_week,
+            completions
         ])
         .run(generate_context!())
         .expect("Error while running tauri application.");

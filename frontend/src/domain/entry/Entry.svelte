@@ -7,9 +7,10 @@
 
     interface Props {
         entry: ExistingEntry;
+        options?: string[];
     }
 
-    let { entry }: Props = $props();
+    let { entry, options }: Props = $props();
 
     let editable = $state(false);
 </script>
@@ -17,7 +18,7 @@
 {#if editable && entry.entryType !== "Work"}
     <EntryBreakEdit {entry} endEdit={() => (editable = false)} />
 {:else if editable}
-    <EntryEdit {entry} endEdit={() => (editable = false)} />
+    <EntryEdit {entry} endEdit={() => (editable = false)} {options} />
 {:else if entry.entryType !== "Work"}
     <EntryBreakDisplay {entry} startEdit={() => (editable = true)} />
 {:else}

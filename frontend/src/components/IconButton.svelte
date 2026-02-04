@@ -7,7 +7,7 @@
         size?: "small" | "medium" | "large";
         label?: string | null;
         color?: string;
-        children?: import('svelte').Snippet;
+        children?: import("svelte").Snippet;
     }
 
     let {
@@ -16,7 +16,7 @@
         size = "medium",
         label = null,
         color = "black",
-        children
+        children,
     }: Props = $props();
 
     const sizes = {

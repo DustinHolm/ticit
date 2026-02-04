@@ -22,24 +22,18 @@
 
 <ListElementForm {backgroundColor} label="readonly break entry">
     {#snippet time()}
-    
-            <span aria-label="entry time" class="large" id="time">
-                {timeAsString(entry.time)}
-            </span>
-        
+        <span aria-label="entry time" class="large" id="time">
+            {timeAsString(entry.time)}
+        </span>
     {/snippet}
 
     {#snippet texts()}
-    
-            <span aria-label="entry name" class="large" id="name">{text}</span>
-        
+        <span aria-label="entry name" class="large" id="name">{text}</span>
     {/snippet}
 
     {#snippet buttons()}
-    
-            <IconButton onClick={onEdit} label="Edit entry">
-                <Pencil />
-            </IconButton>
-        
+        <IconButton onClick={onEdit} label="Edit entry">
+            <Pencil />
+        </IconButton>
     {/snippet}
 </ListElementForm>

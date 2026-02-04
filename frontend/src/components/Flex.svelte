@@ -1,33 +1,27 @@
 <script lang="ts">
     interface Props {
-        direction?: 
-        | "row"
-        | "row-reverse"
-        | "column"
-        | "column-reverse"
-        | "initial"
-        | "inherit";
+        direction?: "row" | "row-reverse" | "column" | "column-reverse" | "initial" | "inherit";
         grow?: boolean;
-        justifyContent?: 
-        | "flex-start"
-        | "flex-end"
-        | "center"
-        | "space-between"
-        | "space-around"
-        | "space-evenly"
-        | "initial"
-        | "inherit";
-        alignItems?: 
-        | "normal"
-        | "stretch"
-        | "center"
-        | "flex-start"
-        | "flex-end"
-        | "baseline"
-        | "initial"
-        | "inherit";
+        justifyContent?:
+            | "flex-start"
+            | "flex-end"
+            | "center"
+            | "space-between"
+            | "space-around"
+            | "space-evenly"
+            | "initial"
+            | "inherit";
+        alignItems?:
+            | "normal"
+            | "stretch"
+            | "center"
+            | "flex-start"
+            | "flex-end"
+            | "baseline"
+            | "initial"
+            | "inherit";
         padding?: string;
-        children?: import('svelte').Snippet;
+        children?: import("svelte").Snippet;
     }
 
     let {
@@ -36,7 +30,7 @@
         justifyContent = "space-between",
         alignItems = "normal",
         padding = "0",
-        children
+        children,
     }: Props = $props();
 </script>
 

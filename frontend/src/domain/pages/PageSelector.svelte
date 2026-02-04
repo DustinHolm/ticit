@@ -14,13 +14,7 @@
         nextPossible: boolean;
     }
 
-    let {
-        updateAvailable,
-        onPrevious,
-        previousPossible,
-        onNext,
-        nextPossible
-    }: Props = $props();
+    let { updateAvailable, onPrevious, previousPossible, onNext, nextPossible }: Props = $props();
 </script>
 
 <Flex padding="8px">

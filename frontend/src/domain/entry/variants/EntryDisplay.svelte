@@ -31,38 +31,32 @@
 
 <ListElementForm label="readonly entry">
     {#snippet time()}
-    
-            <span aria-label="entry time" class="large" id="time">
-                {timeAsString(entry.time)}
-            </span>
-        
+        <span aria-label="entry time" class="large" id="time">
+            {timeAsString(entry.time)}
+        </span>
     {/snippet}
 
     {#snippet texts()}
-    
-            <span aria-label="entry name" class="large" id="name">
-                {entry.name ?? "<undefined>"}
-            </span>
+        <span aria-label="entry name" class="large" id="name">
+            {entry.name ?? "<undefined>"}
+        </span>
 
-            {#if entry.description}
-                <span aria-label="entry description">{entry.description}</span>
-            {/if}
-        
+        {#if entry.description}
+            <span aria-label="entry description">{entry.description}</span>
+        {/if}
     {/snippet}
 
     {#snippet buttons()}
-    
-            <IconButton onClick={onEdit} label="Edit entry">
-                <Pencil />
-            </IconButton>
+        <IconButton onClick={onEdit} label="Edit entry">
+            <Pencil />
+        </IconButton>
 
-            <IconButton
-                onClick={onRestart}
-                disabled={!$possibleEntryTypes.includes("Work")}
-                label="Restart entry again"
-            >
-                <Reload />
-            </IconButton>
-        
+        <IconButton
+            onClick={onRestart}
+            disabled={!$possibleEntryTypes.includes("Work")}
+            label="Restart entry again"
+        >
+            <Reload />
+        </IconButton>
     {/snippet}
 </ListElementForm>

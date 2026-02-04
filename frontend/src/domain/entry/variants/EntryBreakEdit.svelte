@@ -50,30 +50,24 @@
 
 <ListElementForm {backgroundColor} label="editable break entry">
     {#snippet time()}
-    
-            <Input label="Time" bind:value={newTime} type={"time"} onEnter={onConfirm} />
-        
+        <Input label="Time" bind:value={newTime} type={"time"} onEnter={onConfirm} />
     {/snippet}
 
     {#snippet texts()}
-    
-            <span aria-label="entry name" class="large" id="name">{text}</span>
-        
+        <span aria-label="entry name" class="large" id="name">{text}</span>
     {/snippet}
 
     {#snippet buttons()}
-    
-            <IconButton onClick={onDelete} label="Delete entry">
-                <TrashCan />
-            </IconButton>
+        <IconButton onClick={onDelete} label="Delete entry">
+            <TrashCan />
+        </IconButton>
 
-            <IconButton onClick={onCancel} label="Cancel">
-                <Close />
-            </IconButton>
+        <IconButton onClick={onCancel} label="Cancel">
+            <Close />
+        </IconButton>
 
-            <IconButton onClick={onConfirm} label="Confirm">
-                <Checkmark />
-            </IconButton>
-        
+        <IconButton onClick={onConfirm} label="Confirm">
+            <Checkmark />
+        </IconButton>
     {/snippet}
 </ListElementForm>

@@ -2,18 +2,12 @@
     interface Props {
         label: string;
         backgroundColor?: string | null;
-        time?: import('svelte').Snippet;
-        texts?: import('svelte').Snippet;
-        buttons?: import('svelte').Snippet;
+        time?: import("svelte").Snippet;
+        texts?: import("svelte").Snippet;
+        buttons?: import("svelte").Snippet;
     }
 
-    let {
-        label,
-        backgroundColor = null,
-        time,
-        texts,
-        buttons
-    }: Props = $props();
+    let { label, backgroundColor = null, time, texts, buttons }: Props = $props();
 </script>
 
 <li style:background-color={backgroundColor} aria-label={label}>

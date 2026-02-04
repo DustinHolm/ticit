@@ -21,3 +21,5 @@
 <Story name="Text" args={{ type: "text" }} />
 
 <Story name="Time" args={{ type: "time" }} />
+
+<Story name="Options" args={{ type: "text", options: ["Hello world", "foobar"] }} />

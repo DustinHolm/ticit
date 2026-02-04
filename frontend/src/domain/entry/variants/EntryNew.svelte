@@ -9,6 +9,12 @@
     import { now } from "../../stores/now";
     import { timeAsString } from "../../../util/time";
 
+    interface Props {
+        options?: string[];
+    }
+
+    let { options }: Props = $props();
+
     let newName: string | null = $state(null);
     let newDescription: string | null = $state(null);
 
@@ -29,46 +35,40 @@
 
 <ListElementForm label="new entry">
     {#snippet time()}
-    
-            <span aria-label="entry time" class="large" id="time">
-                {timeAsString($now)}
-            </span>
-        
+        <span aria-label="entry time" class="large" id="time">
+            {timeAsString($now)}
+        </span>
     {/snippet}
 
     {#snippet texts()}
-    
-            <Input label="Name" bind:value={newName} onEnter={onConfirm} />
+        <Input label="Name" bind:value={newName} {options} onEnter={onConfirm} />
 
-            <Input label="Description" bind:value={newDescription} onEnter={onConfirm} />
-        
+        <Input label="Description" bind:value={newDescription} onEnter={onConfirm} />
     {/snippet}
 
     {#snippet buttons()}
-    
-            <IconButton
-                onClick={onEnd}
-                disabled={!$possibleEntryTypes.includes("EndOfDay")}
-                label="End day"
-            >
-                <Fireworks />
-            </IconButton>
+        <IconButton
+            onClick={onEnd}
+            disabled={!$possibleEntryTypes.includes("EndOfDay")}
+            label="End day"
+        >
+            <Fireworks />
+        </IconButton>
 
-            <IconButton
-                onClick={onBreak}
-                disabled={!$possibleEntryTypes.includes("Break")}
-                label="Take break"
-            >
-                <Teabag />
-            </IconButton>
+        <IconButton
+            onClick={onBreak}
+            disabled={!$possibleEntryTypes.includes("Break")}
+            label="Take break"
+        >
+            <Teabag />
+        </IconButton>
 
-            <IconButton
-                onClick={onConfirm}
-                disabled={!$possibleEntryTypes.includes("Work")}
-                label="Create entry"
-            >
-                <Checkmark />
-            </IconButton>
-        
+        <IconButton
+            onClick={onConfirm}
+            disabled={!$possibleEntryTypes.includes("Work")}
+            label="Create entry"
+        >
+            <Checkmark />
+        </IconButton>
     {/snippet}
 </ListElementForm>
