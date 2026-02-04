@@ -1,3 +1,6 @@
+# devcontainer is specific to my machine (image not public)
+.devcontainer.json
+
 # Build related
 node_modules
 target
