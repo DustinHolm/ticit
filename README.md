@@ -7,6 +7,14 @@ Ticit is a simple timekeeping app build with Tauri and running on all operating 
 Find the latest release for your operating system [here](https://github.com/DustinHolm/ticit/releases/latest)
 (Windows: ".exe", Linux: ".deb", OS X: ".dmg").
 
+## Versioning
+
+The app tries to apply SemVer to how the end user is affected.
+
+- Patch version: Bugfix
+- Minor version: New feature
+- Major version: User might lose feature or may need to do something manually.
+
 ## Usage
 
 Start new tasks. Take a break. Restart a previous task. At the end of the day check the summary of
