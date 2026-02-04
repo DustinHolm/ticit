@@ -18,7 +18,10 @@
     ],
     "targets": ["deb", "nsis", "dmg"],
     "publisher": "Ticit Maintainers",
-    "shortDescription": "Simple timekeeping app"
+    "shortDescription": "Simple timekeeping app",
+    "macOS": {
+      "signingIdentity": "-"
+    }
   },
   "identifier": "Ticit",
   "plugins": {
