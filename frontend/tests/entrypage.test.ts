@@ -205,6 +205,9 @@ const given = {
             if (cmd === "all_entries_for_day") {
                 return Promise.resolve(given);
             }
+            if (cmd === "completions") {
+                return Promise.resolve([]);
+            }
         });
     },
 
@@ -222,6 +225,7 @@ const when = {
     rendered: async () => {
         await entries.loadAll();
         render(EntryPage);
+        await new Promise((res) => setTimeout(res, 100));
     },
 
     entry: (searchParam: number | string) => {

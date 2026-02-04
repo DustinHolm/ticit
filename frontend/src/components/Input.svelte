@@ -18,6 +18,7 @@
     }: Props = $props();
 
     let datalistId = crypto.randomUUID();
+    let hasOptions = $derived(options.length > 0);
 
     const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = (event) => {
         if (onEnter && event.key === "Enter") {
@@ -31,9 +32,14 @@
     {#if type === "time"}
         <input bind:value onkeypress={handleKeyPress} type="time" role="textbox" />
     {:else}
-        <input bind:value onkeypress={handleKeyPress} type="text" list={datalistId} />
+        <input
+            bind:value
+            onkeypress={handleKeyPress}
+            type="text"
+            list={hasOptions ? datalistId : undefined}
+        />
     {/if}
-    {#if options.length > 0}
+    {#if hasOptions}
         <datalist id={datalistId}>
             {#each options as option}
                 <option value={option}></option>
